@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (23)
+- **Deployed StreamVault (Zero-Transcode Video Streaming) on docker-host:8090**:
+  - Tested and reviewed [srytmj/stream-vault](https://github.com/srytmj/stream-vault). Confirmed zero server-side transcode architecture with JASSUB WebAssembly client-side subtitle rendering (.ass/.srt).
+  - Deployed alongside Jellyfin on `docker-host` (port 8090) so Jellyfin continues serving the 717GB music collection without interruption.
+  - Mounted `/mnt/hdd-media/jellyfin:/media:ro` (read-only).
+  - Scanned and indexed 857 video files (416.2 GB across Anime, Movies, and TV) in milliseconds.
+  - Resource usage: ~35MB RAM, 0.0% CPU transcode load during playback. Tested HTTP 206 partial content streaming successfully.
+  - Committed compose definition to `configs/docker-compose/stream-vault.yml` and documented in `docs/services.md`.
+
 ## 2026-09-13 (22)
 - **Updated Homelab Dashboard (Cockpit) to Commit df24768**:
   - Pulled commits (`86aef65` -> `df24768`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
