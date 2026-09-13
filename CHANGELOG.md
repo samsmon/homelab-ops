@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (20)
+- **Implemented Multi-Agent Synchronization, Task Locking & Token Conservation Protocol**:
+  - Added `CURRENT_OPS.md` as active task/service lock registry across parallel AI agents (T3 Code multi-session, Claude Code, Gemini/Antigravity, Cursor, Roo) to eliminate race conditions and collisions.
+  - Updated `CLAUDE.md` and created symlinks `AGENTS.md` and `.cursorrules` establishing strict agent behavior: mandatory `git pull` on start, lock registration in `CURRENT_OPS.md`, token-saving rules (no full CHANGELOG reads, log tail capping), single-shot batched SSH heredocs, anti-truncation git diff verification, and immediate commit & push upon task completion.
+
+## 2026-09-13 (20)
+- **Decommissioned extra T3 Code instances (, , and )**:
+  - Per user request, consolidated back to a single primary T3 Code instance ( on  port 9001).
+  - Stopped and removed containers  and  on  (LXC 100), deleted their named volumes (, ), and removed compose configs  and .
+  - Stopped and removed container  on  (LXC 101), removed volume , and removed directory .
+  - Updated  and verified only the primary  instance remains active.
+
 ## 2026-09-13 (19)
 - **Restored and synchronized `docs/architecture.md` & initialized session maintenance**:
   - Found `docs/architecture.md` was accidentally truncated in commit `9714fd7` down to a single snippet. Fully restored hardware specs, storage topology, virtualization topology (PVE, LXC 100 docker-host, LXC 101 apps-host), network IPs, active HDD allocation, and Windows Samba configuration while maintaining the updated manga-raw / manga-reader / Komga topology.
