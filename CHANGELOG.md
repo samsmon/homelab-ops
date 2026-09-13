@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (26)
+- **Updated Homelab Dashboard (Cockpit) to Commit e77c21b (v1.1.2)**:
+  - Pulled commits (`40362d7` -> `e77c21b`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Portaled UI modals to document body and fixed table clipping issues in Git Projects page (`0f5e01a`).
+  - Configured monorepo workspaces in root package.json, hardened updater subprocess PATH and dev dependencies, and published v1.1.2 update announcements (`e77c21b`).
+  - Rebuilt production image cleanly with multi-stage build and recreated `homelab-cockpit` on `docker-host:8050` (`dash.suryatmaja.dev`). Verified live WebSocket metrics and HTTP 200.
+
 ## 2026-09-13 (25)
 - **Updated StreamVault to v1.1.0 (Commit 9beab63)**:
   - Pulled latest commit `9beab63` on [srytmj/stream-vault](https://github.com/srytmj/stream-vault).
