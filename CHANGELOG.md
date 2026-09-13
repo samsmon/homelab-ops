@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (22)
+- **Updated Homelab Dashboard (Cockpit) to Commit df24768**:
+  - Pulled commits (`86aef65` -> `df24768`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Fixed semantic version matching on `AppUpdateBanner` to eliminate false-positive update alerts and prevent stuck update modals.
+  - Added baseline `version.json`, injected `AppVersionInfo` into collector snapshot, and displayed app version, git SHA, and branch in footer.
+  - Added `AGENT_LOG.md` live task locking rules to the dashboard repository.
+  - Built image cleanly and recreated container on `docker-host`. Live verification confirmed: `homelab-cockpit` Up, port 8050 HTTP 200 OK.
+
 ## 2026-09-13 (21)
 - **Updated Homelab Dashboard (Cockpit) to Commit 86aef65**:
   - Pulled latest commits (`43abd62` -> `86aef65`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
