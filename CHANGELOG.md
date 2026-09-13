@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (19)
+- **Restored and synchronized `docs/architecture.md` & initialized session maintenance**:
+  - Found `docs/architecture.md` was accidentally truncated in commit `9714fd7` down to a single snippet. Fully restored hardware specs, storage topology, virtualization topology (PVE, LXC 100 docker-host, LXC 101 apps-host), network IPs, active HDD allocation, and Windows Samba configuration while maintaining the updated manga-raw / manga-reader / Komga topology.
+  - Verified live server state across all nodes (`proxmox` 192.168.18.224, `docker-host` 192.168.18.225, `apps-host` 192.168.18.226). All 18 docker-host containers, 2 apps-host containers, systemd services (`smbd`, `wsdd`, `cloudflared`, `manga-optimizer`, `tailscaled`), and mounts are running healthy.
+  - Configured persistent SSH configuration for fast, reliable heredoc batching.
+
 ## 2026-09-13 (18)
 - **Deployed 2 more T3 Code instances on docker-host + 1 on apps-host**, per user request, so remote/mobile sessions no longer contend for a single instance.
   - docker-host: `t3code-2` (port 9002) and `t3code-3` (port 9003), added via `configs/docker-compose/t3code-2.yml` / `t3code-3.yml`, reusing the existing `./t3code` build context (same Dockerfile as the original `t3code` on 9001). Each compose file has an explicit `name:` line since all 3 files live in the same directory and would otherwise collide on Compose's default project-name-from-directory behavior.
