@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (24)
+- **Updated Homelab Dashboard (Cockpit) to Commit 40362d7**:
+  - Pulled commits (`df24768` -> `40362d7`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Deployed AI Agents usage monitor & T3 Code telemetry (`578c1b0`).
+  - Applied prepare script dependency fix (`40362d7`) and updated versioning to `1.1.1`.
+  - Rebuilt container cleanly (`homelab-cockpit`), running healthy on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (23)
 - **Deployed StreamVault (Zero-Transcode Video Streaming) on docker-host:8090**:
   - Tested and reviewed [srytmj/stream-vault](https://github.com/srytmj/stream-vault). Confirmed zero server-side transcode architecture with JASSUB WebAssembly client-side subtitle rendering (.ass/.srt).
