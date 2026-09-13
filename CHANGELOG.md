@@ -10,6 +10,14 @@
   - Added `AGENT_LOG.md` live task locking rules to the dashboard repository.
   - Built image cleanly and recreated container on `docker-host`. Live verification confirmed: `homelab-cockpit` Up, port 8050 HTTP 200 OK.
 
+## 2026-09-13 (22)
+- **Deployed Navidrome (Music Streaming Server) & Reorganized `/mnt/hdd-music`**:
+  - Reorganized `/mnt/hdd-music/`: Moved music collection directly out of legacy `jellyfin/` subfolder to `/mnt/hdd-music/music` (clean root-level media structure, preparing for Jellyfin phase-out).
+  - Deployed `navidrome` container (`deluan/navidrome:latest`) on `docker-host` port `4533` via `configs/docker-compose/navidrome.yml`.
+  - Configured zero-transcode direct streaming (`ND_ENABLETRANSCODINGCONFIG=false`), scanning `/mnt/hdd-music/music:ro`.
+  - Verified Web UI and initial scan completed across music files (FLAC/MP3) with HTTP 200 OK.
+  - Updated `configs/docker-compose/jellyfin.yml`, `docs/services.md`, and `docs/architecture.md` to reflect the updated path.
+
 ## 2026-09-13 (21)
 - **Updated Homelab Dashboard (Cockpit) to Commit 86aef65**:
   - Pulled latest commits (`43abd62` -> `86aef65`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).

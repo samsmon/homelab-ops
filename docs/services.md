@@ -46,6 +46,8 @@
 | Jellyfin | Movie/TV/anime streaming + music library (accessed via Feishin/foobar2000 as client, not Jellyfin web UI) | 8096 | `/mnt/hdd-media/jellyfin/{movies,tv,anime}` (1TB HDD) + `/mnt/hdd-music/jellyfin/music` (2TB HDD, 717GB live collection relocated 2026-09-13). |
 | Nextcloud | File sync/storage | 8080 | `/mnt/hdd-cloud/nextcloud` — real HDD (sdd), 779GB free space available. Uses shared Postgres + Redis. |
 | Komga | Primary manga/comic/BD reader | 25600 | `/mnt/hdd-media/manga-reader` — lightweight optimized WebP library auto-generated and mirrored by `manga-optimizer.service`. Deployed 2026-09-13 (`configs/docker-compose/komga.yml`). Replaced Kavita. |
+| Navidrome | Modern self-hosted music server & Subsonic streaming API | 4533 | Ultra-lightweight Go music streamer. Zero server transcoding load, native FLAC/MP3 direct play. Web UI + Subsonic clients (Symfonium, Feishin, Sonixd). Library: `/mnt/hdd-music/music`. Deployed 2026-09-13 (`configs/docker-compose/navidrome.yml`). |
+| StreamVault | Zero server-transcode video streaming (Anime, Movies, TV) with client-side JASSUB WASM subtitle rendering | 8090 | [srytmj/stream-vault](https://github.com/srytmj/stream-vault) — `/mnt/hdd-media/jellyfin` mounted read-only (`/media:ro`), runs alongside Jellyfin. Ultra-lightweight (<30MB RAM, 0% CPU transcode). Deployed 2026-09-13 (`configs/docker-compose/stream-vault.yml`). |
 
 ## Storage & Processing Pipelines
 
