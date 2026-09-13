@@ -45,6 +45,11 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
    - **DO NOT read full `CHANGELOG.md`** (~65KB). Only read `head -n 30 CHANGELOG.md`.
    - Restrict log outputs (`docker logs --tail 30 ...`, `git log -n 5`, `docker ps --format ...`).
    - Keep conversational explanations direct, concise, and factual.
+4. **Strict No-Polling Rule (Prevent ACP RPC Deadlock & Cancel Failures)**:
+   - **DILARANG KERAS** melakukan loop polling aktif di bash (`while ...; do sleep 2; done`, `sleep X && check`).
+   - **DILARANG KERAS** memanggil tool secara berulang-ulang (`view_file` pada task log, loop `ps aux`, dll.) saat menunggu perintah panjang (`docker build`, `docker pull`, download besar).
+   - Begitu sebuah command beralih ke background task async, **AI WAJIB SEGERA BERHENTI MEMANGGIL TOOL**. Biarkan event reactive wakeup T3 Code yang membangunkan secara otomatis saat selesai.
+   - Melanggar aturan ini membanjiri antrean JSON-RPC ACP harness hingga freeze dan gagal merespons sinyal cancel user (`ACP transport operation call-rpc failed for method session/cancel`).
 
 ### 🛡️ 3. ANTI-HALLUCINATION & LIVE VERIFICATION
 1. **Never Hallucinate / Guess Server State**:
