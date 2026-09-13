@@ -25,6 +25,10 @@ Never assume the state of the server — always verify via SSH before making cha
 
 Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, etc.) operate on this repository in parallel. There is NO shared runtime memory between different AI sessions. **Git + `CURRENT_OPS.md` + `CHANGELOG.md` is the sole source of truth.**
 
+### 🛑 0. SESSION SCOPE & USER APPROVAL RULE (STRICT)
+- **Homelab-Ops Session Boundary**: Sesi di repo ini murni untuk **admin, infrastruktur, ops, monitoring, dan maintenance homelab**. JANGAN membuat/scaffold aplikasi atau codebase baru dari nol di dalam repo/sesi ini. Pembuatan project/aplikasi baru harus dikerjakan di sesi/workspace terpisah oleh user.
+- **Mandatory User Confirmation Before Editing Code/Containers**: Jika ada kebutuhan untuk mengubah kode aplikasi, mengedit konfigurasi project yang sedang berjalan, memodifikasi environment container, atau merestart/menghapus container, **WAJIB konsultasi dan minta izin eksplisit kepada USER terlebih dahulu**. Jangan pernah bypass atau langsung coding/deploy sendiri tanpa persetujuan user.
+
 ### 🚨 1. TASK REGISTRY & LOCKING (`CURRENT_OPS.md`)
 - **Claim Before Touch**: If you are about to modify a container, service configuration (`configs/docker-compose/*.yml`), or critical doc, record your active task and lock target in `CURRENT_OPS.md`:
   `"- [Agent-Name] [Timestamp]: Modifying <service> | Locks: <files/containers>"`

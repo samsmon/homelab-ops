@@ -9,6 +9,11 @@
   - Built image cleanly via `docker compose build` then executed recreation cycle `docker compose down && docker compose up -d` on `docker-host` to prevent Compose v5.5.1 recreate race condition.
   - Verified container healthy on port 8050 (`dash.suryatmaja.dev`), live WebSocket streaming active, HTTP 200 OK.
 
+## 2026-09-13 (21)
+- **Added Mandatory User Confirmation & Session Scope Rule to Agent Protocol**:
+  - Clarified that `homelab-ops` is strictly an administrative, infrastructure, and maintenance session. Prohibited agents from scaffolding new projects/apps in this workspace.
+  - Enforced a strict rule in `CLAUDE.md`: any modification to running code, container configurations, or application environments requires explicit prior approval from the user.
+
 ## 2026-09-13 (20)
 - **Implemented Multi-Agent Synchronization, Task Locking & Token Conservation Protocol**:
   - Added `CURRENT_OPS.md` as active task/service lock registry across parallel AI agents (T3 Code multi-session, Claude Code, Gemini/Antigravity, Cursor, Roo) to eliminate race conditions and collisions.
