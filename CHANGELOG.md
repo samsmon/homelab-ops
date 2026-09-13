@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (27)
+- **Fixed Cockpit AI Agents Monitor (404) & Removed rclone Container Bloat (Commit a9b6f5b)**:
+  - Fixed `Failed to fetch AI telemetry (404)` on the dashboard by registering the missing Fastify route handler `app.get('/api/ai-agents/telemetry')` connected to `AiAgentsService`.
+  - Mounted T3 Code data volume (`/var/lib/docker/volumes/docker-compose_t3code_data/_data/.t3:/root/.t3:ro`) into `homelab-cockpit` to allow live monitoring of Claude Pro & Gemini turn usage, 5-hour rolling limits, and cooldowns.
+  - Removed `rclone` and its unused volume mount from Dockerfile and docker-compose.yml, dropping runner alpine package footprint by over 105 MiB (from 191 MiB down to 85 MiB) and slashing rebuild times down to ~27 seconds.
+  - Rebuilt and restarted `homelab-cockpit` on `docker-host:8050` (`dash.suryatmaja.dev`). Verified telemetry output with active session token.
+
 ## 2026-09-13 (26)
 - **Updated StreamVault to Commit c7c8d32**:
   - Pulled commit `c7c8d32` on [srytmj/stream-vault](https://github.com/srytmj/stream-vault).
