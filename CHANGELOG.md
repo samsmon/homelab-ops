@@ -7,12 +7,12 @@
   - Added `CURRENT_OPS.md` as active task/service lock registry across parallel AI agents (T3 Code multi-session, Claude Code, Gemini/Antigravity, Cursor, Roo) to eliminate race conditions and collisions.
   - Updated `CLAUDE.md` and created symlinks `AGENTS.md` and `.cursorrules` establishing strict agent behavior: mandatory `git pull` on start, lock registration in `CURRENT_OPS.md`, token-saving rules (no full CHANGELOG reads, log tail capping), single-shot batched SSH heredocs, anti-truncation git diff verification, and immediate commit & push upon task completion.
 
-## 2026-09-13 (20)
-- **Decommissioned extra T3 Code instances (, , and )**:
-  - Per user request, consolidated back to a single primary T3 Code instance ( on  port 9001).
-  - Stopped and removed containers  and  on  (LXC 100), deleted their named volumes (, ), and removed compose configs  and .
-  - Stopped and removed container  on  (LXC 101), removed volume , and removed directory .
-  - Updated  and verified only the primary  instance remains active.
+## 2026-09-13 (19)
+- **Decommissioned extra T3 Code instances (`t3code-2`, `t3code-3`, and `apps-host:t3code`)**:
+  - Per user request, consolidated back to a single primary T3 Code instance (`t3code` on `docker-host` port 9001).
+  - Stopped and removed containers `t3code-2` and `t3code-3` on `docker-host` (LXC 100), deleted their named volumes (`t3code-2_t3code_data_2`, `t3code-3_t3code_data_3`), and removed compose configs `configs/docker-compose/t3code-2.yml` and `configs/docker-compose/t3code-3.yml`.
+  - Stopped and removed container `t3code` on `apps-host` (LXC 101), removed volume `t3code_t3code_data`, and removed directory `/opt/t3code`.
+  - Updated `docs/services.md` and verified only the primary `t3code` instance remains active.
 
 ## 2026-09-13 (19)
 - **Restored and synchronized `docs/architecture.md` & initialized session maintenance**:
