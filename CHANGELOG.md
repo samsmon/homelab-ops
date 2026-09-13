@@ -3,6 +3,12 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 ## 2026-09-13 (26)
+- **Updated StreamVault to Commit c7c8d32**:
+  - Pulled commit `c7c8d32` on [srytmj/stream-vault](https://github.com/srytmj/stream-vault).
+  - Resolved UI bug where modal overlay persisted on screen; added backdrop click & ESC key dismissal support across modals (`SeriesModal`, `StatsModal`, `KeyboardShortcutsModal`, `AddLibraryModal`).
+  - Rebuilt image and recreated container on `docker-host:8090`. Verified healthy container status.
+
+## 2026-09-13 (26)
 - **Updated Homelab Dashboard (Cockpit) to Commit e77c21b (v1.1.2)**:
   - Pulled commits (`40362d7` -> `e77c21b`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
   - Portaled UI modals to document body and fixed table clipping issues in Git Projects page (`0f5e01a`).
