@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (21)
+- **Updated Homelab Dashboard (Cockpit) to Commit 86aef65**:
+  - Pulled latest commits (`43abd62` -> `86aef65`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **Self Updater & Glassmorphism UI**: Added AppUpdateBanner, app-update backend service, robust transition animations, and maximized glassmorphism styling.
+  - Built image cleanly via `docker compose build` then executed recreation cycle `docker compose down && docker compose up -d` on `docker-host` to prevent Compose v5.5.1 recreate race condition.
+  - Verified container healthy on port 8050 (`dash.suryatmaja.dev`), live WebSocket streaming active, HTTP 200 OK.
+
 ## 2026-09-13 (20)
 - **Implemented Multi-Agent Synchronization, Task Locking & Token Conservation Protocol**:
   - Added `CURRENT_OPS.md` as active task/service lock registry across parallel AI agents (T3 Code multi-session, Claude Code, Gemini/Antigravity, Cursor, Roo) to eliminate race conditions and collisions.
