@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (25)
+- **Updated StreamVault to v1.1.0 (Commit 9beab63)**:
+  - Pulled latest commit `9beab63` on [srytmj/stream-vault](https://github.com/srytmj/stream-vault).
+  - New features: Custom libraries management (`/api/libraries`), Folder Explorer mode, enhanced view modes, and improved softsub discovery.
+  - Added named volume `stream-vault-data` mounted to `/app/server/data` for persistent custom library storage across container updates.
+  - Rebuilt image and recreated container on `docker-host:8090`. Verified healthy status and tested endpoints `/api/health` and `/api/libraries`.
+
 ## 2026-09-13 (24)
 - **Updated Homelab Dashboard (Cockpit) to Commit 40362d7**:
   - Pulled commits (`df24768` -> `40362d7`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
@@ -17,6 +24,14 @@
   - Scanned and indexed 857 video files (416.2 GB across Anime, Movies, and TV) in milliseconds.
   - Resource usage: ~35MB RAM, 0.0% CPU transcode load during playback. Tested HTTP 206 partial content streaming successfully.
   - Committed compose definition to `configs/docker-compose/stream-vault.yml` and documented in `docs/services.md`.
+
+## 2026-09-13 (23)
+- **Deployed Feishin Web (Music Player Frontend) on Port 9180**:
+  - Deployed `feishin` container (`ghcr.io/jeffvli/feishin:latest`) on `docker-host` port `9180` via `configs/docker-compose/feishin.yml`.
+  - Configured to connect seamlessly with backend Navidrome (`http://192.168.18.225:4533`).
+  - Provides modern dark-mode music player UI with native folder tree hierarchy navigation, playlist management, and PWA capabilities.
+  - Verified resource consumption: CPU 0.00%, RAM ~6.5MB. Web UI returns HTTP 200 OK.
+  - Updated `docs/services.md` and cleared task lock.
 
 ## 2026-09-13 (22)
 - **Updated Homelab Dashboard (Cockpit) to Commit df24768**:

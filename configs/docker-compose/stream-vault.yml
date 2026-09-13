@@ -18,6 +18,7 @@ services:
       # Contains anime/, movies/, tv/
       - /mnt/hdd-media/jellyfin:/media:ro
       - stream-vault-cache:/app/.cache
+      - stream-vault-data:/app/server/data
     networks:
       - shared_net
     healthcheck:
@@ -33,6 +34,7 @@ services:
 
 volumes:
   stream-vault-cache:
+  stream-vault-data:
 
 networks:
   shared_net:

@@ -1,0 +1,18 @@
+services:
+  feishin:
+    image: ghcr.io/jeffvli/feishin:latest
+    container_name: feishin
+    restart: unless-stopped
+    ports:
+      - "9180:9180"
+    environment:
+      - SERVER_NAME=Navidrome
+      - SERVER_TYPE=navidrome
+      - SERVER_URL=http://192.168.18.225:4533
+      - SERVER_LOCK=false
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
