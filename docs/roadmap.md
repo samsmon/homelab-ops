@@ -4,11 +4,11 @@
 
 ## Now
 
-- [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md for actual cart prices)
+- [x] Hardware inventory & build: Lenovo ThinkCentre M710q Tiny (i5-7500 Gen-7, 32GB RAM), LM 418 M.2 NVMe to 5-Port SATA III Card + Heatsink Taiwan JMicron JMB585, SATA to M.2 SATA NGFF B+M Key adapter + 256GB MidasForce SSD, WD Green 2TB 3.5" HDD, Toshiba 1TB 2.5" HDD, Seagate Barracuda 1TB 3.5" HDD, Enhance ENP-2320 200W Flex-ATX PSU + 24-pin jumper, Mercusys MS105G 5-Port Gigabit Switch.
 - [x] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — purchased, exact model/price to log later
 - [x] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud — purchased, exact model/price to log later
 - [ ] Source a small mount/dock solution for HDD-Backup (WD Blue 320GB) — the 4th drive, beyond the original 3-drive dock plan
-- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; all 4 HDDs (Music/Media/Cloud/Backup) wired to LM418's SATA ports (4 of 5 used) into their dock(s); docks powered by the Enhance ENP-2320 (with 24-pin jumper installed so it powers on without a motherboard) via Molex-to-SATA cables; 3 reused PC fans wired to the PSU's spare Molex outputs for dock cooling; route cables through open backplate, cover RAM opening with magnetic mesh
+- [x] Physically assemble: 256GB OS SSD into internal 2.5" bay via adapter; LM 418 card into M.2 slot; 3 active HDDs (WD Green 2TB, Toshiba 1TB 2.5", Seagate Barracuda 1TB 3.5") wired to LM 418 ports; docks powered by Enhance ENP-2320 PSU via Molex-to-SATA with 24-pin jumper & cooling; cables routed through open backplate covered with magnetic mesh. (HDD-Backup 320GB pending 4th dock).
 - [x] Install Proxmox VE on M710q — done 2026-09-11, `pve.suryatmaja.dev` (192.168.18.224). Note: installed CPU verified as i5-7500 (4C/4T), not the purchased i7-7700 (4C/8T) — see architecture.md, unresolved discrepancy.
 - [x] Create docker-host LXC (Ubuntu Server 24.04) — done 2026-09-11, LXC 100 (192.168.18.225), `nesting=1,keyctl=1` enabled, Docker Engine + Compose installed and verified
 - [x] Mount all 3 active HDDs: `/mnt/hdd-music/`, `/mnt/hdd-media/`, `/mnt/hdd-cloud/` (ext4, permanent in `/etc/fstab`, staging cleaned, music relocated to `/mnt/hdd-music/jellyfin/music`). HDD-Backup (WD Blue 320GB) awaiting 4th dock solution.
@@ -21,7 +21,7 @@
 
 ## Next
 
-- [x] Deploy media stack: Jellyfin (movies/TV/anime + music), Nextcloud, Kavita — done, all mapped to real HDDs.
+- [x] Deploy media stack: Jellyfin, StreamVault (8090), Komga (25600, replaced Kavita), Navidrome (4533), Feishin (9180), Nextcloud (8080) — all mapped to real HDDs.
 - [x] Set up Tailscale for remote access — done 2026-09-11, docker-host joined tailnet `srytmj.github` as `100.89.249.96` / `docker-host.taila813af.ts.net`.
 - [x] Homelab Cockpit deployed on port 8050 — replaces Uptime Kuma, Netdata, Homelable, and absorbed container watchdog / git deploy flows.
 - [x] Set up rclone & restic on docker-host (LXC 100) — done 2026-09-13.

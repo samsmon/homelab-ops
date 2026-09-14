@@ -3,6 +3,19 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-14 — Finalized Physical Hardware Specifications & Drive Mappings
+
+- **Context**: The physical assembly and operating hardware configuration was formally verified against live system metrics (`lscpu`, `lsblk`, `lspci`, `dmidecode`).
+- **Settled Hardware Configuration**:
+  - **Host Mini PC**: Lenovo ThinkCentre M710q Tiny with Intel Core i5-7500 (4C/4T, 3.40GHz) and 32GB DDR4 RAM. The CPU specification is finalized as i5-7500 Gen-7.
+  - **Gigabit Switch**: Mercusys MS105G (5-Port Gigabit Desktop Switch) deployed between the ISP router, Main PC, and Homelab node for full 1Gbps LAN throughput.
+  - **M.2 NVMe Expansion**: LM 418 M.2 NVMe NGFF M Key to 5-Port SATA III 3.0 Card with Taiwan JMicron JMB585 chipset heatsink used to breakout PCIe into 5 native SATA III ports.
+  - **OS Drive Adapter**: Native internal 2.5" bay fitted with a SATA to M.2 SATA NGFF B+M Key converter card running a 256GB MidasForce M.2 SATA SSD.
+  - **Active 3-HDD Topology**:
+    - `sdc1`: 2TB 3.5" WD Green (`WD20EZRX-00DC0B0`) mounted at `/mnt/hdd-music` for music streaming + local backups.
+    - `sdb2`: 1TB 2.5" Toshiba (`MQ04ABF100`) mounted at `/mnt/hdd-media` for movies, anime, manga, and downloads.
+    - `sdd2`: 1TB 3.5" Seagate Barracuda (`ST1000DM010-2EP102`) mounted at `/mnt/hdd-cloud` for Nextcloud, Syncthing, and shared LAN storage.
+
 ## 2026-09-13 — Adopt Komga as primary manga reader; decommission Kavita
 
 - **Context**: Evaluated Kavita vs Komga side-by-side using the identical WebP reader library at `/mnt/hdd-media/manga-reader`.

@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (2)
+- **Updated Complete Infrastructure & Hardware Documentation**:
+  - Updated `docs/architecture.md`, `docs/services.md`, `docs/roadmap.md`, and `docs/decisions.md` with verified live hardware and server state.
+  - Finalized hardware specifications: Lenovo ThinkCentre M710q Tiny with Intel Core i5-7500 (4C/4T, 3.40GHz), 32GB DDR4 RAM, Intel HD Graphics 630 iGPU (DRI node passed through to LXC 100), and Mercusys MS105G 5-Port Gigabit Desktop Switch.
+  - Formally documented the M.2 NVMe expansion topology (LM 418 M.2 NVMe to 5-Port SATA III card with Taiwan JMicron JMB585 heatsink) and internal 2.5" bay adapter (SATA to M.2 SATA NGFF B+M Key card hosting 256GB MidasForce OS SSD).
+  - Documented live 3-HDD inventory and active mounts: 2TB WD Green (`sdc1` -> `/mnt/hdd-music`), 1TB Toshiba 2.5" (`sdb2` -> `/mnt/hdd-media`), and 1TB Seagate Barracuda 3.5" (`sdd2` -> `/mnt/hdd-cloud`), powered by external Enhance ENP-2320 200W Flex-ATX PSU with 24-pin ATX jumper.
+  - Synchronized services registry with active media stack (StreamVault on 8090, Komga on 25600, Navidrome on 4533, Feishin on 9180, Jellyfin on 8096) and consolidated T3 Code instance (`t3code` on 9001).
+
 ## 2026-09-14 (1)
 - **Updated Homelab Dashboard (Cockpit) to Commit a5877a4 (v1.1.3)**:
   - Pulled commits (`e77c21b` -> `a5877a4`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
