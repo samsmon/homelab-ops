@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (5)
+- **Updated Homelab Dashboard & StreamVault, Deployed Homelab IdP**:
+  - **Homelab Dashboard**: Pulled latest commit `3c502e1` (feat(ui): add Beta UI header button and clean README). Rebuilt multi-stage Docker image and recreated container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified HTTP 200 OK.
+  - **StreamVault**: Rebuilt and restarted container `stream-vault` with latest UI streaming platform standard (commit `62de131`). Container running healthy on port 8090.
+  - **Deployed Homelab IdP (`homelab-idp`)**:
+    - Cloned repo [srytmj/homelab-idp](https://github.com/srytmj/homelab-idp) to `/mnt/homelab_projects/homelab-idp`.
+    - Created dedicated PostgreSQL database `homelab_idp` on the existing `shared-postgres` container.
+    - Wired to `shared_net` and configured `.env` with strong random secrets for `JWT_SECRET`, `VAULT_SECRET_KEY`, and initial admin account.
+    - Built multi-stage Docker image (Vite frontend + Fastify backend) and started container `homelab-idp` on port 8300.
+    - Verified database migrations completed, initial admin seeded, OIDC discovery endpoint `http://192.168.18.225:8300/.well-known/openid-configuration`, and frontend Web UI returning HTTP 200 OK.
+
 ## 2026-09-14 (4)
 - **Fixed T3 Code stuck-working state (git command timeouts) — added resource limits**:
   - Diagnosed via SSH: `t3code` container had zero CPU/memory limit (unbounded), 379 PIDs accumulated, and its own logs showed 70+ `Git command timed out` errors (`GitVcsDriver.fetchRemoteForStatus` / `GitManager.branchPullRequest.remotes`) across the day — worst offender was its own `homelab-ops` workspace (42 occurrences). Manual `git fetch` from inside the container completed in ~1s when tested in isolation, confirming the timeouts are CPU-starvation-triggered (git subprocess not scheduled in time), not a credential/DNS/network problem.
