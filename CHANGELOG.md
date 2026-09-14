@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (1)
+- **Updated Homelab Dashboard (Cockpit) to Commit a5877a4 (v1.1.3)**:
+  - Pulled commits (`e77c21b` -> `a5877a4`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **Fleet Card Sorting (`7a6860b`)**: Changed default container grid sort to Name (A-Z) and added interactive sort dropdown (Name, CPU, RAM, Network) with direction toggles.
+  - **Antigravity Google Email Display (`868e3cb`)**: Dynamically extracted and displayed user's Google account email on Antigravity agent cards.
+  - **Real-Time Update Engine v1.1.3 (`a5877a4`)**: Added auto-fetch git detection, 30s background polling in update banner, rebase/reset fallback for diverged branches, and T3 Code volume mapping.
+  - Multi-stage image built cleanly and container `homelab-cockpit` recreated on `docker-host:8050` (`dash.suryatmaja.dev`). Verified HTTP 200 OK.
+
 ## 2026-09-13 (27)
 - **Fixed Cockpit AI Agents Monitor (404) & Removed rclone Container Bloat (Commit a9b6f5b)**:
   - Fixed `Failed to fetch AI telemetry (404)` on the dashboard by registering the missing Fastify route handler `app.get('/api/ai-agents/telemetry')` connected to `AiAgentsService`.
