@@ -1,20 +1,23 @@
-version: "3.9"
-
 services:
   navidrome:
-    image: deluan/navidrome
+    image: deluan/navidrome:latest
     container_name: navidrome
-    restart: unless-stopped
-    volumes:
-      - /mnt/external-storage/music:/music
-      - navidrome_data:/data
+    user: 0:0 # root or matched UID
     ports:
       - "4533:4533"
+    restart: unless-stopped
+    environment:
+      # Optional: Put your configuration options here. See https://www.navidrome.org/docs/usage/configuration-options/#available-options
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      ND_ENABLETRANSCODINGCONFIG: "false"
+      ND_BASEURL: ""
+    volumes:
+      - navidrome_data:/data
+      - /mnt/hdd-music/music:/music:ro
     networks:
       - shared_net
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navidrome.rule=Host(`music.yourdomain.dev`)"
 
 volumes:
   navidrome_data:

@@ -1,7 +1,7 @@
 services:
   portfolio:
     build: .
-    container_name: yorha-portfolio
+    container_name: portofolio
     restart: unless-stopped
     ports:
       - "3080:80"

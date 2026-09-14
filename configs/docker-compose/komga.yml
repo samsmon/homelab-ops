@@ -1,0 +1,21 @@
+services:
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    restart: unless-stopped
+    volumes:
+      - /mnt/hdd-media/manga-reader:/data
+      - komga_config:/config
+    ports:
+      - "25600:25600"
+    environment:
+      - TZ=Asia/Jakarta
+    networks:
+      - shared_net
+
+volumes:
+  komga_config:
+
+networks:
+  shared_net:
+    external: true

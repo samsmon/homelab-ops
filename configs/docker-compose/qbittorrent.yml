@@ -1,0 +1,28 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Asia/Jakarta
+      WEBUI_PORT: "8480"  # must match the host-side port mapping below, or the Web UI rejects connections (CSRF host-header check)
+      TORRENTING_PORT: "6881"
+    volumes:
+      - qbittorrent_config:/config
+      - /mnt/hdd-media/qbittorrent/downloads:/downloads
+    ports:
+      - "8480:8480"
+      - "6881:6881"
+      - "6881:6881/udp"
+    stop_grace_period: "10s"  # let it save resume data on shutdown
+    networks:
+      - shared_net
+
+volumes:
+  qbittorrent_config:
+
+networks:
+  shared_net:
+    external: true

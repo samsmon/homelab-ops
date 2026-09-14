@@ -3,6 +3,8 @@ services:
     image: nextcloud:apache
     container_name: nextcloud
     restart: unless-stopped
+    cpus: 1.25
+    mem_limit: 2048m
     environment:
       POSTGRES_HOST: shared-postgres
       POSTGRES_DB: nextcloud
@@ -11,6 +13,7 @@ services:
       REDIS_HOST: shared-redis
     volumes:
       - /mnt/hdd-cloud/nextcloud:/var/www/html
+      - ./mpm-tuning.conf:/etc/apache2/conf-enabled/mpm-tuning.conf:ro
     ports:
       - "8080:80"
     networks:

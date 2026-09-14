@@ -1,4 +1,4 @@
-# Homelab Operations - Instructions for Claude Code
+# Homelab Operations - Instructions for Claude Code, Antigravity & All AI Agents
 
 ## Context
 
@@ -7,89 +7,110 @@ but the CPU physically installed verified as i5-7500 4C/4T, unresolved discrepan
 `docs/architecture.md` — 32GB RAM). Full current spec and topology: see `docs/architecture.md`.
 
 Server runs Proxmox VE (hypervisor) + Docker (inside 1 Ubuntu LXC, `docker-host`), hosting a
-growing list of personal web projects, a media stack (Jellyfin, Nextcloud, Kavita — no Immich,
-no Navidrome, both dropped, see `docs/decisions.md`), shared PostgreSQL + Redis, and a large and
-growing set of self-hosted tools. **`docs/services.md` is the actual current/planned service
-list — this file's summary is not exhaustive, don't rely on it alone.**
+growing list of personal web projects, a media stack (Jellyfin, Nextcloud, Komga), shared PostgreSQL + Redis, and self-hosted tools. **`docs/services.md` is the actual current/planned service list.**
 
 ## Before doing anything
 
 0. **`git pull` first, every session, before reading anything else or making any change.**
-   This repo is worked on from multiple devices (laptop, PC) and potentially multiple AI tools
-   in parallel (see "Multi-agent / multi-tool use" below) — local files can be stale the moment
-   a session starts. Never trust a file's on-disk state without pulling first.
-1. Read `docs/architecture.md` for the current infrastructure state (source of truth for "what exists now")
-2. Read `docs/roadmap.md` for planned next steps (source of truth for "what's planned")
-3. Read `docs/decisions.md` if unsure why something is configured a certain way (source of truth for "why")
-4. Read the last 10-15 entries of `CHANGELOG.md` for recent history (source of truth for "what changed recently")
+   This repo is worked on across multiple devices and parallel AI agents. Local files can be stale the moment a session starts. Never trust a file's on-disk state without pulling first.
+1. Read `CURRENT_OPS.md` to ensure no active file or container lock exists from another agent.
+2. Read `docs/architecture.md` for current infrastructure state (source of truth for "what exists now").
+3. Read `docs/roadmap.md` for planned next steps (source of truth for "what's planned").
+4. Read `docs/decisions.md` if unsure why something is configured a certain way.
+5. Read ONLY the top 20-30 lines of `CHANGELOG.md` (`head -n 30 CHANGELOG.md`). Never read the full file (wastes 16k+ tokens).
 
-Never assume the state of the server — always verify via SSH before making changes, since `docs/architecture.md` may lag behind reality if it wasn't updated after a manual change.
+Never assume the state of the server — always verify via SSH before making changes.
 
-## Multi-agent / multi-tool use
+## Multi-Agent / Multi-Tool Synchronization Rules (STRICT)
 
-This repo is worked on from more than one device, and possibly more than one AI coding tool
-(e.g. Claude Code on one machine, Google Antigravity/Gemini on another). There is no live
-sync between sessions on different devices or different tools — **git is the only sync
-mechanism.** Consequences:
+Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, etc.) operate on this repository in parallel. There is NO shared runtime memory between different AI sessions. **Git + `CURRENT_OPS.md` + `CHANGELOG.md` is the sole source of truth.**
 
-- Always `git pull` at the very start of a session (see step 0 above), and `git add && commit
-  && push` before ending a session or switching devices/tools — uncommitted local changes are
-  invisible to every other session until pushed.
-- If you are a tool other than Claude Code and don't have a native mechanism for auto-reading
-  project instruction files, the user will point you at this file and `docs/*.md` manually —
-  follow the same conventions documented here (modes of operation, always-do rules, logging)
-  regardless of which tool you are.
-- Claude Code sessions running on the **same machine** can message each other directly (see
-  `ListAgents`/`SendMessage` in Claude Code) for live status checks — this doesn't apply across
-  machines or across different AI tools, which must go through git.
+### 🛑 0. SESSION SCOPE & USER APPROVAL RULE (STRICT)
+- **Homelab-Ops Session Boundary**: Sesi di repo ini murni untuk **admin, infrastruktur, ops, monitoring, dan maintenance homelab**. JANGAN membuat/scaffold aplikasi atau codebase baru dari nol di dalam repo/sesi ini. Pembuatan project/aplikasi baru harus dikerjakan di sesi/workspace terpisah oleh user.
+- **Mandatory User Confirmation Before Editing Code/Containers**: Jika ada kebutuhan untuk mengubah kode aplikasi, mengedit konfigurasi project yang sedang berjalan, memodifikasi environment container, atau merestart/menghapus container, **WAJIB konsultasi dan minta izin eksplisit kepada USER terlebih dahulu**. Jangan pernah bypass atau langsung coding/deploy sendiri tanpa persetujuan user.
+
+### 🚨 1. TASK REGISTRY & LOCKING (`CURRENT_OPS.md`)
+- **Claim Before Touch**: If you are about to modify a container, service configuration (`configs/docker-compose/*.yml`), or critical doc, record your active task and lock target in `CURRENT_OPS.md`:
+  `"- [Agent-Name] [Timestamp]: Modifying <service> | Locks: <files/containers>"`
+- **Respect Active Locks**: If another agent has locked a service or file in `CURRENT_OPS.md`, do NOT touch it until released.
+- **Release Promptly**: As soon as the task is finished and verified, clear your lock from `CURRENT_OPS.md`, log to `CHANGELOG.md`, and commit/push.
+
+### ⚡ 2. EXECUTION PERFORMANCE & TOKEN EFFICIENCY
+1. **Never Allow Tool Commands to Hang or Spawn Ghost Tasks**:
+   - Always set `WaitMsBeforeAsync: 10000` (max sync) or run bounded commands (`timeout 30s ...`).
+   - Never run `pct reboot` over blocking SSH inside the same container being rebooted.
+2. **One-Shot Batched SSH Scripts**:
+   - Instead of running 5-10 separate sequential read/check commands, batch inspection and execution into a single clean Bash heredoc script over SSH (`ssh docker-host 'bash -s' << 'EOF' ... EOF`).
+3. **Strict Token Conservation**:
+   - **DO NOT read full `CHANGELOG.md`** (~65KB). Only read `head -n 30 CHANGELOG.md`.
+   - Restrict log outputs (`docker logs --tail 30 ...`, `git log -n 5`, `docker ps --format ...`).
+   - Keep conversational explanations direct, concise, and factual.
+4. **Strict No-Polling Rule (Prevent ACP RPC Deadlock & Cancel Failures)**:
+   - **DILARANG KERAS** melakukan loop polling aktif di bash (`while ...; do sleep 2; done`, `sleep X && check`).
+   - **DILARANG KERAS** memanggil tool secara berulang-ulang (`view_file` pada task log, loop `ps aux`, dll.) saat menunggu perintah panjang (`docker build`, `docker pull`, download besar).
+   - Begitu sebuah command beralih ke background task async, **AI WAJIB SEGERA BERHENTI MEMANGGIL TOOL**. Biarkan event reactive wakeup T3 Code yang membangunkan secara otomatis saat selesai.
+   - Melanggar aturan ini membanjiri antrean JSON-RPC ACP harness hingga freeze dan gagal merespons sinyal cancel user (`ACP transport operation call-rpc failed for method session/cancel`).
+
+### 🛡️ 3. ANTI-HALLUCINATION & LIVE VERIFICATION
+1. **Never Hallucinate / Guess Server State**:
+   - Do NOT assume a service is running, installed, or broken based on outdated chat history or training assumptions.
+   - **ALWAYS check live server state first** via SSH (`docker ps`, `systemctl status`, `df -h`, `ls -la`) before taking action or giving advice.
+2. **Safe File Editing (Anti-Truncation Rule)**:
+   - When updating large existing files (`architecture.md`, `services.md`, `CHANGELOG.md`), do NOT blindly replace from line 1.
+   - Always run `git diff --stat` before committing to ensure no content was accidentally wiped out.
+3. **Keep `docs/services.md` and `docs/architecture.md` in Sync**:
+   - When a service or storage mount is added, removed, or remapped, immediately update the table in `docs/services.md` or `docs/architecture.md`.
+
+### 🔄 4. GIT SYNC LIFECYCLE
+1. **Start of Task**: Run `git pull` before reading or modifying anything.
+2. **End of Task**:
+   - Verify server is healthy and change works.
+   - Log entry in `CHANGELOG.md`.
+   - Clear lock in `CURRENT_OPS.md`.
+   - Run `git add <files>`, commit as user Maja (`git config user.name "Maja" && git config user.email "suryatmaja.dev@gmail.com"`), and push:
+     `git commit -m "<type>: <concise description>" && git push`
+   - Never add `Co-Authored-By` trailers.
+
+---
 
 ## Modes of operation
 
-Detect which mode fits the user's request. If ambiguous, ask.
-
 ### 1. Planning mode
-Two sub-types:
-
-**A. Homelab infrastructure planning**
-- Hardware capacity decisions (RAM/storage/CPU sizing, external storage enclosures, etc.)
-- Service architecture decisions (which service, why, trade-offs)
-- Scaling roadmap (e.g. k3s sandbox, VLAN segmentation, external DAS storage)
-
-**B. Claude Code operational planning (meta-level)**
-- Deciding what to automate next (prioritize from `docs/roadmap.md`)
-- Flagging when `docs/architecture.md` looks stale vs. actual server state
-- Suggesting when a manual recurring task should become a script in `scripts/`
-
-**In planning mode: discuss first, don't execute.** Only write to `docs/decisions.md` and/or `docs/roadmap.md` once something is actually decided. Never touch live server config in this mode.
+- **Homelab infrastructure planning**: Hardware capacity, service architecture trade-offs, scaling roadmap.
+- **Operational planning**: Deciding what to automate next, flagging stale docs.
+- **In planning mode: discuss first, don't execute.** Only write to `docs/decisions.md` and/or `docs/roadmap.md` once something is actually decided. Never touch live server config in this mode.
 
 ### 2. Setup mode
 When asked to install/configure something new:
-1. SSH into the server (connection details in `docs/architecture.md`)
-2. Execute the setup
-3. Save the resulting docker-compose file to `configs/docker-compose/<service-name>.yml`
-4. Update `docs/services.md` with the new service (port, purpose, data location)
-5. Update `docs/architecture.md` if the topology changed (new mount point, new container, etc.)
-6. Log the change in `CHANGELOG.md`
+1. `git pull` & check `CURRENT_OPS.md`.
+2. Register lock in `CURRENT_OPS.md`.
+3. SSH into server, execute setup via batched commands.
+4. Save docker-compose file to `configs/docker-compose/<service-name>.yml`.
+5. Update `docs/services.md` (port, purpose, data location).
+6. Update `docs/architecture.md` if topology changed.
+7. Clear lock in `CURRENT_OPS.md`, log in `CHANGELOG.md`, commit and push.
 
 ### 3. Maintenance mode
 When asked to check/fix/troubleshoot:
-1. SSH in, check logs (`docker logs`, `journalctl`, etc.)
-2. Diagnose the issue, explain what's wrong before fixing
-3. Ask before making any risky/destructive change (e.g. deleting volumes, restarting production containers during active use)
-4. Log the fix in `CHANGELOG.md` once resolved
+1. `git pull` & check `CURRENT_OPS.md`.
+2. SSH in, check logs (`docker logs --tail 50`, `journalctl`, etc.).
+3. Diagnose issue, explain what's wrong before fixing.
+4. Ask before making any destructive change (e.g. deleting volumes, stopping active production containers).
+5. Apply fix, verify live state.
+6. Clear lock in `CURRENT_OPS.md`, log in `CHANGELOG.md`, commit and push.
 
 ### 4. Automation mode
 When asked to automate a recurring task:
-1. Write the script in `scripts/`
-2. Set up the cron job or systemd timer for it
-3. Document what it does and how it's scheduled in `docs/services.md`
-4. Log the addition in `CHANGELOG.md`
+1. Write script in `scripts/`.
+2. Set up cron job or systemd timer.
+3. Document in `docs/services.md`.
+4. Clear lock in `CURRENT_OPS.md`, log in `CHANGELOG.md`, commit and push.
 
-## Always
+---
 
-- Log every meaningful change to `CHANGELOG.md`: date, what changed, why (one or two lines is enough)
-- Never commit secrets/passwords/API keys to this repo — reference `.env` files (gitignored) instead
-- Prefer editing an existing docker-compose file over creating a duplicate service
-- When storage paths are involved, remember: OS/Docker/projects/DB metadata live on the internal SSD; bulk media (Immich, Nextcloud, Jellyfin) lives on the external multi-bay HDD enclosure — see `docs/architecture.md` for exact mount paths
-- Keep this file (`CLAUDE.md`) itself up to date if the operating conventions change — note that update in `CHANGELOG.md` too
-- Git commits in this repo are authored as the user, not Claude — do NOT add a `Co-Authored-By: Claude` trailer to commit messages here
+## Storage Convention Reminder
+- OS, Docker engine, images, project code, and DB metadata live on internal SSD (`/`).
+- Bulk media lives on dedicated external HDDs:
+  - `/mnt/hdd-music/`: Music library (Jellyfin) + fallback backup target
+  - `/mnt/hdd-media/`: Movies/TV, anime, manga-raw, manga-reader (Komga), torrent downloads
+  - `/mnt/hdd-cloud/`: Nextcloud data, Syncthing, shared LAN SMB drop
