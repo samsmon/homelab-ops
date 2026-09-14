@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: stream-vault
     restart: unless-stopped
+    init: true
+    pids_limit: 100
     ports:
       - "8090:8090"
     environment:
@@ -13,6 +15,8 @@ services:
       - HOST=0.0.0.0
       - MEDIA_ROOT=/media
       - LOG_LEVEL=info
+      - FFMPEG_MAX_CONCURRENCY=1
+      - FFMPEG_TIMEOUT_MS=15000
     volumes:
       # Real homelab media root mounted read-only
       # Contains anime/, movies/, tv/
@@ -30,7 +34,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 512M
+          pids: 100
+        reservations:
+          memory: 128M
 
 volumes:
   stream-vault-cache:

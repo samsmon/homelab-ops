@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: t3code
     restart: unless-stopped
+    init: true
     ports:
       - "9001:9000"
     environment:

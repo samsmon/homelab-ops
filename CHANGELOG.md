@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (8)
+- **Tuned High Baseline CPU & Fixed Sudden Spikes (Dashboard, StreamVault, T3 Code)**:
+  - **Homelab Dashboard (`homelab-cockpit`)**: Increased polling interval `POLL_INTERVAL_MS` from 2000ms (2s) to 5000ms (5s) in `.env` and `docker-compose.yml`. Recreated container. Drastically slashed host Docker daemon (`dockerd`) CPU from ~160% to ~6% and `containerd` from ~100% to ~7%.
+  - **StreamVault (`stream-vault`)**: Updated memory limit in `configs/docker-compose/stream-vault.yml` and project compose from 256M to 512M (with 128M reservation), added `init: true`, and added `pids_limit: 100`. Recreated container. Permanently resolves repeated OOM-killer loops from ffmpeg/thumbnail background helpers.
+  - **T3 Code (`t3code`)**: Added `init: true` to `configs/docker-compose/t3code.yml` so Docker runs `tini` as PID 1 to auto-reap finished child processes (`esbuild`, `git`) and prevent zombie (`<defunct>`) process accumulation upon next restart.
+  - Verified server load average plummeted from 18.05 / 8.31 down to 3.80, with both `homelab-cockpit` (:8050) and `stream-vault` (:8090) responding HTTP 200 OK.
+
 ## 2026-09-14 (7)
 - **Updated Homelab Dashboard to Commit 98ad3dd**:
   - Deployed commits `dff3638` -> `98ad3dd` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
