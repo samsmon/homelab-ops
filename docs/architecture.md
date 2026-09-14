@@ -80,13 +80,13 @@ operations inside the LXC fail with permission/cgroup errors. See `decisions.md`
 
 ```
 Router ISP (main house WiFi)
-  └── Switch Gigabit: TP-Link TL-LS1005G (5-port)
+  └── Switch Gigabit: Mercusys MS105G (5-port, TP-Link)
         └── PC + Homelab (M710q)
 ```
 
 - **Router:** the ISP's own router — no dedicated MikroTik router deployed for now (see
   `decisions.md`: skipped for budget efficiency, not currently needed).
-- **Switch:** TP-Link TL-LS1005G, 5-port Gigabit — added specifically so PC↔Homelab file
+- **Switch:** Mercusys MS105G (by TP-Link), 5-port Gigabit — added specifically so PC↔Homelab file
   transfer gets full Gigabit speed. This works even though the ISP router's own ports may not
   all be Gigabit, because switch-to-switch-port speed between devices on the same switch isn't
   limited by the router's uplink port speed.

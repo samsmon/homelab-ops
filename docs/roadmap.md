@@ -4,7 +4,7 @@
 
 ## Now
 
-- [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md for actual cart prices)
+- [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, Mercusys MS105G switch — no dedicated router this round (see decisions.md for actual cart prices)
 - [x] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — purchased, exact model/price to log later
 - [x] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud — purchased, exact model/price to log later
 - [ ] Source a small mount/dock solution for HDD-Backup (WD Blue 320GB) — the 4th drive, beyond the original 3-drive dock plan
