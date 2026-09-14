@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (6)
+- **Updated Homelab Dashboard to Commit dff3638 (Brutalist Beta UI)**:
+  - Deployed commits `df3a039` -> `dff3638` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Implemented global Brutalist Beta UI architecture via routes with toggle and appended release notes to announcements engine.
+  - Built fresh multi-stage Docker image and restarted container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified HTTP 200 OK.
+
 ## 2026-09-14 (5)
 - **Updated Homelab Dashboard & StreamVault, Deployed Homelab IdP**:
   - **Homelab Dashboard**: Pulled latest commit `3c502e1` (feat(ui): add Beta UI header button and clean README). Rebuilt multi-stage Docker image and recreated container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified HTTP 200 OK.
