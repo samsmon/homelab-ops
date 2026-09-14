@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (7)
+- **Updated Homelab Dashboard to Commit 98ad3dd**:
+  - Deployed commits `dff3638` -> `98ad3dd` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Included updates:
+    - `c495ebc`: feat(ui): add smart scroll to logs and force app update action
+    - `54a01bc`: feat(ui): add app updater to beta overview and mobile fix
+    - `376eca4`: feat(ui): refine beta ui, mobile layout and storage smart watchdog
+    - `d665c63`: fix(ui): prevent window scroll hijacking during update logs
+    - `98ad3dd`: fix(server): implement force pull and auto stash on redeploy
+  - Rebuilt multi-stage Docker image and recreated container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified HTTP 200 OK.
+
 ## 2026-09-14 (6)
 - **Updated Homelab Dashboard to Commit dff3638 (Brutalist Beta UI)**:
   - Deployed commits `df3a039` -> `dff3638` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
