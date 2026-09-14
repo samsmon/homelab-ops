@@ -4,21 +4,18 @@ services:
     container_name: komga
     restart: unless-stopped
     volumes:
-    - /mnt/hdd-media/manga-reader:/data
-    - komga_config:/config
+      - /mnt/hdd-media/manga-reader:/data
+      - komga_config:/config
     ports:
-    - 25600:25600
+      - "25600:25600"
     environment:
-    - TZ=Asia/Jakarta
-    - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_HOMELAB-IDP_CLIENT-ID=komga-oidc-sso
-    - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_HOMELAB-IDP_CLIENT-SECRET=bae1553afa7f3218b32ee7485f4c91e5246121227abed531
-    - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_HOMELAB-IDP_CLIENT-NAME=Homelab IDP
-    - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_HOMELAB-IDP_SCOPE=openid,profile,email
-    - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_HOMELAB-IDP_ISSUER-URI=https://sso.suryatmaja.dev
+      - TZ=Asia/Jakarta
     networks:
-    - shared_net
+      - shared_net
+
 volumes:
-  komga_config: null
+  komga_config:
+
 networks:
   shared_net:
     external: true
