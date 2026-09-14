@@ -4,22 +4,27 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     volumes:
-      - /mnt/hdd-music/music:/media/music
-      - /mnt/hdd-media/jellyfin/movies:/media/movies
-      - /mnt/hdd-media/jellyfin/tv:/media/tv
-      - /mnt/hdd-media/jellyfin/anime:/media/anime
-      - jellyfin_config:/config
-    ports:
-      - "8096:8096"
-    # Uncomment if hardware transcoding becomes available (Intel Quick Sync)
-    # devices:
-    #   - /dev/dri:/dev/dri
+    - /mnt/hdd-music/music:/media/music
+    - /mnt/hdd-media/jellyfin/movies:/media/movies
+    - /mnt/hdd-media/jellyfin/tv:/media/tv
+    - /mnt/hdd-media/jellyfin/anime:/media/anime
+    - jellyfin_config:/config
     networks:
-      - shared_net
-
+    - shared_net
+  jellyfin-proxy:
+    image: nginx:alpine
+    container_name: jellyfin-proxy
+    restart: unless-stopped
+    ports:
+    - 8096:80
+    volumes:
+    - ./sso-sidecars/jellyfin.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+    - jellyfin
+    networks:
+    - shared_net
 volumes:
-  jellyfin_config:
-
+  jellyfin_config: null
 networks:
   shared_net:
     external: true
