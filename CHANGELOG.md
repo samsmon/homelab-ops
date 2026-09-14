@@ -2,6 +2,23 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-14 (4)
+- **Fixed T3 Code stuck-working state (git command timeouts) — added resource limits**:
+  - Diagnosed via SSH: `t3code` container had zero CPU/memory limit (unbounded), 379 PIDs accumulated, and its own logs showed 70+ `Git command timed out` errors (`GitVcsDriver.fetchRemoteForStatus` / `GitManager.branchPullRequest.remotes`) across the day — worst offender was its own `homelab-ops` workspace (42 occurrences). Manual `git fetch` from inside the container completed in ~1s when tested in isolation, confirming the timeouts are CPU-starvation-triggered (git subprocess not scheduled in time), not a credential/DNS/network problem.
+  - This is why agent runs in T3 Code would sit "working" for a long time with the task state never actually changing — the underlying git status/PR sync call was silently timing out and getting skipped ("automatic thread settlement skipped").
+  - Fix: restarted `t3code` (clears the stuck threads + zombie `node`/`localharness_ex` children from unreaped git subprocesses) and added `mem_limit: 3g` + `cpus: 2.0` to `configs/docker-compose/t3code.yml` so it can no longer be CPU-starved by another container's misbehavior, and can't itself starve others.
+  - Also restarted `homelab-cockpit` at the same time to clear its own accumulated zombies (same unreaped-child pattern, separate root process).
+  - Synced `configs/docker-compose/t3code.yml` to match the config actually running on the server (server had drifted to use `environment:` vars instead of the repo's `entrypoint`/`command` override — repo version now matches live).
+  - See `docs/services.md` (T3 Code entry) for the full note on what to check if this recurs.
+
+## 2026-09-14 (3)
+- **Fixed StreamVault OOM crash-loop that took down the whole homelab**:
+  - Live SSH investigation found `stream-vault` (256MB memory limit) in a continuous OOM-kill loop on its own `ffmpeg` child process (used for thumbnail/metadata generation despite the app's "Zero Server-Side Transcode" banner claim) — one request logged a 307-second response time before the container got killed and auto-restarted (`unless-stopped`), immediately retrying the same heavy operation and looping again.
+  - Host-wide impact: process count spiked to ~25,600 tasks, load average >140 on a 4-core box, 95%+ CPU stuck in kernel `sys` time, swap fully saturated — this is what made the whole server feel "down", not just StreamVault.
+  - Immediate mitigation: `docker restart stream-vault` — process count dropped to ~680, memory/swap recovered within seconds.
+  - Root-cause fix (concurrency limits, timeouts, and separate memory budget for the ffmpeg child process) is **not yet implemented** — findings and recommendations were handed off as a prompt to the agent working the [srytmj/stream-vault](https://github.com/srytmj/stream-vault) repo directly. Revisit once that's merged.
+  - Separately found ~250 zombie processes unrelated to StreamVault, parented by `homelab-cockpit` and `t3code` (unreaped `node`/`localharness_ex` children) — addressed in the next entry.
+
 ## 2026-09-14 (2)
 - **Updated Complete Infrastructure & Hardware Documentation**:
   - Updated `docs/architecture.md`, `docs/services.md`, `docs/roadmap.md`, and `docs/decisions.md` with verified live hardware and server state.

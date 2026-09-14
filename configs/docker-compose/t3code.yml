@@ -7,15 +7,16 @@ services:
     restart: unless-stopped
     ports:
       - "9001:9000"
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
-    command: ["t3", "serve", "--host", "0.0.0.0", "--port", "9000"]
+    environment:
+      - IS_SANDBOX=1
+      - 'T3_TITLE=T3 Code 1 (docker-host)'
+    mem_limit: 3g
+    cpus: 2.0
     volumes:
       # Map the root directory to persist claude and t3 config/auth
       - t3code_data:/root
       # Map projects directory so agents can work on them
       - /mnt/homelab_projects:/workspace
-      # Mount entrypoint to guarantee self-healing symlinks even without rebuilding image
-      - ./t3code/entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
       # Optional: docker socket if agents need to run docker commands
       # - /var/run/docker.sock:/var/run/docker.sock
     networks:
