@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (15)
+- **Recovered Nginx Proxy Manager admin access and vaulted credentials**:
+  - Identified existing NPM admin user (`suryatmaja.dev@gmail.com`).
+  - Reset password to `maja1501` by injecting a fresh bcrypt hash (cost factor 13) directly into SQLite `/data/database.sqlite` auth table.
+  - Added Nginx Proxy Manager credential entry to Homelab IdP Vault (`sso.suryatmaja.dev`).
+
 ## 2026-09-15 (14)
 - **Synchronized live service credentials into Homelab IdP Vault (`sso.suryatmaja.dev`)**:
   - Encrypted and updated 10 service credentials (AES-256-GCM) via `homelab-idp` CLI: Homelab Cockpit (`dash.suryatmaja.dev`), Filebrowser (`drive`), Jellyfin, Kavita, Komga, Nextcloud, Portfolio Dashboard (`port`), qBittorrent (`qb`), Homelab IdP (`sso`), and Stream-Vault (`stream`).
