@@ -3,11 +3,10 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 ## 2026-09-15 (12)
-- **Deployed AGY Persistent Web Terminal (`ttyd` + `tmux`) on `dev-host` (LXC 102)**:
-  - Installed `tmux` and high-performance web terminal binary `ttyd` (port 7681) managed by systemd (`ttyd.service`).
-  - Configured persistent session `agy-workspace` rooted at `/workspace` with isolated multi-window/multi-project support.
-  - Linked to public domain `https://agy.suryatmaja.dev` via Cloudflare Tunnel.
-  - Added CLI runner helper `/usr/local/bin/agy-dev` for containerized tool and subagent orchestration.
+- **Decommissioned & uninstalled AGY Web Terminal (`ttyd` + `tmux`) from `dev-host` (LXC 102)**:
+  - Stopped and disabled `ttyd.service`, removed binary `/usr/local/bin/ttyd`, `/usr/local/bin/agy-dev`, `/etc/tmux.conf`, and `/root/.tmux.conf`.
+  - Killed background tmux sessions and closed port 7681 completely to keep LXC 102 clean and lean.
+  - Removed service registry entry and documentation.
 
 ## 2026-09-15 (11)
 - **Enabled T3 Code AI Telemetry in Homelab Cockpit (`homelab-dashboard`)**:
