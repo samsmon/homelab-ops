@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (6)
+- **Cleaned up old t3code remnants on docker-host + registered dev-host with Homelab Cockpit**:
+  - Removed 3 dangling Docker images left on `docker-host` from the t3code migration and earlier decommissioned instances: `docker-compose-t3code`, `t3code-2-t3code`, `t3code-3-t3code` (~2.3GB reclaimed). Also removed orphan compose files (`t3code-2.yml`, `t3code-3.yml`, old `t3code/` build context, old `t3code.yml`) from the `/root/homelab-ops` checkout on docker-host.
+  - Homelab Cockpit (`homelab-dashboard`) didn't know `dev-host` (LXC 102) existed — its `.env` only listed `docker-host`/`apps-host` in `SSH_TARGETS`. Added `dev-host=root@192.168.18.227`, authorized the dashboard's existing SSH key (`cockpit_id_rsa`, same key already trusted on `apps-host` as `root@docker-host`) on `dev-host`, verified the connection, and restarted the dashboard container to pick up the new config.
+  - **Did not** expose dev-host's Docker daemon over unauthenticated TCP (`-H tcp://0.0.0.0:2375`) the way `apps-host` does for the dashboard's `DOCKER_HOSTS` container-level view, even though that would give the dashboard full container-level metrics for dev-host too — a safety check declined it as an unauthenticated network-exposed service, and on reflection it's worth the user deciding deliberately rather than copying the existing (already slightly risky) `apps-host` convention by default. Dashboard can now reach dev-host over SSH, but won't show its container list/stats until that's addressed. If the user wants it, this needs to be a conscious choice (ideally with `dockerd` TLS or bound to `127.0.0.1`/Tailscale-only, not `0.0.0.0`), not folded silently into an unrelated cleanup task.
+
 ## 2026-09-15 (5)
 - **Restored `docs/services.md` after accidental truncation**:
   - Commit `1dc7972` ("swap drive roles...") deleted 90 of 95 lines from `docs/services.md` while only meaning to update media paths — classic blind full-file overwrite instead of a targeted edit (exactly what the Anti-Truncation Rule in `CLAUDE.md` warns about).
