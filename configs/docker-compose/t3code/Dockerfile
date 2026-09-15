@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
     jq \
+    ripgrep \
     python3 \
     make \
     g++ \

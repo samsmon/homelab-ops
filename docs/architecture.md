@@ -30,6 +30,21 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
         Docker Engine 29.8.0 + Compose plugin v5.5.1
         Purpose: Dedicated environment for personal web projects (whitearchive, malas, etc.)
+  └── LXC 102: "dev-host" (Ubuntu Server 24.04 LTS) — 192.168.18.227
+        RAM allocated: 12GB (of 32GB total)
+        CPU allocated: 4 cores
+        Storage: 40GB (local-lvm thin pool: vm-102-disk-0)
+        Proxmox container features "nesting=1,keyctl=1"
+        Docker Engine 29.8.0 + Compose plugin v5.5.1
+        Purpose: Dedicated isolated environment for T3 Code (agent coding harness) — created
+        2026-09-15 to stop T3 Code's I/O/CPU load from ever affecting the media stack /
+        core services on docker-host again (see CHANGELOG for the incident that prompted this).
+        /workspace mounted via a host-level CIFS mount bound into the container (mp1) — NOT a
+        direct in-container network mount, because unprivileged LXC cannot reliably do kernel
+        NFS/CIFS mounts itself. The actual project files still live on docker-host
+        (`/mnt/homelab_projects`), shared out via a dedicated Samba share (`[projects]`,
+        restricted to `192.168.18.224` and `.227` by `hosts allow`) — the Proxmox host mounts
+        that share at `/mnt/homelab_projects_smb` and bind-mounts it into LXC 102.
 ```
 
 **LXC, not VM** — chosen over a VM for minimal virtualization overhead, direct host kernel efficiency, and easy filesystem bind-mounting. Requires `nesting=1,keyctl=1` for Docker engine container isolation.
@@ -43,7 +58,8 @@ Router ISP (Main Gateway: 192.168.18.1)
         └── Homelab (Lenovo ThinkCentre M710q — Intel I219-V Gigabit)
               ├── PVE Hypervisor: 192.168.18.224 (pve.suryatmaja.dev)
               ├── LXC 100 docker-host: 192.168.18.225
-              └── LXC 101 apps-host: 192.168.18.226
+              ├── LXC 101 apps-host: 192.168.18.226
+              └── LXC 102 dev-host: 192.168.18.227
 ```
 
 - **Switch:** **Mercusys MS105G (5-Port Gigabit Desktop Switch)** connects the ISP router, Main PC, and Homelab node, ensuring full 1000 Mbps line-rate file transfers between Main PC and Samba/media shares.
@@ -51,9 +67,10 @@ Router ISP (Main Gateway: 192.168.18.1)
   - Proxmox VE: `192.168.18.224/24`, gateway `192.168.18.1`
   - docker-host (LXC 100): `192.168.18.225/24`, gateway `192.168.18.1`
   - apps-host (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
+  - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
 - **DNS:** `1.1.1.1` primary, `192.168.18.1` fallback.
-- **Remote Access (Tailscale):** Native systemd agent on `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`, tailnet `srytmj.github`).
-- **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports.
+- **Remote Access (Tailscale):** Native systemd agent on `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`, tailnet `srytmj.github`). **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
+- **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
 
 ## Storage Path Convention & Live Capacity
 

@@ -4,7 +4,7 @@ set -e
 ensure_agy_links() {
     # Find agy_acp_server.par in persistent .t3 storage
     local agy_bin
-    agy_bin=$(find /root/.t3/tools/antigravity-acp -name "agy_acp_server.par" 2>/dev/null | head -n 1)
+    agy_bin=$(find /root/.t3/tools/antigravity-acp -maxdepth 4 -name "agy_acp_server.par" 2>/dev/null | head -n 1)
     if [ -n "$agy_bin" ] && [ -f "$agy_bin" ]; then
         chmod +x "$agy_bin" 2>/dev/null || true
 
@@ -13,7 +13,7 @@ ensure_agy_links() {
         ln -sf "$agy_bin" /usr/local/bin/antigravity
         ln -sf "$agy_bin" /usr/bin/agy 2>/dev/null || true
         ln -sf "$agy_bin" /usr/bin/antigravity 2>/dev/null || true
-        
+
         # Sibling harness required by Antigravity
         local harness_dir
         harness_dir=$(dirname "$agy_bin")
@@ -34,7 +34,12 @@ ensure_agy_links() {
     fi
 }
 
-# Run synchronously once at startup
+# Run once at startup only. Previously this re-ran every 5s in an unreaped
+# background loop (`while true; sleep 5; find ...`), which was the direct
+# cause of the constant I/O/CPU spikes and zombie process buildup on
+# docker-host (see CHANGELOG 2026-09-15). Symlinks only go stale when `t3`
+# self-updates its bundled Antigravity tool release, which is rare and
+# handled by a container restart, not by continuous polling.
 ensure_agy_links
 
 # Fix permissions on SSH keys if present
@@ -43,15 +48,6 @@ if [ -d /root/.ssh ]; then
     find /root/.ssh -type f -exec chmod 600 {} + 2>/dev/null || true
     find /root/.ssh -type f -name "*.pub" -exec chmod 644 {} + 2>/dev/null || true
 fi
-
-# Run continuous background supervisor to keep symlinks intact
-# even if t3 downloads a new version or symlink gets removed
-(
-    while true; do
-        sleep 5
-        ensure_agy_links
-    done
-) &
 
 # Execute CMD passed to container
 if [ $# -eq 0 ]; then

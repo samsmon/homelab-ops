@@ -1,8 +1,6 @@
 services:
   t3code:
-    build:
-      context: ./t3code
-      dockerfile: Dockerfile
+    image: t3code-custom:latest
     container_name: t3code
     restart: unless-stopped
     init: true
@@ -10,22 +8,15 @@ services:
       - "9001:9000"
     environment:
       - IS_SANDBOX=1
-      - 'T3_TITLE=T3 Code 1 (docker-host)'
-    mem_limit: 3g
-    cpus: 2.0
+      - 'T3_TITLE=T3 Code (dev-host)'
+    mem_limit: 11g
+    cpus: 3.5
     volumes:
       # Map the root directory to persist claude and t3 config/auth
       - t3code_data:/root
       # Map projects directory so agents can work on them
-      - /mnt/homelab_projects:/workspace
-      # Optional: docker socket if agents need to run docker commands
-      # - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - shared_net
+      - /workspace:/workspace
 
 volumes:
   t3code_data:
-
-networks:
-  shared_net:
     external: true
