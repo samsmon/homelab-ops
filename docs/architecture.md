@@ -1,9 +1,38 @@
+# Architecture - Current State
+
+> This file reflects what EXISTS right now. Update it whenever the actual topology changes.
+> Last verified: 2026-09-15 (via live SSH verification across Proxmox, docker-host, whitearchive-hosts, and dev-host)
+
+## Hardware
+
+- **Device:** Lenovo ThinkCentre M710q Tiny (product no. `10MQS1EU00`, confirmed via `dmidecode`)
+- **CPU:** Intel Core i5-7500 (7th Gen Kaby Lake), 4 cores / 4 threads, 3.40 GHz base (up to 3.80 GHz max turbo), 65W TDP. Confirmed via `lscpu`.
+- **Integrated GPU (iGPU):** Intel HD Graphics 630 (`[8086:5912]`), kernel driver `i915`. Direct Rendering Infrastructure (DRI) passed through to `docker-host` via `/dev/dri/card0` and `/dev/dri/renderD128` for hardware-accelerated transcoding.
+- **RAM:** 32GB DDR4 (recognized as 31GiB in Proxmox / `free -h`).
+- **Ethernet (NIC):** Intel I219-V Gigabit Ethernet (`[8086:15b8]`), kernel driver `e1000e`.
+- **M.2 Slot (PCIe/NVMe M-Key) -> LM 418 Expansion Card:**
+  - The internal M.2 NVMe slot is populated with an **LM 418 M.2 NVMe NGFF M Key TO 5 Ports SATA III 3.0 Card + Heatsink Chipset Taiwan J-Micron JMB585** (`01:00.0 SATA controller: JMicron Technology Corp. JMB58x AHCI SATA controller [197b:0585]`).
+  - This card breaks out PCIe bandwidth into 5 native SATA III (6Gbps) ports, dedicated to running external HDDs without relying on unreliable USB enclosures.
+- **Internal 2.5" SATA Bay -> M.2 SATA Adapter -> OS SSD:**
+  - The native internal 2.5" SATA bay is fitted with a **SATA to M.2 SATA NGFF B + M KEY Converter Adapter Card (SATA III 6Gbps)**.
+  - Houses an internal **256GB M.2 SATA SSD** (`MidasForce SSD 256GB`, serial `RE202410151200000921`, partition `/dev/sda`).
+  - Contains Proxmox VE rootfs (`pve-root`), swap (`pve-swap` 8GB), and `pve-data` LVM-thin pool (`vm-100-disk-0` 150GB, `vm-101-disk-0` 30GB, `vm-102-disk-0` 40GB).
+
+## Storage Topology (FINAL)
+
+This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unconventionally to host 4 storage drives (1 SSD + 3 HDDs) without an external USB DAS enclosure:
+
+1. **Internal OS SSD (256GB M.2 SATA SSD via 2.5" Bay Adapter)**:
+   - Drive: `MidasForce SSD 256GB` (`/dev/sda`).
+   - Role: Proxmox VE host OS, swap, VM/LXC virtual disks, and database metadata.
+2. **HDD-Music (2TB 3.5" Western Digital Green via LM 418 SATA Port)**:
+   - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623` (`/dev/sdc1`, 1.8TB usable).
    - Role: Dedicated music streaming library (`jellyfin/music` scanned by Navidrome & Jellyfin) + local backup staging destination (`backups/`).
-3. **HDD-Media (1TB 3.5\" Seagate Barracuda 7200 RPM via LM 418 SATA Port)**:
+3. **HDD-Media (1TB 3.5" Seagate Barracuda 7200 RPM via LM 418 SATA Port)**:
    - Drive: `ST1000DM010-2EP102`, serial `W9AS0LSD` (`/dev/sdd2`, label `hdd-media`, 916GB usable).
    - Role: High-throughput media storage — Videos (`videos/{anime,movies,tv}`), raw manga master (`manga-raw`), auto-optimized reader library (`manga-reader` for Komga), and torrent downloads (`qbittorrent`).
    - *Note on disk allocation:* The physical 3.5" 7200 RPM Seagate Barracuda drive is dedicated to `hdd-media` (`sdd2`) for high-IOPS random seek performance, while the 2.5" 5400 RPM Toshiba drive is dedicated to `hdd-cloud` (`sdb2`).
-4. **HDD-Cloud (1TB 2.5\" Toshiba HDD 5400 RPM via LM 418 SATA Port)**:
+4. **HDD-Cloud (1TB 2.5" Toshiba HDD 5400 RPM via LM 418 SATA Port)**:
    - Drive: `TOSHIBA MQ04ABF100`, serial `Y9CSTR0WT` (`/dev/sdb2`, label `hdd-cloud`, 916GB usable).
    - Role: Nextcloud data directory, Syncthing continuous device sync, and general LAN shared drop (`shared/`). Quiet and low-power operation.
 
@@ -114,3 +143,22 @@ Router ISP (Main Gateway: 192.168.18.1)
 ├── jellyfin/
 │   └── music/         # Legacy Jellyfin music mount
 ```
+
+#### HDD-Cloud (`/mnt/hdd-cloud/`)
+```
+/mnt/hdd-cloud/
+├── nextcloud/            # Nextcloud primary storage root
+├── syncthing/            # P2P multi-device sync
+└── shared/               # LAN drop, accessible via SMB \\docker-host\shared
+```
+
+## Windows Network Access (SMB/Samba & WSDD)
+
+- **Active Daemons:** `smbd` and `wsdd` systemd services running on `docker-host`.
+- **Samba Shares (`/etc/samba/smb.conf`):**
+  - `shared` → `/mnt/hdd-cloud/shared` (Read/Write, LAN drop)
+  - `manga` → `/mnt/hdd-media/manga-raw` (Read/Write, ingest for manga optimizer)
+  - `media` → `/mnt/hdd-media` (Movies, TV, Anime)
+  - `music` → `/mnt/hdd-music` (Music collection)
+  - `projects` → `/mnt/homelab_projects` (Read/Write, restricted to PVE and dev-host for T3 Code /workspace)
+- **WSDD (Web Services Dynamic Discovery):** Allows the homelab server to appear automatically under Windows Explorer "Network" without manual IP typing.
