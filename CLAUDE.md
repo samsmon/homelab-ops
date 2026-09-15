@@ -62,6 +62,12 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
    - When a service or storage mount is added, removed, or remapped, immediately update the table in `docs/services.md` or `docs/architecture.md`.
 
 ### 🔄 4. GIT SYNC LIFECYCLE
+### Fast Git Commits
+- Git config (Maja / suryatmaja.dev@gmail.com) is already permanently configured.
+- NEVER check `gh api`, `gh auth`, or inspect other repos before committing.
+- Commit directly: `git add <specific-code-files> && git commit -m "..." && git push`
+- NEVER stage or diff media/binary directories (`media/`, video files, etc.).
+
 1. **Start of Task**: Run `git pull` before reading or modifying anything.
 2. **End of Task**:
    - Verify server is healthy and change works.
