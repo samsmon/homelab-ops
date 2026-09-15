@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (1)
+- **Updated Homelab Dashboard to Commit 0da694e (Standalone Out-of-Process Redeployer)**:
+  - Pulled commits `f651367` -> `0da694e` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Deployed standalone redeployer script (`scripts/homelab-redeploy.sh`), symlinked to `/root/homelab-redeploy.sh`, and registered/started `homelab-redeploy.service` daemon on `docker-host`.
+  - Rebuilt container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified container up and `/api/health` responding HTTP 200 OK.
+
 ## 2026-09-14 (8)
 - **Tuned High Baseline CPU & Fixed Sudden Spikes (Dashboard, StreamVault, T3 Code)**:
   - **Homelab Dashboard (`homelab-cockpit`)**: Increased polling interval `POLL_INTERVAL_MS` from 2000ms (2s) to 5000ms (5s) in `.env` and `docker-compose.yml`. Recreated container. Drastically slashed host Docker daemon (`dockerd`) CPU from ~160% to ~6% and `containerd` from ~100% to ~7%.
