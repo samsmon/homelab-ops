@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (9)
+- **Renamed LXC 101 `apps-host` → `whitearchive-hosts`**: hostname changed via `pct set --hostname` + `hostnamectl set-hostname` (IP unchanged, `192.168.18.226`). Updated all references in `docs/architecture.md`, `docs/roadmap.md`, `docs/services.md`, and the `DOCKER_HOSTS`/`SSH_TARGETS` keys in Homelab Cockpit's `.env`.
+- **Fixed Homelab Cockpit's Terminal page and SSH-based process/hardware tracking (couldn't reach Proxmox or any host)**:
+  - Root cause: `.env` had `SSH_PRIVATE_KEY_PATH=/root/.ssh/id_ed25519`, but the actual private key file baked into the `homelab-cockpit` container is named `cockpit_id_rsa` — a filename mismatch. `terminal.service.ts` reads that path with a try/catch that fails silently (empty process list) or sends a generic `"SSH private key not found on the daemon"` WebSocket error for the Terminal page — nothing in the logs pointed at this directly, had to read the service source to find it.
+  - Verified the underlying SSH access itself was fine the whole time (manually SSH'd from inside the container to Proxmox, docker-host, etc. using the correct key path — all connected immediately); this was a pure config typo, not a networking or key-authorization problem.
+  - Fixed `SSH_PRIVATE_KEY_PATH` to `/root/.ssh/cockpit_id_rsa`, then **recreated** the container (`docker compose up -d`, not just `docker restart` — restart does not reload `.env` values baked in at container creation, learned this the hard way mid-task).
+  - Confirmed the Proxmox API token itself was valid and reachable (`GET /api2/json/version` → 200) throughout, so this was never a Proxmox-API-token issue — only the SSH-key path used by the Terminal/Processes feature.
+
+## 2026-09-15 (8)
+- **Incident: accidentally exposed two secrets in chat output while debugging** — a Samba password (rotated immediately) and the Proxmox API token secret (`PROXMOX_TOKEN_SECRET`, user notified to rotate via `pvesh delete/create` on `/access/users/root@pam/token/cockpit`). Both were caught by the assistant's own tooling refusing follow-up actions on them, which is what surfaced the mistake. Lesson: redact/grep around anything that could contain a live secret value before running a command that echoes file contents, even when just trying to verify a config change.
+
 ## 2026-09-15 (7)
 - **Exposed dev-host's Docker API for full dashboard visibility (user-approved)**:
   - User decided the risk of an unauthenticated `dockerd -H tcp://0.0.0.0:2375` on `dev-host` (LXC 102) is acceptable, same as the existing `apps-host` convention, since only the main PC is on this LAN. Enabled it manually (systemd override, same pattern as `apps-host`) — the assistant's own tooling blocked this action category by design and the user ran it directly instead.

@@ -14,7 +14,7 @@
 - [x] Mount all 3 active HDDs: `/mnt/hdd-music/`, `/mnt/hdd-media/`, `/mnt/hdd-cloud/` (ext4, permanent in `/etc/fstab`, staging cleaned, music relocated to `/mnt/hdd-music/jellyfin/music`). HDD-Backup (WD Blue 320GB) awaiting 4th dock solution.
 - [x] Deploy Nginx Proxy Manager — done 2026-09-11, chosen over Traefik (user preference — GUI-first). First proxy host added: `portainer.home.arpa` → Portainer.
 - [x] Deploy shared PostgreSQL + Redis — done 2026-09-11
-- [ ] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host) and `whitearchive` on `apps-host` (LXC 101). `malas`, `sso.whitearchive`, `pore-js` pending.
+- [ ] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host) and `whitearchive` on `whitearchive-hosts` (LXC 101). `malas`, `sso.whitearchive`, `pore-js` pending.
 - [x] Set up Samba share on `/mnt/hdd-cloud/shared/` for Windows File Explorer network access (include `wsdd` daemon so it auto-discovers and appears directly under "Network" in Windows 10/11 Explorer without manual IP entry) — done 2026-09-12
 - [x] Add hidden dashboard page to the existing `portfolio` repo — done (built in a separate Claude Code session).
 - [x] Set up Cloudflare Tunnel (`cloudflared`) to expose `portfolio`, `dash`, `nextcloud`, `kavita` publicly — done 2026-09-12.

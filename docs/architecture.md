@@ -23,7 +23,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
   │     Bind Mounts: /mnt/hdd-media, /mnt/hdd-cloud, /mnt/hdd-music
   │     Docker Engine 29.8.0 + Compose plugin v5.5.1 + Tailscale + cloudflared
   │     Purpose: Core infrastructure, homelab cockpit, media stack, DB, tools, portfolio
-  └── LXC 101: "apps-host" (Ubuntu Server 24.04 LTS) — 192.168.18.226
+  └── LXC 101: "whitearchive-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.226
         RAM allocated: 4GB (of 32GB total)
         CPU allocated: 2 cores
         Storage: 30GB (local-lvm thin pool: vm-101-disk-0)
@@ -58,7 +58,7 @@ Router ISP (Main Gateway: 192.168.18.1)
         └── Homelab (Lenovo ThinkCentre M710q — Intel I219-V Gigabit)
               ├── PVE Hypervisor: 192.168.18.224 (pve.suryatmaja.dev)
               ├── LXC 100 docker-host: 192.168.18.225
-              ├── LXC 101 apps-host: 192.168.18.226
+              ├── LXC 101 whitearchive-hosts: 192.168.18.226
               └── LXC 102 dev-host: 192.168.18.227
 ```
 
@@ -66,7 +66,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 - **Static IPs**:
   - Proxmox VE: `192.168.18.224/24`, gateway `192.168.18.1`
   - docker-host (LXC 100): `192.168.18.225/24`, gateway `192.168.18.1`
-  - apps-host (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
+  - whitearchive-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
   - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
 - **DNS:** `1.1.1.1` primary, `192.168.18.1` fallback.
 - **Remote Access (Tailscale):** Native systemd agent on `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`, tailnet `srytmj.github`). **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).

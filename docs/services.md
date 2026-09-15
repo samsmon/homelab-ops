@@ -24,7 +24,7 @@
 | Project | Repo | Domain | Port | Notes |
 |---|---|---|---|---|
 | malas | [srytmj/malas](https://github.com/srytmj/malas) | whitearchive.my.id (subpath/subdomain TBD) | - | Manga library system — tracks reading progress, aggregates latest chapters from multiple sources, manages personal manga collection. Inspired by Kenmei/AniList/MyAnimeList. |
-| whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | whitearchive.my.id (TBD) | 3000 | Deployed 2026-09-12 on `apps-host` (LXC 101, `192.168.18.226:3000`). Multi-stage Next.js standalone container (`whitearchive`). |
+| whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | whitearchive.my.id (TBD) | 3000 | Deployed 2026-09-12 on `whitearchive-hosts` (LXC 101, `192.168.18.226:3000`). Multi-stage Next.js standalone container (`whitearchive`). |
 | sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | sso.whitearchive.my.id (assumed) | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
 | pore-js | [srytmj/pore-js](https://github.com/srytmj/pore-js) | whitearchive.my.id (subpath/subdomain TBD) | - | Custom reader tied into the `malas` project ecosystem — not a general-purpose library like Kavita. Confirmed both are deployed: Kavita is the standalone generic manga/comic server, pore-js is the reader integrated with `malas`. |
 
