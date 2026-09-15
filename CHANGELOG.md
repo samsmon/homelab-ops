@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (13)
+- **Fixed StreamVault media mount and Cockpit SSH private key**:
+  - Replaced spurious empty directory `/root/.ssh/cockpit_id_rsa` on `docker-host` with valid private key file copied from `/root/.ssh/id_ed25519` (0600) and recreated `homelab-cockpit`.
+  - Remapped `stream-vault` media volume from empty `./media` to real high-throughput HDD collection `/mnt/hdd-media/videos:/media:ro` in `/mnt/homelab_projects/stream-vault/docker-compose.yml`.
+  - Recreated `stream-vault` container; verified `/media` inside container now immediately displays `anime/`, `movies/`, and `tv/`.
+
 ## 2026-09-15 (12)
 - **Decommissioned & uninstalled AGY Web Terminal (`ttyd` + `tmux`) from `dev-host` (LXC 102)**:
   - Stopped and disabled `ttyd.service`, removed binary `/usr/local/bin/ttyd`, `/usr/local/bin/agy-dev`, `/etc/tmux.conf`, and `/root/.tmux.conf`.
