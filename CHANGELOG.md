@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (12)
+- **Deployed AGY Persistent Web Terminal (`ttyd` + `tmux`) on `dev-host` (LXC 102)**:
+  - Installed `tmux` and high-performance web terminal binary `ttyd` (port 7681) managed by systemd (`ttyd.service`).
+  - Configured persistent session `agy-workspace` rooted at `/workspace` with isolated multi-window/multi-project support.
+  - Linked to public domain `https://agy.suryatmaja.dev` via Cloudflare Tunnel.
+  - Added CLI runner helper `/usr/local/bin/agy-dev` for containerized tool and subagent orchestration.
+
 ## 2026-09-15 (11)
 - **Enabled T3 Code AI Telemetry in Homelab Cockpit (`homelab-dashboard`)**:
   - Implemented automatic 1-minute cron sync script (`/usr/local/bin/sync-t3-telemetry.sh`) syncing `~/.t3/caches/*.json` and `userdata/state.sqlite` from `dev-host` (LXC 102) to `docker-host:/mnt/t3_telemetry/.t3/`.
