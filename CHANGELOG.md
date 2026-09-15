@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (16)
+- **Configured Forward Auth in Nginx Proxy Manager for Homelab IdP (`sso.suryatmaja.dev`)**:
+  - Configured 6 proxy hosts with automated SSO subrequest verification (`/npm-auth-verify` -> `http://homelab-idp:4000/api/auth/verify`):
+    - `komga.suryatmaja.dev` -> 25600
+    - `nextcloud.suryatmaja.dev` -> 8080
+    - `stream.suryatmaja.dev` -> 8090
+    - `qb.suryatmaja.dev` -> 8480
+    - `drive.suryatmaja.dev` -> 8085
+    - `dash.suryatmaja.dev` -> 8050
+  - Unauthenticated requests automatically return `302 Found` redirecting to `https://sso.suryatmaja.dev/login?rd=...`.
+  - Tested and verified live HTTP 302 redirect flow with cookie and header passthrough.
+
 ## 2026-09-15 (15)
 - **Recovered Nginx Proxy Manager admin access and vaulted credentials**:
   - Identified existing NPM admin user (`suryatmaja.dev@gmail.com`).
