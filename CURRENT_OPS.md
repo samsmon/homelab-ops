@@ -7,7 +7,7 @@
 
 *(Format: `- [Agent-Name] [Timestamp]: <Task Description> | Locks: <Files/Containers affected>`)*
 
-*(No active locks)*
+*(No active tasks currently locked)*
 
 ---
 

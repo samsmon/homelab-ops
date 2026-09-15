@@ -10,6 +10,7 @@ services:
       - "25600:25600"
     environment:
       - TZ=Asia/Jakarta
+      - JAVA_TOOL_OPTIONS=-Djava.net.preferIPv4Stack=true -Xmx2g
     networks:
       - shared_net
 

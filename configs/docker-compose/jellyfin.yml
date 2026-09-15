@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/hdd-music/music:/media/music
-      - /mnt/hdd-media/jellyfin/movies:/media/movies
-      - /mnt/hdd-media/jellyfin/tv:/media/tv
-      - /mnt/hdd-media/jellyfin/anime:/media/anime
+      - /mnt/hdd-media/videos/movies:/media/movies
+      - /mnt/hdd-media/videos/tv:/media/tv
+      - /mnt/hdd-media/videos/anime:/media/anime
       - jellyfin_config:/config
     ports:
       - "8096:8096"

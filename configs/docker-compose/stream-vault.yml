@@ -20,7 +20,7 @@ services:
     volumes:
       # Real homelab media root mounted read-only
       # Contains anime/, movies/, tv/
-      - /mnt/hdd-media/jellyfin:/media:ro
+      - /mnt/hdd-media/videos:/media:ro
       - stream-vault-cache:/app/.cache
       - stream-vault-data:/app/server/data
     networks:
