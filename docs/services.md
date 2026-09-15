@@ -55,7 +55,7 @@
 
 | Service / Daemon | Purpose | Host / Runtime | Data Paths |
 |---|---|---|---|
-| `manga-optimizer.service` | Real-time filesystem watcher + image optimizer. Detects CBZ files in raw master directory, optimizes heavy archives to WebP (max 2048px width, Q85), hardlinks existing WebP archives (0 disk waste), and mirrors folder hierarchy / renames / moves / deletions. | `docker-host` systemd service (`/usr/local/bin/manga-optimizer.py`) | Ingest/Master: `/mnt/hdd-media/manga-raw` (Samba `\\docker-host\manga`) <br> Target/Reader: `/mnt/hdd-media/manga-reader` |
+| `manga-optimizer.service` | Real-time filesystem watcher + image optimizer. Detects archives in raw master directory (extracts safely via 7z), optimizes heavy archives to WebP (max 2048px width, Q85), compares sizes to keep the smallest, and mirrors folder hierarchy / renames / moves / deletions. Monitor progress via `watch -c -n 1 python3 /opt/homelab-ops/scripts/manga-status.py` (or use alias `manga-monitor`). | `docker-host` systemd service (`/usr/bin/python3 scripts/manga-optimizer.py`) | Ingest/Master: `/mnt/hdd-media/manga-raw` (Samba `\\docker-host\manga`) <br> Target/Reader: `/mnt/hdd-media/manga-reader` |
 
 ## Monitoring
 
