@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (10)
+- **Optimized SSH speed & latency between T3 Code (`dev-host` LXC 102) and homelab hosts**:
+  - Configured `UseDNS no` & `GSSAPIAuthentication no` in `/etc/ssh/sshd_config.d/99-fast-lan.conf` on `docker-host` (LXC 100) to eliminate reverse DNS lookup timeouts.
+  - Enabled SSH Connection Multiplexing (`ControlMaster auto`, `ControlPath ~/.ssh/sockets/%r@%h-%p`, `ControlPersist 10m`) plus tight connection timeouts in `/root/.ssh/config` inside the `t3code` container.
+  - Verified SSH execution time dropped from unpredictable delays / DNS hangs down to **0.063s (instan)** per command.
+
 ## 2026-09-15 (9)
 - **Renamed LXC 101 `apps-host` → `whitearchive-hosts`**: hostname changed via `pct set --hostname` + `hostnamectl set-hostname` (IP unchanged, `192.168.18.226`). Updated all references in `docs/architecture.md`, `docs/roadmap.md`, `docs/services.md`, and the `DOCKER_HOSTS`/`SSH_TARGETS` keys in Homelab Cockpit's `.env`.
 - **Fixed Homelab Cockpit's Terminal page and SSH-based process/hardware tracking (couldn't reach Proxmox or any host)**:
