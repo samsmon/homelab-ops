@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (11)
+- **Enabled T3 Code AI Telemetry in Homelab Cockpit (`homelab-dashboard`)**:
+  - Implemented automatic 1-minute cron sync script (`/usr/local/bin/sync-t3-telemetry.sh`) syncing `~/.t3/caches/*.json` and `userdata/state.sqlite` from `dev-host` (LXC 102) to `docker-host:/mnt/t3_telemetry/.t3/`.
+  - Configured `T3_DATA_PATH=/mnt/t3_telemetry/.t3` in `/root/homelab-dashboard/.env` and recreated `homelab-cockpit` container.
+  - Verified Cockpit container successfully reads active SQLite turn state and cache files in `/root/.t3/` without needing to relocate containers.
+
 ## 2026-09-15 (10)
 - **Optimized SSH speed & latency between T3 Code (`dev-host` LXC 102) and homelab hosts**:
   - Configured `UseDNS no` & `GSSAPIAuthentication no` in `/etc/ssh/sshd_config.d/99-fast-lan.conf` on `docker-host` (LXC 100) to eliminate reverse DNS lookup timeouts.
