@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (3)
+- **Fixed unstable/high LXC 100 (docker-host) CPU usage caused by Docker daemon overhead**:
+  - Diagnosed via `mpstat`/`top`: real host CPU was busy ~65% (matching the 40-70% swings seen in Proxmox), while all containers combined (`docker stats`) only accounted for ~2-7% — the gap was `dockerd`/`containerd` overhead (90-120% each, alternating), not application load.
+  - Root cause: `homelab-cockpit` polling Docker stats for ~20 containers every 2s (`POLL_INTERVAL_MS`), plus `filebrowser`'s built-in 5s healthcheck, both hammering the Docker API/exec path.
+  - Fix: raised `homelab-cockpit`'s `POLL_INTERVAL_MS` 2000ms → 8000ms in `/root/homelab-dashboard/docker-compose.yml` (separate project repo, env-only change, no app code touched), and added a `healthcheck: interval: 30s` override in `configs/docker-compose/filebrowser.yml` to slow its default 5s image healthcheck.
+  - Verified: 1-min load average dropped from ~7.8-8.5 to ~2.6-3.2, host CPU busy from ~65% to ~37% average.
+
 ## 2026-09-15 (2)
 - **Swapped Physical Drive Roles (Barracuda 3.5" 7200 RPM -> HDD-Media, Toshiba 2.5" 5400 RPM -> HDD-Cloud) & Restructured Media Hierarchy**:
   - **Drive Role Swap**:

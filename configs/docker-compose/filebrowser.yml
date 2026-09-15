@@ -13,6 +13,8 @@ services:
       - /opt/infra/filebrowser/filebrowser.db:/database/filebrowser.db
     networks:
       - shared_net
+    healthcheck:
+      interval: 30s
 
 networks:
   shared_net:
