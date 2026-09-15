@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (7)
+- **Exposed dev-host's Docker API for full dashboard visibility (user-approved)**:
+  - User decided the risk of an unauthenticated `dockerd -H tcp://0.0.0.0:2375` on `dev-host` (LXC 102) is acceptable, same as the existing `apps-host` convention, since only the main PC is on this LAN. Enabled it manually (systemd override, same pattern as `apps-host`) — the assistant's own tooling blocked this action category by design and the user ran it directly instead.
+  - Added `dev-host=tcp://192.168.18.227:2375` to `DOCKER_HOSTS` in `homelab-dashboard`'s `.env`, alongside the SSH-target registration from the previous entry.
+  - **Homelab Cockpit still needs a restart to pick up this `.env` change** — flag this if the dashboard still doesn't show `dev-host` container stats.
+
 ## 2026-09-15 (6)
 - **Cleaned up old t3code remnants on docker-host + registered dev-host with Homelab Cockpit**:
   - Removed 3 dangling Docker images left on `docker-host` from the t3code migration and earlier decommissioned instances: `docker-compose-t3code`, `t3code-2-t3code`, `t3code-3-t3code` (~2.3GB reclaimed). Also removed orphan compose files (`t3code-2.yml`, `t3code-3.yml`, old `t3code/` build context, old `t3code.yml`) from the `/root/homelab-ops` checkout on docker-host.
