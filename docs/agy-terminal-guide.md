@@ -66,13 +66,18 @@ Karena berjalan di atas `tmux`, Anda bisa membuka banyak terminal sekaligus (mul
 | **Pindah ke Tab Nomor X** | `Ctrl + B` lalu tekan `0..9` | Langsung lompat ke tab nomor 0, 1, 2, dst. |
 | **Tutup Tab Aktif** | Ketik `exit` atau `Ctrl + D` | Menutup tab saat ini. |
 
-### B. Membagi Layar (Split Panes)
-| Aksi | Shortcut | Penjelasan |
+### B. Tiling Window ala Hyprland & Mouse Support (Baru!)
+Terminal sekarang sudah mendukung **full mouse interaction** dan auto-split ala tiling window manager:
+
+| Fitur / Aksi | Shortcut / Cara Pakai | Penjelasan |
 |---|---|---|
-| **Bagi Layar Vertikal (Kiri - Kanan)** | `Ctrl + B` lalu tekan `%` | Membelah 1 layar jadi 2 kolom (kiri & kanan). |
-| **Bagi Layar Horizontal (Atas - Bawah)** | `Ctrl + B` lalu tekan `"` | Membelah 1 layar jadi 2 baris (atas & bawah). |
-| **Pindah Antar Panel** | `Ctrl + B` lalu **Tombol Panah** | Pindah fokus kursor ke panel atas/bawah/kiri/kanan. |
-| **Zoom Panel (Full Screen Panel Tertentu)** | `Ctrl + B` lalu tekan `Z` | Membesarkan panel aktif jadi 1 layar penuh (ulangi untuk un-zoom). |
+| **Klik Pindah Window** | **Klik Mouse Langsung** | Cukup klik panel mana pun dengan mouse, kursor langsung aktif di sana! |
+| **Ubah Ukuran Layar** | **Drag Border dengan Mouse** | Klik garis pemisah antar terminal lalu geser pakai mouse. |
+| **Scroll Layar Bebas** | **Scroll Wheel Mouse** | Putar roda mouse langsung untuk melihat history log (tanpa shortcut!). |
+| **Buka Layar di KANAN (Tiling)** | `Ctrl + B` lalu tekan `Enter` (atau `V`) | Otomatis membelah layar dan membuka terminal baru di sebelah KANAN. |
+| **Buka Layar di BAWAH** | `Ctrl + B` lalu tekan `S` | Otomatis membelah layar ke BAWAH. |
+| **Pindah Panel Cepat (No Prefix)**| `Alt + Panah Kiri/Kanan/Atas/Bawah` | Langsung pindah fokus antar panel tanpa perlu tekan `Ctrl + B`! |
+| **Zoom/Maximize Panel** | `Ctrl + B` lalu tekan `Z` | Membesarkan panel aktif jadi 1 layar penuh (ulangi `Ctrl+B Z` untuk un-zoom). |
 
 ### C. Scroll Layar / Melihat Log Panjang
 * Tekan **`Ctrl + B`** lalu tekan **`[`** (kurung siku buka).
