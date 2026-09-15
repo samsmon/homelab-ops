@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-15 (14)
+- **Synchronized live service credentials into Homelab IdP Vault (`sso.suryatmaja.dev`)**:
+  - Encrypted and updated 10 service credentials (AES-256-GCM) via `homelab-idp` CLI: Homelab Cockpit (`dash.suryatmaja.dev`), Filebrowser (`drive`), Jellyfin, Kavita, Komga, Nextcloud, Portfolio Dashboard (`port`), qBittorrent (`qb`), Homelab IdP (`sso`), and Stream-Vault (`stream`).
+  - Passwords and usernames are securely vaulted in PostgreSQL and visible from the SSO Credential Bank UI.
+
 ## 2026-09-15 (13)
 - **Fixed StreamVault media mount and Cockpit SSH private key**:
   - Replaced spurious empty directory `/root/.ssh/cockpit_id_rsa` on `docker-host` with valid private key file copied from `/root/.ssh/id_ed25519` (0600) and recreated `homelab-cockpit`.
