@@ -3,6 +3,13 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-17 — Do not downgrade Jellyfin across major versions; stay on 12.x pinned by digest
+
+- **Context**: ElegantFin's theme doesn't render fully on Jellyfin 12's Modern web client (see CHANGELOG 2026-09-17 entries). Tried downgrading to `10.10.7` to get the old Legacy client/theme back.
+- **Outcome**: Downgrade is not viable. Jellyfin's EF Core DB migrations are one-way — 12.0.0 had already altered the SQLite schema, so 10.10.7 crash-looped on missing columns, and reverting back to 12.x afterward also broke (corrupted migration-tracking state) until restored from a pre-downgrade backup.
+- **Decision**: `configs/docker-compose/jellyfin.yml` now pins the image by digest (`jellyfin/jellyfin@sha256:baba630419915985442f315f08b0cf46d9f4c8a0cc4bd38e94a6d35751dd5ef5`, the 12.0.0 build) instead of floating `latest`, so it can't silently jump versions again in either direction. If a version change is ever needed, always back up `jellyfin_config` first — never rely on being able to roll back after the fact.
+- **Theme status**: Staying on the `elegantfin-jf12` overlay CSS approach (partial compatibility) rather than chasing full Legacy-UI parity, since that would require a fresh non-migrated Jellyfin instance.
+
 ## 2026-09-14 — Finalized Physical Hardware Specifications & Drive Mappings
 
 - **Context**: The physical assembly and operating hardware configuration was formally verified against live system metrics (`lscpu`, `lsblk`, `lspci`, `dmidecode`).
