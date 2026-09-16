@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-16 (2)
+- **Removed Homelab IdP / SSO**: Removed Homelab IdP from the service registry and infrastructure documentation since we will rely purely on Vaultwarden for password management. The user will manually drop the OIDC / Forward Auth proxy settings from Nginx Proxy Manager, as NPM configs are stored in its SQLite DB and cannot be deleted via files.
+
 ## 2026-09-16 (1)
 - **Reset Jellyfin and Enabled Hardware Transcoding (QSV)**: Stopped and removed the `jellyfin` container and its config volume (`jellyfin_jellyfin_config`) to reset all settings. Uncommented the `/dev/dri:/dev/dri` block in `configs/docker-compose/jellyfin.yml` to enable Intel Quick Sync (hardware transcoding). Restarted the container, which is now fresh and ready for setup with QSV support.
 

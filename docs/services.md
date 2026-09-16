@@ -7,7 +7,6 @@
 | Service | Purpose | Port | Config file |
 |---|---|---|---|
 | Homelab Cockpit | Owner POV Dashboard & Real-time Homelab Monitor | 8050 | `/mnt/homelab_projects/homelab-dashboard/docker-compose.yml` (repo: [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard)) |
-| Homelab IdP | Identity Provider (SSO, OIDC Provider, Forward Auth, Credential Vault) | 8300 | `/mnt/homelab_projects/homelab-idp/docker-compose.yml` (repo: [srytmj/homelab-idp](https://github.com/srytmj/homelab-idp)) |
 | Samba & WSDD | Windows File Explorer LAN file sharing (all 3 HDDs) + auto-discovery | 445, 139, 3702 (wsdd) | Native systemd service `smbd` + `wsdd` on docker-host (`/etc/samba/smb.conf`). Also carries a dedicated `[projects]` share (restricted to `192.168.18.224`/`.227` via `hosts allow`) that exposes `/mnt/homelab_projects` to `dev-host` (LXC 102) — see the T3 Code entry below. |
 | Nginx Proxy Manager | Reverse proxy + auto SSL (Let's Encrypt via GUI) | 80, 443 (proxy), 81 (admin UI) | `configs/docker-compose/npm.yml` |
 | Tailscale | Remote access mesh VPN, no port forwarding | n/a (WireGuard mesh) | Native apt install on docker-host (not containerized). Node `docker-host` → `100.89.249.96` / `docker-host.taila813af.ts.net`. `--accept-dns=false`. **Not yet installed on `dev-host` (LXC 102)** — needs a Tailscale auth key from the user (admin console), pending. |
