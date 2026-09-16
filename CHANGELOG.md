@@ -1,10 +1,13 @@
-## 2026-09-15 (3)
-- **Fixed qb.suryatmaja.dev (NPM 500 Route to Host Error)**: Discovered that `nginx-proxy-manager` had cached the old internal Docker IP of the `homelab-idp` container (which acts as its Forward Authentication backend for qBittorrent). Because I recreated `homelab-idp` to fix the previous crash loop, it received a new IP Address (`172.18.0.19`), causing NPM to fail with `113: No route to host` when trying to forward auth verification requests, presenting a 500 error on `qb.suryatmaja.dev`. Fixed by simply running `docker restart nginx-proxy-manager` to force it to re-resolve the upstream hostname.
-- **Fixed sso.suryatmaja.dev (Homelab IdP) Crash Loop**: The `homelab-idp` container was failing to start due to a database connection error (`getaddrinfo ENOTFOUND postgres`). The issue was a combination of being on the isolated `homelab-net` network while the database was on `shared_net`, and the compose file overriding the `.env` `DATABASE_URL` with an empty variable (since `POSTGRES_PASSWORD` was not set in the shell). Fixed by changing its network to `shared_net` in `docker-compose.yml`, removing the erroneous `environment` block to let `env_file: .env` naturally inject the already-correct `DATABASE_URL` which referenced `@shared-postgres:5432`, and restarting the container. Service is now up and returning HTTP 200.
-
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+
+## 2026-09-16 (1)
+- **Reset Jellyfin and Enabled Hardware Transcoding (QSV)**: Stopped and removed the `jellyfin` container and its config volume (`jellyfin_jellyfin_config`) to reset all settings. Uncommented the `/dev/dri:/dev/dri` block in `configs/docker-compose/jellyfin.yml` to enable Intel Quick Sync (hardware transcoding). Restarted the container, which is now fresh and ready for setup with QSV support.
+
+## 2026-09-15 (3)
+- **Fixed qb.suryatmaja.dev (NPM 500 Route to Host Error)**: Discovered that `nginx-proxy-manager` had cached the old internal Docker IP of the `homelab-idp` container (which acts as its Forward Authentication backend for qBittorrent). Because I recreated `homelab-idp` to fix the previous crash loop, it received a new IP Address (`172.18.0.19`), causing NPM to fail with `113: No route to host` when trying to forward auth verification requests, presenting a 500 error on `qb.suryatmaja.dev`. Fixed by simply running `docker restart nginx-proxy-manager` to force it to re-resolve the upstream hostname.
+- **Fixed sso.suryatmaja.dev (Homelab IdP) Crash Loop**: The `homelab-idp` container was failing to start due to a database connection error (`getaddrinfo ENOTFOUND postgres`). The issue was a combination of being on the isolated `homelab-net` network while the database was on `shared_net`, and the compose file overriding the `.env` `DATABASE_URL` with an empty variable (since `POSTGRES_PASSWORD` was not set in the shell). Fixed by changing its network to `shared_net` in `docker-compose.yml`, removing the erroneous `environment` block to let `env_file: .env` naturally inject the already-correct `DATABASE_URL` which referenced `@shared-postgres:5432`, and restarting the container. Service is now up and returning HTTP 200.
 
 ## 2026-09-15 (16)
 - **Configured Forward Auth in Nginx Proxy Manager for Homelab IdP (`sso.suryatmaja.dev`)**:
