@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-16 (4)
+- **Fixed Homelab Dashboard (Homelab Cockpit) Fatal Bootstrap Error**: The dashboard container entered a crash loop during startup (`FST_ERR_DUPLICATED_ROUTE`). This occurs because a newly added fastify route `DELETE /api/bookmarks/groups/:groupName` collided with an overlapping/duplicate route `DELETE /api/bookmarks/groups/:name` introduced recently. Removed the less robust legacy duplicate from `server/src/index.ts` lines 411-415, rebuilt, and successfully restarted the container (`port 8050`).
+
 ## 2026-09-16 (3)
 - **Deployed Arr Stack, AdGuard Home, and Kasm Webtop**: 
   - Added rr-stack.yml (Sonarr, Radarr, Prowlarr) for automated media management. Uses /mnt/hdd-media mapped to /data for hardlink support.
