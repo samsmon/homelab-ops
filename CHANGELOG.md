@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-16 (3)
+- **Deployed Arr Stack, AdGuard Home, and Kasm Webtop**: 
+  - Added rr-stack.yml (Sonarr, Radarr, Prowlarr) for automated media management. Uses /mnt/hdd-media mapped to /data for hardlink support.
+  - Added dguard.yml for network-wide DNS ad blocking. Disabled DNSStubListener in /etc/systemd/resolved.conf to free port 53 on the host.
+  - Added webtop.yml (linuxserver/webtop:ubuntu-xfce) for a lightweight, disposable KasmVNC Linux environment accessible via the browser to save CPU/RAM vs full Kasm Workspaces.
 ## 2026-09-16 (2)
 - **Removed Homelab IdP / SSO**: Removed Homelab IdP from the service registry and infrastructure documentation since we will rely purely on Vaultwarden for password management. The user will manually drop the OIDC / Forward Auth proxy settings from Nginx Proxy Manager, as NPM configs are stored in its SQLite DB and cannot be deleted via files.
 
@@ -129,3 +134,4 @@
   - Pulled commits `f651367` -> `0da694e` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
   - Deployed standalone redeployer script (`scripts/homelab-redeploy.sh`), symlinked to `/root/homelab-redeploy.sh`, and registered/started `homelab-redeploy.service` daemon on `docker-host`.
   - Rebuilt container `homelab-cockpit` on port 8050 (`dash.suryatmaja.dev`). Verified container up and `/api/health` responding HTTP 200 OK.
+

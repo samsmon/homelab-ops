@@ -98,3 +98,10 @@
 | `scripts/backup.sh` | Dumps shared PostgreSQL + copies `configs/` to `/mnt/external-storage/backups/<timestamp>`, prunes backups older than 30 days | Daily at 03:00 (+random delay up to 5min) | `configs/systemd/homelab-backup.service` + `.timer` |
 | `scripts/health-check.sh` | Checks expected containers are running; auto-restarts any that are down (one restart attempt), logs to `/var/log/homelab-health-check.log` | Every 5 minutes | `configs/systemd/homelab-health-check.service` + `.timer` |
 | `scripts/git-auto-deploy.sh` | Polls each project under `/opt/projects/*` for new commits on `main`; on change, `git pull` + `docker compose up -d --build`. Polling instead of a GitHub webhook because the server has no public-facing endpoint (Tailscale-only). Logs to `/var/log/homelab-git-deploy.log` | Every 5 minutes | `configs/systemd/homelab-git-deploy.service` + `.timer` |
+ 
+ |   S o n a r r   |   A n i m e / T V   S h o w   M a n a g e r   |   8 9 8 9   |   * * D e p l o y e d   2 0 2 6 - 0 9 - 1 6 . * *   P a r t   o f   t h e   A r r   s t a c k .   |  
+ |   R a d a r r   |   M o v i e   M a n a g e r   |   7 8 7 8   |   * * D e p l o y e d   2 0 2 6 - 0 9 - 1 6 . * *   P a r t   o f   t h e   A r r   s t a c k .   |  
+ |   P r o w l a r r   |   T o r r e n t   I n d e x e r   M a n a g e r   |   9 6 9 6   |   * * D e p l o y e d   2 0 2 6 - 0 9 - 1 6 . * *   P a r t   o f   t h e   A r r   s t a c k .   |  
+ |   A d G u a r d   H o m e   |   N e t w o r k - w i d e   D N S   A d   B l o c k e r   |   3 0 0 0   ( U I ) ,   5 3   ( D N S )   |   * * D e p l o y e d   2 0 2 6 - 0 9 - 1 6 . * *   R e p l a c e d   s y s t e m d - r e s o l v e d   s t u b   o n   h o s t   t o   f r e e   p o r t   5 3 .   |  
+ |   K a s m   W e b t o p   |   D i s p o s a b l e   b r o w s e r / L i n u x   e n v i r o n m e n t   |   3 0 0 1   |   * * D e p l o y e d   2 0 2 6 - 0 9 - 1 6 . * *   U b u n t u   X F C E   e n v i r o n m e n t   a c c e s s e d   v i a   b r o w s e r   ( K a s m V N C ) .   |  
+ 

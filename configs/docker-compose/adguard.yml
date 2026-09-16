@@ -1,0 +1,26 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    restart: unless-stopped
+    volumes:
+      - adguard_work:/opt/adguardhome/work
+      - adguard_conf:/opt/adguardhome/conf
+    ports:
+      # DNS ports
+      - "53:53/tcp"
+      - "53:53/udp"
+      # Web UI port (using 3000 as default initial setup port, and standard 80 later if needed, but 80 is used by NPM. We'll map to 3000)
+      - "3000:3000/tcp"
+      # Dashboard usually runs on 80. Since port 80 is taken by NPM, we will just use 3000 for everything or let user configure it.
+      - "8085:80/tcp" 
+    networks:
+      - shared_net
+
+volumes:
+  adguard_work:
+  adguard_conf:
+
+networks:
+  shared_net:
+    external: true
