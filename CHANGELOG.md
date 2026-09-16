@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-17
+- **Fixed ElegantFin theme rendering incomplete on Jellyfin**: Jellyfin was upgraded to `12.0.0`, which fully removed the old (Legacy) web client that ElegantFin's CSS was built against — the theme's `CustomCss` import still loaded fine (verified `HTTP 200` from inside the container) but most layout selectors no longer matched the new Modern (React-based) UI, so styling only applied partially. Added two extra `@import` lines to `CustomCss` in `branding.xml`: the official ElegantFin media-bar add-on plugin CSS, and `mihaif7/elegantfin-jf12`, a community overlay stylesheet made specifically to patch ElegantFin onto Jellyfin 12's Modern UI (loaded last, targets `:has(.MuiAppBar-root)`). Restarted the `jellyfin` container to apply; verified `branding.xml` persisted post-restart and all 3 CDN CSS URLs return `200`.
+
 ## 2026-09-16 (4)
 - **Fixed Homelab Dashboard (Homelab Cockpit) Fatal Bootstrap Error**: The dashboard container entered a crash loop during startup (`FST_ERR_DUPLICATED_ROUTE`). This occurs because a newly added fastify route `DELETE /api/bookmarks/groups/:groupName` collided with an overlapping/duplicate route `DELETE /api/bookmarks/groups/:name` introduced recently. Removed the less robust legacy duplicate from `server/src/index.ts` lines 411-415, rebuilt, and successfully restarted the container (`port 8050`).
 
