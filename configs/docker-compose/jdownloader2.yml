@@ -1,0 +1,20 @@
+services:
+  jdownloader2:
+    image: jlesage/jdownloader-2:latest
+    container_name: jdownloader2
+    restart: unless-stopped
+    volumes:
+      - /mnt/hdd-media/jdownloader/config:/config
+      - /mnt/hdd-media/jdownloader/downloads:/output
+    ports:
+      - "5800:5800"
+    environment:
+      - TZ=Asia/Jakarta
+      - USER_ID=0
+      - GROUP_ID=0
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
