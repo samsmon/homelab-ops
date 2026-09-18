@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (28)
+- **Migrated full `malas` data and storage to `yado-hosts`** (from `docker-host` `/mnt/homelab_projects/malas` to LXC 101 `/opt/projects/malas`):
+  - Preserved active Super Admin in Postgres (`suryatmaja.dev@gmail.com`, `01a0b529-5bd6-717a-bc7e-92ce870ad48d`).
+  - Migrated user `sehnauoi` (`sehnauoi@gmail.com`, `019f9926-6b76-7346-a347-ab9d61d0c745`, `sso_id: 3`).
+  - Migrated 114 series, 773 volumes, 39 collections (all 39 belonging to `sehnauoi`), 149 collection volumes, 1 collection group ("RomCom"), 12 group items, 11 wishlist items, 1 loan, 1 site setting, 1 storage setting, 1 AI setting (Gemini), 1 mail setting (Resend), 1 genre funfact, 1 announcement, 1 announcement user, 2 tickets, and 86 activity logs.
+  - Rsynced 363 manga cover files (~51 MB) into named volume `malas_storage` (`/var/lib/docker/volumes/malas_storage/_data/app/public/covers`), set ownership to `1000:1000`.
+  - Created symlink `public/storage -> /var/www/html/storage/app/public` so Nginx serves media assets directly (`HTTP 200 OK` verified).
+  - Synced `APP_KEY` in `/opt/projects/malas/.env` to the SQLite environment key; verified Gemini AI and Resend mail settings decrypt cleanly (`DECRYPTED_OK`).
+  - Recreated containers and cleared/rebuilt Laravel caches (`optimize:clear` + `optimize`). Restarted Nginx to clear stale upstream FPM cache.
+  - Aligned `users_id_seq` in `sso-yado` database so the next registered user receives `id: 3` (matching `sehnauoi`'s `sso_id`).
+  - Verified live: `/health` returns HTTP 200 JSON, Landing page returns HTTP 200 HTML with preloads, CSS/JS assets serve HTTP 200, covers serve HTTP 200.
+
 ## 2026-09-18 (27)
 - **Updated sso-yado on `yado-hosts` to latest main** (`f34b367`, "fix: duplicate check revoked clients, modal password Users, dan proteksi self-demotion superadmin"):
   - Reset to latest commit on `yado-hosts` (`/opt/projects/sso.yado`).
