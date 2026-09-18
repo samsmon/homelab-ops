@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (29)
+- **Optimized `malas` Nginx performance with Gzip and static asset caching**:
+  - Diagnosed user-reported slow page loads: backend response was already fast (20-30 ms), but raw Vite bundle JS (610 KB) and 363 cover images were served completely uncompressed without browser/CDN cache headers over Cloudflare Tunnel.
+  - Updated `deploy/nginx.conf`: enabled `gzip on` (level 6, min-length 256, all text/JS/CSS/JSON types), added `immutable` 1-year cache headers for `/build/assets/` (`Cache-Control: public, max-age=31536000, immutable`), and 30-day cache headers for `/storage/covers/` (`Cache-Control: public, max-age=2592000, immutable`).
+  - Transferred bundle size dropped from 610 KB to 192 KB (~68.5% smaller). Verified live with `curl` over public domain: `Content-Encoding: gzip` active, Cloudflare CDN reporting `cf-cache-status: HIT`, cover images returning proper cache expiry.
+  - Committed and pushed upstream to `srytmj/malas` main (`d2f9149`), synced server clone and reloaded Nginx.
+
 ## 2026-09-18 (28)
 - **Migrated full `malas` data and storage to `yado-hosts`** (from `docker-host` `/mnt/homelab_projects/malas` to LXC 101 `/opt/projects/malas`):
   - Preserved active Super Admin in Postgres (`suryatmaja.dev@gmail.com`, `01a0b529-5bd6-717a-bc7e-92ce870ad48d`).
