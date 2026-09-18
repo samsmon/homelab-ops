@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (26)
+- **Mounted full `/mnt/hdd-media` and `/mnt/hdd-music` into `nhdl`** at the same paths (read-write), per user request, so its web UI's folder browser can target either drive directly instead of only the default `/downloads` bind. Recreated container, verified `HTTP 200` and both mounts visible via `docker exec`.
+
 ## 2026-09-18 (25)
 - **Pushed the 2 nhdl Dockerfile fixes from (24) upstream** to `srytmj/nhdl` main (commit `f81a408`, as user Maja, per explicit user request) instead of leaving them as server-local patches: dropped the invalid `COPY package*.json ./ 2>/dev/null || true` fallback syntax, and removed `/app` from the `VOLUME` instruction (it was shadowing the built `webui/dist` on every fresh container). Synced the server's `/opt/projects/nhdl` clone to the new commit and rebuilt — verified still `HTTP 200` on `/` post-rebuild.
 
