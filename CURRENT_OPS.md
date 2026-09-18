@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- [Claude Code] 2026-09-18: Redeploying yado, malas, sso-yado (fresh install, wiping old containers/volumes/DB) | Locks: yado-hosts (yado, malas, sso-yado-app-1, sso-yado-nginx-1, shared-postgres DBs `malas`/`db_sso`)
+*(No active tasks currently locked)*
 
 ---
 
