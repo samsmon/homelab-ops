@@ -1,6 +1,6 @@
 # homelab-ops
 
-Infrastructure-as-docs repo for managing a personal homelab (Lenovo ThinkCentre M920q) with Claude Code.
+Infrastructure-as-docs repo for managing a personal homelab (Lenovo ThinkCentre M710q) with Claude Code.
 
 ## How this works
 
@@ -41,6 +41,6 @@ detected mode in `CLAUDE.md`, and update the relevant files afterward.
 
 ## Physical hardware note
 
-Lenovo M920q (Tiny form factor) only has 1 internal 2.5" bay + 1 M.2 NVMe slot. The planned
+Lenovo M710q (Tiny form factor) only has 1 internal 2.5" bay + 1 M.2 NVMe slot. The planned
 4x 2.5" HDD + 1 extra SSD do not fit internally — see `docs/decisions.md` for the external
 USB enclosure (DAS) approach chosen instead.
