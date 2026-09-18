@@ -214,32 +214,46 @@ def get_dst_path(src_path):
     rel = os.path.relpath(src_path, SRC_DIR)
     return os.path.join(DST_DIR, rel)
 
+active_files = set()
+processing_lock = threading.Lock()
+
 def process_file_if_needed(src_path):
     """Process a single file if it's missing or newer than the destination."""
     if not src_path.lower().endswith(('.cbz', '.zip')):
         return
     
-    # Only check file settling if it was modified very recently (< 15 seconds ago)
+    # Prevent concurrent processing of the exact same file
+    with processing_lock:
+        if src_path in active_files:
+            return
+        active_files.add(src_path)
+        
     try:
-        mtime = os.path.getmtime(src_path)
-        if time.time() - mtime < 15:
-            s1 = os.path.getsize(src_path)
-            time.sleep(1)
-            s2 = os.path.getsize(src_path)
-            if s1 != s2:
-                time.sleep(3) # Wait for file write to settle
-    except OSError:
-        return
-
-    dst_path = get_dst_path(src_path)
-    if os.path.exists(dst_path):
+        # Only check file settling if it was modified very recently (< 15 seconds ago)
         try:
-            if os.path.getmtime(dst_path) >= os.path.getmtime(src_path) and os.path.getsize(dst_path) > 0:
-                return  # Up to date
+            mtime = os.path.getmtime(src_path)
+            if time.time() - mtime < 15:
+                s1 = os.path.getsize(src_path)
+                time.sleep(1)
+                s2 = os.path.getsize(src_path)
+                if s1 != s2:
+                    time.sleep(3) # Wait for file write to settle
         except OSError:
-            pass
-            
-    optimize_archive(src_path, dst_path)
+            return
+    
+        dst_path = get_dst_path(src_path)
+        if os.path.exists(dst_path):
+            try:
+                if os.path.getmtime(dst_path) >= os.path.getmtime(src_path) and os.path.getsize(dst_path) > 0:
+                    return  # Up to date
+            except OSError:
+                pass
+                
+        optimize_archive(src_path, dst_path)
+    finally:
+        with processing_lock:
+            if src_path in active_files:
+                active_files.remove(src_path)
 
 def initial_sync(pool):
     logging.info("Starting initial synchronization scan...")

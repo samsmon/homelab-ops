@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (32)
+- **Concurrency lock in manga optimizer (`scripts/manga-optimizer.py`)**:
+  - Added an in-memory active tracking set `active_files` protected by a `threading.Lock()` to `process_file_if_needed()`.
+  - Prevents worker thread pool from concurrently processing the exact same archive during filesystem watcher burst events, eliminating race conditions when converting and replacing CBZ files.
+- **Documentation & README sync across ecosystem (`sso.yado` & `malas`)**:
+  - `sso.yado`: Updated `README.md`, `CHANGELOG.md`, `docs/INTEGRATION.md`, and `docs/API.md` covering silent authorization (`skipsAuthorization()`), OAuth `prompt=login` handling for seamless multi-account re-auth, isolated login rate limiter (`RateLimiter::for('login')`), and dual username/email login support. Pushed to `srytmj/sso.yado` main (`b4facc4`) and deployed to `yado-hosts`.
+  - `malas`: Updated `README.md`, `README.id.md`, and `CHANGELOG.md` covering PostgreSQL 16 migration, Nginx Gzip compression & static asset caching rules, landing page UI mobile header alignment, and multi-account linking via SSO (`mode="link"`, `prompt: 'login'`). Pushed to `srytmj/malas` main (`0fc8822`) and deployed to `yado-hosts`.
+
 ## 2026-09-19 (31)
 - **Blog pagination optimization (`portofolio`)**: User reported `suryatmaja.dev/blog` feeling heavy with 14 pages of posts (142 articles total). Diagnosed via SSH: container/host resources were fine (portofolio CPU 0%, RAM 5.4MB; page transfer ~9KB, load ~423ms) — root cause was the pagination UI rendering all 14 page-number buttons at once (`Array.from({length: totalPages})`), not an infra issue.
   - **Fix applied** (user explicitly authorized editing app code from this homelab-ops session via SSH, as an exception to the normal session-boundary rule, to avoid drift between sessions): replaced full page-number list in `src/routes/(site)/blog/+page.svelte` with windowed pagination (first, last, current ±1, `…` ellipsis for gaps) — e.g. page 3 shows `1,2,3,4,…,14`.
