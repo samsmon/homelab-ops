@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (22)
+- **Deployed sso-yado bug-fix batch** (commit `3c08ea0`, "fix: perbaiki validasi duplikat app, delete app, avatar URL, dan layout account" — from a consolidated bug-report prompt handed to the Antigravity session): pulled, `--no-cache` rebuild (per (21)'s lesson), migrated (nothing new), verified each fix live in-browser:
+  - **Duplicate app name/URL validation**: now correctly rejects registering a second app with the same name even if the redirect URI differs (confirmed: "Nama aplikasi sudah dipakai." error shown) — previously only blocked if BOTH name AND URL matched.
+  - **Delete application**: replaced the native `confirm()` browser dialog with a proper `<dialog>` modal, and the underlying delete now actually works (confirmed via direct DB check — a test app was created then cleanly removed from `oauth_clients`). Previously the row stayed in the list after confirming.
+  - **Avatar URL**: `UpdateAvatarAction` no longer bakes a static `avatar` URL from `APP_URL` config (which points at `sso.yado.my.id`, a domain not yet publicly resolvable) — `User::avatarUrl()` is now a dynamic accessor, so avatars will actually load regardless of how the site is accessed (IP, Tailscale, or eventual real domain).
+  - **Account layout**: "Back to Dashboard" link now sits correctly in the top bar instead of overlapping the sidebar.
+  - Not independently verified: the 429-on-upload and slow-loading complaints from the bug report — no browser file-picker tool available in this session to drive an actual upload; the avatar_url fix addresses the "image doesn't appear" half of that bug, but the throttle/perf half needs a follow-up check next time an avatar upload can be tested end-to-end.
+
 ## 2026-09-18 (21)
 - **sso-yado theme-toggle fix wasn't actually taking effect after a normal rebuild** — user reported the bug from (20)'s commit was still live post-deploy. Root cause: a stale Docker layer cache serving old compiled JS despite the source already being correct on disk. Forced `docker compose -p sso-yado build --no-cache app`, cleared config/app cache, verified in a fresh browser tab (not just curl) — theme toggle now switches instantly with no full-page reload, and persists across a hard page reload. **Lesson**: when a user says an "already-fixed" bug is still present after a routine `--build` rebuild, don't just re-verify the same way — try `--no-cache` before assuming the source itself is wrong.
 
