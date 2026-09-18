@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (2)
+- **Live server health check + docs refresh**: Full audit via SSH (uptime, disk, memory, all containers, restart counts, resource usage) — no crash loops, load average 0.05, all disks under 80%. Updated `docs/architecture.md` live storage-capacity numbers (last verified 2026-09-15 → 2026-09-18) and added `jdownloader/` to the HDD-Media directory listing. Two findings written up in `docs/services.md`: (1) `stream-vault` intermittently shows Docker `unhealthy` during bulk thumbnail-generation bursts even though the app responds fine manually — likely its single ffmpeg-concurrency-limit blocking the event loop past the healthcheck's 5s timeout, not a real outage; (2) **discrepancy**: `homelab-idp` container is still running live (recreated 2026-09-16) despite the 2026-09-16 decision log saying it was removed in favor of Vaultwarden-only — probably still load-bearing as qBittorrent's NPM Forward-Auth backend. Left the container untouched pending a decision from the user (restore as documented service vs. actually decommission it + update NPM).
+
 ## 2026-09-18
 - **Configured PVE Repositories & Installed Tailscale on Proxmox VE Host**:
   - Disabled inactive Proxmox enterprise deb822 repositories (`pve-enterprise.sources`, `ceph.sources`) causing apt 401 Unauthorized errors and configured `pve-no-subscription` repository.

@@ -1,7 +1,7 @@
 # Architecture - Current State
 
 > This file reflects what EXISTS right now. Update it whenever the actual topology changes.
-> Last verified: 2026-09-15 (via live SSH verification across Proxmox, docker-host, whitearchive-hosts, and dev-host)
+> Last verified: 2026-09-18 (via live SSH verification of docker-host)
 
 ## Hardware
 
@@ -103,13 +103,13 @@ Router ISP (Main Gateway: 192.168.18.1)
 
 ## Storage Path Convention & Live Capacity
 
-| Data type | Location | Filesystem & Disk | Live Usage (2026-09-15) |
+| Data type | Location | Filesystem & Disk | Live Usage (2026-09-18) |
 |---|---|---|---|
-| OS, Proxmox, Docker engine | OS SSD (`/`) | ext4, `MidasForce SSD 256GB` (sda) | 43G / 147G (31%) on docker-host |
+| OS, Proxmox, Docker engine | OS SSD (`/`) | ext4, `MidasForce SSD 256GB` (sda) | 50G / 147G (36%) on docker-host |
 | Project code + repositories | OS SSD (`/mnt/homelab_projects/`) | ext4, OS SSD (sda) | Included in `/` |
 | Database metadata (Postgres/Redis) | OS SSD (named volumes) | ext4, OS SSD (sda) | Included in `/` |
 | Music library (Navidrome & Jellyfin) | HDD-Music (`/mnt/hdd-music/`) | ext4, `WD Green 2TB` (sdc1) | 717G / 1.8T (42%) |
-| Movies, TV, Anime, Manga, Torrents | HDD-Media (`/mnt/hdd-media/`) | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdd2) | 510G / 916G (59%) |
+| Movies, TV, Anime, Manga, Torrents, JDownloader | HDD-Media (`/mnt/hdd-media/`) | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdd2) | 627G / 916G (73%) |
 | Nextcloud, Syncthing, LAN Shared | HDD-Cloud (`/mnt/hdd-cloud/`) | ext4, `Toshiba 1TB 2.5"` (sdb2) | 105G / 916G (13%) |
 
 ## Storage Drives — Physical Inventory
@@ -133,7 +133,8 @@ Router ISP (Main Gateway: 192.168.18.1)
 │   └── tv/                 # TV Shows
 ├── manga-raw/              # Raw manga master archive
 ├── manga-reader/           # Optimized WebP manga library (scanned by Komga)
-└── qbittorrent/            # Staging download torrents
+├── qbittorrent/            # Staging download torrents
+└── jdownloader/            # JDownloader2 config + downloads
 ```
 
 #### HDD-Music (`/mnt/hdd-music/`)
