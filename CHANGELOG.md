@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (7)
+- **Post-deploy health sweep + cleanup**: after the day's deployments/migration, did a fresh health pass across all 3 LXCs.
+  - Found `porejs-demo` marked `unhealthy` — same root cause class as the earlier StreamVault issue: its healthcheck's `wget http://localhost/` resolves `localhost` to `::1` first, but nginx only listens on IPv4 (`0.0.0.0:80`), so the check gets `Connection refused` even though the app is fine. Fixed by pointing the healthcheck at `http://127.0.0.1/` explicitly in `/opt/projects/porejs-demo/docker-compose.yml`; now reports `healthy`. **Worth remembering for any future container healthcheck here: always use `127.0.0.1`, never `localhost`.**
+  - Freed ~14GB dangling images/build cache on `docker-host` and ~8GB on `whitearchive-hosts` (`docker image prune` + `docker builder prune`) — meaningful on the latter since its LXC disk is only 30GB.
+  - Removed 6 confirmed-orphan Docker volumes on `docker-host` with zero attached containers: `alexandrie_alexandrie_mysql_data`, `alexandrie_alexandrie_rustfs_data`, `alexandrie_alexandrie_rustfs_logs` (leftover from a past Alexandrie deploy attempt that never got a container running), `docker-compose_npm_data` + `docker-compose_npm_letsencrypt` (an old NPM data set under a different project-name prefix — double-checked the *live* `nginx-proxy-manager` container actually uses `npm_npm_data`/`npm_npm_letsencrypt` before deleting these, so no risk to live certs/config), and `qbittorrent_qbittorrent_config` (stale, current qBittorrent uses a different volume). No restart loops or disk pressure found anywhere else — `dev-host`, `docker-host`, and `whitearchive-hosts` all otherwise healthy.
+
 ## 2026-09-18 (6)
 - **Centralized Postgres on whitearchive-hosts + clarified Tailscale access, per user request**: user wanted `whitearchive-hosts` to follow the same shared-DB pattern as `docker-host` instead of each app running its own Postgres.
   - Deployed `shared-postgres` (`postgres:16-alpine`, same recipe as `docker-host`'s) at `/opt/projects/shared-postgres/` on `whitearchive-hosts`, bound to `127.0.0.1:5432` only. Created a new `shared_net` Docker network there (didn't exist before, unlike on `docker-host`).
