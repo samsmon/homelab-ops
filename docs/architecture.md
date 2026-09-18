@@ -42,7 +42,7 @@ This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unc
 ## Virtualization Layer
 
 ```
-Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.dev, 192.168.18.224
+Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.dev, 192.168.18.224, Tailscale 100.108.61.124
   ├── LXC 100: "docker-host" (Ubuntu Server 24.04 LTS) — 192.168.18.225
   │     RAM allocated: 12GB (of 32GB total)
   │     CPU allocated: 4 cores (of 4 total on i5-7500)
@@ -98,7 +98,7 @@ Router ISP (Main Gateway: 192.168.18.1)
   - whitearchive-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
   - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
 - **DNS:** `192.168.18.225` (AdGuard Home on docker-host) primary for LAN, `1.1.1.1` upstream fallback. Host `systemd-resolved` stub disabled to free port 53.
-- **Remote Access (Tailscale):** Native systemd agent on `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`, tailnet `srytmj.github`). **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
+- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and `apps-host` (`100.110.235.57`, tailnet `srytmj.github`). **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
 - **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
 
 ## Storage Path Convention & Live Capacity

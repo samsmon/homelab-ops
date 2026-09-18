@@ -5,8 +5,6 @@
 
 ## Active Task Registry
 
-*(Format: `- [Agent-Name] [Timestamp]: <Task Description> | Locks: <Files/Containers affected>`)*
-
 *(No active tasks currently locked)*
 
 ---

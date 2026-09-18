@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18
+- **Configured PVE Repositories & Installed Tailscale on Proxmox VE Host**:
+  - Disabled inactive Proxmox enterprise deb822 repositories (`pve-enterprise.sources`, `ceph.sources`) causing apt 401 Unauthorized errors and configured `pve-no-subscription` repository.
+  - Installed `tailscale` directly on Proxmox VE host (`pve`) via official repository.
+  - Connected Proxmox VE to Tailscale network (`100.108.61.124`). Verified PVE Web GUI (port 8006) accessible over Tailscale.
+  - Updated `docs/architecture.md` to reflect Proxmox Tailscale IP and node status.
+
 ## 2026-09-17 (4)
 - **Deployed JDownloader2**: User requested a download manager. Used `jlesage/jdownloader-2:latest` (noVNC web UI on port `5800`), compose file at `/opt/projects/jdownloader2/docker-compose.yml` (mirrored in repo). Config/downloads stored at `/mnt/hdd-media/jdownloader/{config,downloads}`. No auth on the UI, consistent with other LAN/Tailscale-only tools in this repo (Reclip, Syncthing, etc.) — not internet-exposed via Cloudflare Tunnel.
 
