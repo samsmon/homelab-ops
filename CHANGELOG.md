@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (15)
+- **Fixed Homelab Cockpit still showing stale "whitearchive"**: `docker-host`'s dashboard (`/mnt/homelab_projects/homelab-dashboard`) had a dead auto-deploy tracker entry in `data/git-projects.json` pointing at the old `srytmj/whitearchive` repo/local clone — orphaned since that project now lives entirely on `yado-hosts` (not `docker-host`) and the repo itself was renamed to `srytmj/yado`. Removed the entry, restarted `homelab-cockpit` to pick it up. Also deleted the two actual orphaned local clones this entry pointed at, `/mnt/homelab_projects/{whitearchive,sso.whitearchive}` (~10MB, unused by anything live) — user confirmed. `SSH_TARGETS` in the dashboard's `.env` was already correct (`yado-hosts=root@192.168.18.226`), so nothing else needed touching.
+
 ## 2026-09-18 (14)
 - **Fresh redeploy of yado, malas, sso-yado on `yado-hosts`** per user request ("yg lama kita hapus aja") — wiped old containers, volumes, and their shared-postgres databases (`malas`, `db_sso`), re-cloned all 3 repos from GitHub, rebuilt from scratch.
   - **`malas` repo restructured since last deploy**: compose/Dockerfile moved from `deploy/` to repo root, and it now bundles its **own** Postgres container instead of using `shared-postgres` — a `deploy/docker-compose.override.yml` (dev-only, auto-loaded, bind-mounts source over the built image) also caused a red herring "vendor missing" failure until the root-level compose was used instead. Migrated + seeded fresh, live on `:8082`.
