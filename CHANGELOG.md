@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (31)
+- **Blog pagination optimization (`portofolio`)**: User reported `suryatmaja.dev/blog` feeling heavy with 14 pages of posts (142 articles total). Diagnosed via SSH: container/host resources were fine (portofolio CPU 0%, RAM 5.4MB; page transfer ~9KB, load ~423ms) — root cause was the pagination UI rendering all 14 page-number buttons at once (`Array.from({length: totalPages})`), not an infra issue.
+  - **Fix applied** (user explicitly authorized editing app code from this homelab-ops session via SSH, as an exception to the normal session-boundary rule, to avoid drift between sessions): replaced full page-number list in `src/routes/(site)/blog/+page.svelte` with windowed pagination (first, last, current ±1, `…` ellipsis for gaps) — e.g. page 3 shows `1,2,3,4,…,14`.
+  - Rebuilt Docker image (`docker compose build --no-cache` + `up -d`) on `docker-host`, verified live at `suryatmaja.dev/blog` (pagination confirmed windowed correctly across pages 1/2/3).
+  - Committed locally on server (`7f5afa2` on `srytmj/portofolio`) but **could not push** — no GitHub credentials configured for that repo on `docker-host` (unlike `homelab-ops`). User needs to `git push` manually from `/mnt/homelab_projects/portofolio/` once authenticated.
+  - **Not yet done** (discussed, deferred to user/separate session): Cloudflare edge caching rules for `_app/immutable/*` static assets (page rule / cache rule, dashboard-only change, no code needed). SvelteKit preload strategy was checked and is already `hover` (not `viewport`), so no change needed there.
+
 ## 2026-09-18 (30)
 - **Fixed `malas` landing page UI header, enabled silent SSO, and supported multi-account linking (`prompt=login`)**:
   - **Landing UI Header (`malas`)**: Changed `<header>` and `<footer>` container width from `max-w-5xl` to `max-w-3xl` in `Landing.tsx` to match `<main>` content. Added `size`, `side`, `align`, and `className` props to `LanguageSwitcher` and `ThemeSwitcher`, rendering them collapsed (`size="icon-sm"`, `side="bottom"`, `align="end"`) in the header bar. Prevents horizontal overflow on mobile viewports and centers the layout cleanly on desktop.
