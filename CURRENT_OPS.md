@@ -5,7 +5,6 @@
 
 ## Active Task Registry
 
-- [Claude-Code] [2026-09-18T10:00:00+07:00]: Rebranding whitearchive ecosystem to "Yado" (yado.my.id) | Locks: whitearchive, malas, sso.whitearchive on whitearchive-hosts, NPM config, docs
 - [Claude-Code] [2026-09-18T00:00:00+07:00]: Installing OpenClaw (self-hosted AI channel gateway) on docker-host | Locks: docker-host new service, docs/services.md, docs/architecture.md
 
 ---

@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (9)
+- **Rebranded whitearchive → Yado (apex domain yado.my.id)**: see `docs/decisions.md` for the full why. Updated NPM proxy hosts (`malas.yado.my.id`, `sso.yado.my.id`, new `yado.my.id` → `whitearchive`), rebuilt `whitearchive` with its `NEXT_PUBLIC_SSO_URL`/`NEXT_PUBLIC_MALAS_URL`/health-check env pointed at the new hostnames (a rebuild was required since Next.js bakes `NEXT_PUBLIC_*` vars in at build time), and updated `malas`/`sso.whitearchive`'s `APP_URL`/`SSO_BASE_URL`/`SSO_REDIRECT_URI`. Also seeded `sso.whitearchive`'s first admin login via its own `AdminUserSeeder` (no admin account existed at all before — this was a fresh deploy, not a forgotten password) and set `ADMIN_EMAIL`/`ADMIN_PASSWORD` in `.env` before seeding; credentials handed to the user directly in chat. Domain itself still isn't purchased — Tailscale IP (`100.110.235.57:<port>`) remains the only working access path until DNS/Cloudflare is set up. GitHub repo names and in-app branding/copy were deliberately left untouched (out of this repo's scope).
+
 ## 2026-09-18 (8)
 - **Fixed sso.whitearchive CSS/JS not loading + synced updated homelab-dashboard code/env**:
   - User reported `homelab-dashboard`'s Fleet page had been fixed in its own session (commit `9a6e06c fix(server): resolve container links per docker host, not docker-host`) and asked to sync the new required env vars. `DOCKER_HOSTS` format changed to `name=url|lanIp|tailscaleIp`; updated it for `whitearchive-hosts` (`192.168.18.226` / `100.110.235.57`) and `dev-host` (`192.168.18.227`, no Tailscale IP yet), and added the new `DOCKER_HOST_LAN_IP`/`DOCKER_HOST_TAILSCALE_IP` for the primary `docker-host` itself. Rebuilt and restarted `homelab-cockpit` with the new code + env.

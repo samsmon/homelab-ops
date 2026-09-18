@@ -3,6 +3,13 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-18 — Rebrand "White Archive" ecosystem to "Yado" (apex domain yado.my.id)
+
+- **Context**: User felt "White Archive" was too close to existing names (Blue Archive, a well-known game, plus some existing manga-scanlation sites/groups already using similar naming). Brainstormed alternatives in chat and settled on "Yado" (宿, Japanese for "inn/lodging") — short, easy to remember, not tied to an existing brand.
+- **Decision**: New apex domain `yado.my.id` (not purchased yet, same as `whitearchive.my.id` never was) replaces `whitearchive.my.id` as the intended public domain for this project family: `yado.my.id` (whitearchive/frontend), `sso.yado.my.id`, `malas.yado.my.id`.
+- **What changed**: NPM proxy hosts repointed to the new `*.yado.my.id` hostnames (still unreachable publicly until the domain is bought and DNS/Cloudflare Tunnel is set up — Tailscale IP `100.110.235.57:<port>` remains the only way to actually reach these right now). `whitearchive`'s `.env` (`NEXT_PUBLIC_SSO_URL`, `NEXT_PUBLIC_MALAS_URL`, health-check URLs) updated and the app **rebuilt** (Next.js bakes `NEXT_PUBLIC_*` vars into the static build, so an env change alone doesn't take effect without a rebuild). `malas` and `sso.whitearchive`'s `APP_URL`/`SSO_BASE_URL`/`SSO_REDIRECT_URI` updated to match.
+- **Explicitly NOT done**: the actual GitHub repos (`srytmj/whitearchive`, `srytmj/malas`, `srytmj/sso.whitearchive`, `srytmj/pore-js`) keep their current names — renaming those, and any in-app hardcoded "White Archive" branding/copy, is source-code work that belongs in each repo's own session, not this infra repo. `pore-js`'s domain (`pore.suryatmaja.dev`) and `group-checklist`'s (`checklist.suryatmaja.dev`) are unaffected — they were never part of the whitearchive/yado family.
+
 ## 2026-09-17 — Do not downgrade Jellyfin across major versions; stay on 12.x pinned by digest
 
 - **Context**: ElegantFin's theme doesn't render fully on Jellyfin 12's Modern web client (see CHANGELOG 2026-09-17 entries). Tried downgrading to `10.10.7` to get the old Legacy client/theme back.
