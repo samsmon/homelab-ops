@@ -127,7 +127,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 #### HDD-Media (`/mnt/hdd-media/`)
 ```
 /mnt/hdd-media/
-├── videos/                 # Service-agnostic media root (Jellyfin, StreamVault)
+├── videos/                 # Service-agnostic media root (Jellyfin)
 │   ├── anime/              # Anime series & movies
 │   ├── movies/             # General movies
 │   └── tv/                 # TV Shows
