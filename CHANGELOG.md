@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (21)
+- **sso-yado theme-toggle fix wasn't actually taking effect after a normal rebuild** — user reported the bug from (20)'s commit was still live post-deploy. Root cause: a stale Docker layer cache serving old compiled JS despite the source already being correct on disk. Forced `docker compose -p sso-yado build --no-cache app`, cleared config/app cache, verified in a fresh browser tab (not just curl) — theme toggle now switches instantly with no full-page reload, and persists across a hard page reload. **Lesson**: when a user says an "already-fixed" bug is still present after a routine `--build` rebuild, don't just re-verify the same way — try `--no-cache` before assuming the source itself is wrong.
+
 ## 2026-09-18 (20)
 - **Routine update of sso-yado** to latest `main` (commit `9674a8a`, "fix: theme toggle pakai POST dan fetch langsung, bukan Inertia PATCH" — Antigravity session work): pulled, rebuilt app image, `migrate --force` (nothing new to migrate this time). Verified live via browser, dashboard still renders correctly post-rebuild, session intact.
 
