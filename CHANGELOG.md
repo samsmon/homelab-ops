@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (27)
+- **Updated sso-yado on `yado-hosts` to latest main** (`f34b367`, "fix: duplicate check revoked clients, modal password Users, dan proteksi self-demotion superadmin"):
+  - Reset to latest commit on `yado-hosts` (`/opt/projects/sso.yado`).
+  - Executed `--no-cache` container build for `sso-yado-app` to compile fresh Vite/Svelte assets (`app-BIyGg8r4.js`, `app-BdR1kbNS.css`).
+  - Re-created app container, verified migrations (up-to-date), cleared config/route/view caches.
+  - Verified live: `/health` returns HTTP 200 JSON (`{"status":"ok","service":"sso-engine"}`), `/login` returns HTTP 200, compiled asset files serve HTTP 200 OK from Nginx.
+
 ## 2026-09-18 (26)
 - **Mounted full `/mnt/hdd-media` and `/mnt/hdd-music` into `nhdl`** at the same paths (read-write), per user request, so its web UI's folder browser can target either drive directly instead of only the default `/downloads` bind. Recreated container, verified `HTTP 200` and both mounts visible via `docker exec`.
 
