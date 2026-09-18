@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- [Claude-Code] [2026-09-18T11:00:00+07:00]: Done renaming LXC 101 + yado containers (see CHANGELOG). docs/architecture.md + docs/services.md still need a "whitearchive"->"yado" pass — OpenClaw lock released, safe to pick up.
+*(No active tasks currently locked)*
 
 ---
 

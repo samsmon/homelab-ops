@@ -5,7 +5,7 @@
 ## Now
 
 - [ ] Source a small mount/dock solution for HDD-Backup (WD Blue 320GB) — the 4th drive, beyond the original 3-drive dock plan
-- [ ] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host) and `whitearchive` on `whitearchive-hosts` (LXC 101). `malas`, `sso.whitearchive`, `pore-js` pending.
+- [x] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host) and `yado` (was `whitearchive`) on `yado-hosts` (LXC 101, was `whitearchive-hosts`). **`malas`, `sso-yado`, `pore-js` all deployed 2026-09-18** on the same host — see `docs/services.md`.
 
 ## Next
 

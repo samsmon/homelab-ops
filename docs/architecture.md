@@ -52,13 +52,13 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
   │     Bind Mounts: /mnt/hdd-media, /mnt/hdd-cloud, /mnt/hdd-music
   │     Docker Engine 29.8.0 + Compose plugin v5.5.1 + Tailscale + cloudflared
   │     Purpose: Core infrastructure, homelab cockpit, media stack, DB, tools, portfolio
-  └── LXC 101: "whitearchive-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.226
+  └── LXC 101: "yado-hosts" (renamed 2026-09-18, was "whitearchive-hosts") (Ubuntu Server 24.04 LTS) — 192.168.18.226
         RAM allocated: 4GB (of 32GB total)
         CPU allocated: 2 cores
         Storage: 30GB (local-lvm thin pool: vm-101-disk-0)
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
         Docker Engine 29.8.0 + Compose plugin v5.5.1
-        Purpose: Dedicated environment for personal web projects (whitearchive, malas, etc.)
+        Purpose: Dedicated environment for personal web projects (yado, malas, sso-yado, pore-js, etc.)
   └── LXC 102: "dev-host" (Ubuntu Server 24.04 LTS) — 192.168.18.227
         RAM allocated: 12GB (of 32GB total)
         CPU allocated: 4 cores
@@ -87,7 +87,7 @@ Router ISP (Main Gateway: 192.168.18.1)
         └── Homelab (Lenovo ThinkCentre M710q — Intel I219-V Gigabit)
               ├── PVE Hypervisor: 192.168.18.224 (pve.suryatmaja.dev)
               ├── LXC 100 docker-host: 192.168.18.225
-              ├── LXC 101 whitearchive-hosts: 192.168.18.226
+              ├── LXC 101 yado-hosts: 192.168.18.226
               └── LXC 102 dev-host: 192.168.18.227
 ```
 
@@ -95,10 +95,10 @@ Router ISP (Main Gateway: 192.168.18.1)
 - **Static IPs**:
   - Proxmox VE: `192.168.18.224/24`, gateway `192.168.18.1`
   - docker-host (LXC 100): `192.168.18.225/24`, gateway `192.168.18.1`
-  - whitearchive-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
+  - yado-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
   - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
 - **DNS:** `192.168.18.225` (AdGuard Home on docker-host) primary for LAN, `1.1.1.1` upstream fallback. Host `systemd-resolved` stub disabled to free port 53.
-- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`whitearchive-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine (`hostname` = `whitearchive-hosts`), just registered under an older/different node name. Use `100.110.235.57` to reach anything on `whitearchive-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso.whitearchive` on `:8081`, `pore-js` demo on `:8083`, `whitearchive` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
+- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
 - **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
 
 ## Storage Path Convention & Live Capacity
