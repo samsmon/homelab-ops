@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (6)
+- **Centralized Postgres on whitearchive-hosts + clarified Tailscale access, per user request**: user wanted `whitearchive-hosts` to follow the same shared-DB pattern as `docker-host` instead of each app running its own Postgres.
+  - Deployed `shared-postgres` (`postgres:16-alpine`, same recipe as `docker-host`'s) at `/opt/projects/shared-postgres/` on `whitearchive-hosts`, bound to `127.0.0.1:5432` only. Created a new `shared_net` Docker network there (didn't exist before, unlike on `docker-host`).
+  - Migrated both `malas` and `sso.whitearchive` onto it: `pg_dump`'d each app's existing database, stopped and removed their dedicated Postgres containers + volumes, restored both dumps into their own database on the shared instance (`malas`, `db_sso` — no data merged/shared between them, just the same Postgres process), rewired each app's `docker-compose.yml` to drop its own `db`/`postgres` service and join `shared_net` instead, updated `.env` credentials. Hit two snags along the way: (1) `shared-postgres`'s first `docker compose up` failed on a port conflict and left it not actually attached to any network despite `docker inspect` claiming it was — fixed with `--force-recreate`; (2) both apps' `nginx` sidecars cache the `app` container's IP and don't miss a stale one is left behind after a plain `docker compose up -d` recreates just the `app` service — needed an explicit `nginx` restart too. Both verified HTTP 200 afterward with real data intact (checked via `\dt` + row counts before wiring anything back up).
+  - **Clarified a naming confusion**: `docs/architecture.md` listed a Tailscale node called `apps-host` (`100.110.235.57`) separately from `whitearchive-hosts` — turns out they're the **same machine**, just registered under an older node name in the Tailscale admin console. Since the user hasn't bought the `whitearchive.my.id`/set up DNS yet, this means `malas`, `sso.whitearchive`, `pore-js`, and `whitearchive` are all already reachable right now over Tailscale at `100.110.235.57:<port>` with zero additional setup — documented in `docs/services.md` and `docs/architecture.md`.
+
 ## 2026-09-18 (5)
 - **Removed Kasm Webtop + 5 orphan compose files, deployed 4 new projects, fixed README typo**:
   - Removed `webtop` completely (container, image, volume) per user request.
