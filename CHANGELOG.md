@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (30)
+- **Fixed `malas` landing page UI header, enabled silent SSO, and supported multi-account linking (`prompt=login`)**:
+  - **Landing UI Header (`malas`)**: Changed `<header>` and `<footer>` container width from `max-w-5xl` to `max-w-3xl` in `Landing.tsx` to match `<main>` content. Added `size`, `side`, `align`, and `className` props to `LanguageSwitcher` and `ThemeSwitcher`, rendering them collapsed (`size="icon-sm"`, `side="bottom"`, `align="end"`) in the header bar. Prevents horizontal overflow on mobile viewports and centers the layout cleanly on desktop.
+  - **Silent SSO (`sso.yado`)**: Updated `App\Models\OAuth\Client::skipsAuthorization()` to return `! $this->revoked`, allowing registered ecosystem clients (like Malas) to authorize silently without getting stuck on the Blade consent prompt.
+  - **Post-Login External Redirect (`sso.yado`)**: In `LoginController` and `TwoFactorChallengeController`, when `url.intended` exists, return `Inertia::location($intended)` so the browser performs a top-level window navigation to the OAuth authorize endpoint instead of an XHR follow, preventing CORS failures when redirecting back to `malas.yado.my.id`.
+  - **Multi-Account Linking via SSO (`malas` & `sso.yado`)**: Added `HandleOAuthPrompt` middleware in `sso.yado` to support `prompt=login` (logging out current SSO session and prompting for the target account's credentials). Updated `LoginMethodDialog` and `SsoController::redirect` in `malas` to pass `prompt=login` when adding an account, allowing users (e.g. `sehnauoi` and Super Admin) to link multiple accounts and switch seamlessly.
+  - Pushed to `srytmj/malas` (`573d45d`) and `srytmj/sso.yado` (`4b64a15`). Deployed to `yado-hosts` and verified health checks HTTP 200.
+
 ## 2026-09-18 (29)
 - **Optimized `malas` Nginx performance with Gzip and static asset caching**:
   - Diagnosed user-reported slow page loads: backend response was already fast (20-30 ms), but raw Vite bundle JS (610 KB) and 363 cover images were served completely uncompressed without browser/CDN cache headers over Cloudflare Tunnel.
