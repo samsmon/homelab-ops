@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (13)
+- **Deployed a second Cloudflare Tunnel connector, on `yado-hosts`**: user provided a tunnel token for the `yado.my.id` domain family and asked for it containerized there (Docker, not native systemd like `docker-host`'s). Set up `/opt/projects/cloudflared/docker-compose.yml` + `.env` (token in `env_file`, never committed here) running `cloudflare/cloudflared:latest`. Verified: 4/4 QUIC connections registered, all connectivity pre-checks (DNS/UDP/TCP/API) passed. This is a **separate tunnel** from `docker-host`'s — different token, different tunnel ID. **Still needs the user's action in Cloudflare Zero Trust**: add public hostname routes (`yado.my.id`→`192.168.18.226:3000`, `sso.yado.my.id`→`:8081`, `malas.yado.my.id`→`:8082`) before any of it is actually reachable from the internet — the connector alone doesn't route anything yet.
+
 ## 2026-09-18 (12)
 - **Finished the Yado docs pass** (blocked earlier by the OpenClaw agent's lock on these same files, now released): replaced remaining `whitearchive-hosts`/`whitearchive` references in `docs/architecture.md` (LXC 101 topology, network diagram, static IP list, Tailscale section) and `docs/services.md` (project rows for `yado`, `sso-yado`, `shared-postgres`) with `yado-hosts`/`yado`/`sso-yado`. Also updated `docs/roadmap.md`'s "deploy first batch of web projects" line to check it off now that `malas`/`sso-yado`/`pore-js` are all actually deployed. Kept GitHub repo links (`srytmj/whitearchive`, `srytmj/sso.whitearchive`) and historical "(was ...)" notes as-is — those aren't stale, they're accurate records of what used to be true.
 
