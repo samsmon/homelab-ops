@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (20)
+- **Routine update of sso-yado** to latest `main` (commit `9674a8a`, "fix: theme toggle pakai POST dan fetch langsung, bukan Inertia PATCH" — Antigravity session work): pulled, rebuilt app image, `migrate --force` (nothing new to migrate this time). Verified live via browser, dashboard still renders correctly post-rebuild, session intact.
+
 ## 2026-09-18 (19)
 - **Routine update of sso-yado** to latest `main` (commit `3061ffc`, "fix: perbaikan modal password, credential reveal, avatar, theme, dan audit log" — Antigravity session work): `git reset --hard origin/main`, rebuilt app image, ran `migrate --force` (2 new non-destructive migrations: `add_secret_encrypted_to_oauth_clients_table`, `add_account_id_to_users_table` — no data loss, per the repo's own AI_AGENT_GUIDE.md safe-deploy workflow). Verified live: dashboard renders, dark theme toggle works, session/login from (18) still valid post-rebuild.
 
