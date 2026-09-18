@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (17)
+- **Fixed `malas` showing "down" on `yado.my.id`'s status/telemetry page**: `yado`'s health probe hits `MALAS_HEALTH_URL` (`/health`), but `malas` never had that route — 404, so the launcher correctly flagged it down even though the app itself worked fine for normal browsing. Added a minimal `/health` route to `routes/web.php` (same shape as `sso-yado`'s existing one: `{status, service, timestamp}` JSON, rate-limited), committed+pushed to `srytmj/malas` main. Verified `yado`'s `/api/health` now reports `malas: up`.
+  - Also folded in unrelated fixes the user was landing in parallel via Antigravity on the same repo (`Fix: gracefully handle chunk load errors / whitescreen after rebuild`, `Fix: language switcher UI state`, `Deploy: setup root docker-compose`) — no conflicts this time, clean fast-forward merge.
+  - Rebuilding regenerates asset hashes every time, so the `docker cp` step from (16) (copying `public/build` out of the image onto the host for nginx to serve) had to be re-run after this rebuild too — this is a recurring manual step until the compose/Dockerfile bakes it into the deploy path itself.
+
 ## 2026-09-18 (16)
 - **Fixed post-redeploy whitescreens on `malas` and `sso-yado`** (both live on `yado-hosts`):
   - **`malas`**: nginx serves `public/` bind-mounted from the **host**, but the Vite-built `public/build/assets` only existed inside the app **image** (`COPY --from=frontend ... ./public/build` in the Dockerfile never lands on the host). Every asset 404'd. Fixed by `docker cp`-ing the built `public/build` dir out of `malas-app-1` onto the host `public/` folder so nginx can actually serve it. This will recur on every future rebuild unless the compose/Dockerfile is changed to bake this into the deploy step.
