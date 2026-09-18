@@ -2,6 +2,20 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (33)
+- **`portofolio` Projects section overhaul + `yado`/`sso.yado` redeploys** (all via SSH from this homelab-ops session, user-authorized exception to session-boundary rule):
+  - **New project cards**: added Malas, Yado SSO, Homelab Dashboard, Pore.js to `src/lib/content/site.js`, with real screenshots uploaded to `static/projects/`. `realtime-group-checklist` Case Study link now points directly to its blog write-up (`/blog/membangun-group-checklist`) instead of a placeholder route.
+  - **Yado promoted to parent project**: retired the outdated `white-archive` card (the underlying service was renamed to Yado on 2026-09-18 per `docs/architecture.md`); `yado` is now the first project entry, describing it as the parent portal fronting SSO/Malas/Pore.js, using real dashboard screenshots.
+  - **Homelab project entry refreshed**: rewrote spec/topology text to match current reality (3 LXCs: docker-host/yado-hosts/dev-host, actual storage mounts), replaced placeholder SVGs with a new hand-built topology diagram (`static/projects/homelab-topology.svg`) and a live dashboard overview screenshot, since a real rack photo isn't available yet.
+  - **Removed "Currently Building" spotlight** from the homepage Portfolio section (stale — nothing is currently in that state).
+  - **Blog pagination** (`+page.svelte`) windowed pagination bug: `[VIEW]` metadata bar overlay on project gallery images lacked `pointer-events-none`, silently blocking clicks on part of each thumbnail — fixed.
+  - **New feature**: clickable lightbox on project detail gallery images (`/projects/[slug]`) — click to view full-size, prev/next nav, ESC/click-outside to close.
+  - **Contact section**: centered and enlarged the email address in the "Write to me directly" card to fill previously-empty vertical space.
+  - Rebuilt and redeployed `portofolio` container after each change; all verified live (200 responses, visual checks via browser).
+  - Committed locally on `docker-host` (`d13b526`, `42e473f` on `srytmj/portofolio`) — **not pushed**, no GitHub credentials configured on that host (same gap as the 2026-09-19(31) blog fix). User needs to `git push` manually.
+  - **`yado` updated** (`yado-hosts`): pulled 1 upstream commit (UI redesign + real telemetry wiring), rebuilt, redeployed, verified `/api/health` 200. Also cleaned up fabricated demo data: cleared 3 fake incidents from `src/data/incidents.json` (dated "N days ago", referencing a `libs` service that was never built) and removed `libs` from the tracked telemetry grid in `src/lib/telemetry.ts` until it's actually deployed. Committed locally (`5dd8870`) — not pushed, same credential gap.
+  - **`sso.yado` updated** (`yado-hosts`): pulled 2 upstream commits (Inertia error pages for 403/404/405/422/429/500/503). Verified incoming diff didn't touch the server's uncommitted local overrides (`docker/nginx/default.conf` HTTPS-behind-proxy headers, `docker-compose.override.yml` postgres port lockdown) before pulling — both preserved. Rebuilt, ran migrations (none pending), verified 200 on `/` and `/login`, checked logs for errors (none) per user's explicit request to avoid repeating the earlier rate-limiter incident.
+
 ## 2026-09-19 (32)
 - **Concurrency lock in manga optimizer (`scripts/manga-optimizer.py`)**:
   - Added an in-memory active tracking set `active_files` protected by a `threading.Lock()` to `process_file_if_needed()`.
