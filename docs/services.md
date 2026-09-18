@@ -43,6 +43,12 @@
 
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
+### Domain: n/a (Tailscale/LAN-only)
+
+| Project | Repo | Domain | Port | Notes |
+|---|---|---|---|---|
+| nhdl | [srytmj/nhdl](https://github.com/srytmj/nhdl) | `192.168.18.225:8098` (Tailscale/LAN only, no public domain) | 8098 (container listens on 8080 internally) | **Deployed 2026-09-18** on `docker-host` (`/opt/projects/nhdl`, `build: .`, `docker-compose.yml` is a server-only ops file like `yado`'s, not committed to the repo since build context is the cloned `nhdl` repo itself). NHentai batch downloader (CLI + web daemon/Svelte dashboard). Downloads land at `/mnt/hdd-media/nhdl/downloads`. **Fixed 2 real repo bugs during deploy** (both local-only patches on the server, not upstreamed to `srytmj/nhdl` yet): (1) `Dockerfile` had invalid `COPY package*.json ./ 2>/dev/null \|\| true` — `COPY` doesn't support shell redirection/fallback syntax, broke the build entirely; fixed to a plain `COPY package*.json ./`. (2) Dockerfile declares `VOLUME ["/downloads", "/app"]` — an anonymous volume on `/app` shadows the baked-in `webui/dist` build output on every fresh container creation (served 404s until `docker compose down -v` + `up -d` cleared the stale anonymous volume). Compose intentionally does **not** bind-mount `.:/app` (the repo's own template suggests it) since that also shadows `webui/dist` the same way — `list.txt`/`library.json` state lives inside the container's own `/app` anonymous volume instead, which persists across restarts but would be lost on `down -v`. No auth on the web UI — LAN/Tailscale-only exposure, same posture as other unauthenticated tools above. Verified live: `HTTP 200` on `/`, dashboard HTML confirmed via curl. |
+
 ## Media Stack
 
 | Service | Purpose | Port | Data location |

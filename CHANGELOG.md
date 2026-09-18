@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (24)
+- **Deployed nhdl (NHentai batch downloader)** on `docker-host` per user request: cloned `srytmj/nhdl` to `/opt/projects/nhdl`, port `8098` (LAN/Tailscale-only, no public domain), downloads to `/mnt/hdd-media/nhdl/downloads`. Build failed twice before it worked — fixed 2 real bugs in the repo (server-local patches, not pushed upstream yet): (1) `Dockerfile`'s `COPY package*.json ./ 2>/dev/null || true` isn't valid `COPY` syntax and broke the build outright; (2) the Dockerfile's `VOLUME ["/downloads", "/app"]` creates an anonymous volume over `/app` that shadows the multi-stage build's `webui/dist` output, serving 404s until the stale volume was cleared (`docker compose down -v` + `up -d`). Compose deliberately skips the repo template's suggested `.:/app` bind mount for the same shadowing reason. Verified live via `curl` — dashboard HTML returns `200` on `/`. See `docs/services.md` for full notes.
+
 ## 2026-09-18 (23)
 - **Two more sso-yado bugs found and fixed while user-testing (22)'s deploy**:
   1. **"Nama aplikasi sudah dipakai" on an empty-looking Applications list**: `ApplicationService::list()` filters `where('revoked', false)`, but `ApplicationController::duplicateError()` queried `Client::query()->get()` with no such filter — so 2 leftover rows from *before* the (17) delete-fix (`revoked=true` but never actually removed, since old `ClientRepository::delete()` only flipped the flag) were invisible in the UI but still blocked name reuse. Cleaned up the 2 orphaned rows directly (`Malas`, `tes` — both `revoked=true`, confirmed dead via DB check before deleting). **Code bug (duplicateError not filtering revoked) still needs an agent fix** — flagged to the user's Antigravity session.
