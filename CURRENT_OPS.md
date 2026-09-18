@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+- [Claude Code] 2026-09-18: Deploying new service `nhdl` (srytmj/nhdl, NHentai batch downloader) | Locks: /opt/projects/nhdl, docker-host port 8098
 
 ---
 
