@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-18 (11)
+- **Installed OpenClaw (self-hosted AI channel gateway) on `docker-host`**, per user request — bridges Claude to Discord/Slack/Telegram/WhatsApp/iMessage/MS Teams/20+ channels. Cloned [openclaw/openclaw](https://github.com/openclaw/openclaw) (390k★, actively maintained) into `/opt/infra/openclaw`, built `openclaw:local` from source via its own `Dockerfile`/`docker-compose.yml`.
+  - **Build blocker + fix**: `pnpm install` inside the Dockerfile's BuildKit `--mount=type=cache,id=openclaw-pnpm-store` cache mounts failed with `Operation not permitted (os error 1)` on every file it tried to hardlink/copy out of the store — root cause is nested overlayfs (Docker's `overlayfs` storage driver running inside this unprivileged LXC) not supporting the cache-mount semantics BuildKit needs. Tried `npm_config_package_import_method=copy` first (no effect, failure was in the cache mount import itself, not pnpm's link strategy); fix was stripping both `--mount=type=cache,id=openclaw-pnpm-store,...` blocks from the Dockerfile entirely (local-only patch to the cloned repo, not upstreamed — will need reapplying if the repo is ever re-cloned/updated).
+  - Gateway container started fine but immediately crash-looped: `Missing config. Run 'openclaw setup' or set gateway.mode=local`. This is expected — first-run setup links a Claude account and per-channel credentials, which is a credentials-entry step an agent should not perform. **Left the container stopped** (`docker compose stop openclaw-gateway` in `/opt/infra/openclaw`) rather than run unconfigured or crash-loop indefinitely.
+  - Ports reserved: 18789 (gateway), 18790 (bridge), 3978 (MS Teams) — none conflicted with existing services.
+  - **Next step for the user**: SSH into `docker-host`, `cd /opt/infra/openclaw`, run `docker compose run --rm openclaw-cli openclaw setup` (or `docker compose up -d openclaw-gateway` after configuring `.env`/`~/.openclaw` directly) to complete onboarding, then start the gateway.
+  - Documented in `docs/services.md` under "Other Self-Hosted Apps".
+
 ## 2026-09-18 (10)
 - **Extended the Yado rebrand to hostnames/containers, per user request**: went beyond just app config — renamed everything Docker/Proxmox-level that still said "whitearchive".
   - **LXC 101** renamed from `whitearchive-hosts` to `yado-hosts` at both the Proxmox config level (`pct set 101 --hostname yado-hosts`) and live inside the container (`hostnamectl set-hostname`, `/etc/hosts`, including a stale PVE-managed `/etc/hosts` line that still said the LXC's *original* name `apps-host` from before it was ever called `whitearchive-hosts` — fixed that too). IP address (`192.168.18.226`) and Tailscale IP (`100.110.235.57`) are unchanged, so nothing else broke.
