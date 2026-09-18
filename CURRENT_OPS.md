@@ -6,6 +6,7 @@
 ## Active Task Registry
 
 - [Claude-Code] [2026-09-18T00:00:00+07:00]: Installing OpenClaw (self-hosted AI channel gateway) on docker-host | Locks: docker-host new service, docs/services.md, docs/architecture.md
+- [Claude-Code] [2026-09-18T11:00:00+07:00]: Done renaming LXC 101 + yado containers (see CHANGELOG). docs/architecture.md + docs/services.md still need a "whitearchive"->"yado" pass, blocked on the OpenClaw lock above releasing first.
 
 ---
 
