@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (36)
+- **Fixed `headless-browser` HTTPS access**: plain `http://100.89.249.96:3010` errored with "This application requires a secure connection" — the Selkies/KasmVNC UI inside `lscr.io/linuxserver/chromium` needs a secure context for clipboard sync etc. User enabled "HTTPS Certificates"/Serve in the Tailscale admin console; then ran `tailscale serve --bg --https=443 http://127.0.0.1:3010` on `docker-host`, now reachable tailnet-wide at `https://docker-host.taila813af.ts.net` with a valid Let's Encrypt cert. No compose changes — Serve config lives in Tailscale's own state, not tracked in this repo.
+
 ## 2026-09-19 (35)
 - **Fixed false "External DAS mount disconnected" alert** on `homelab-cockpit` dashboard for `/mnt/hdd-music`. Root cause: `/dev/sdc1` was mounted correctly on the host the whole time (verified via `findmnt`, canary `.mounted` present, 723G/1.8T used) — the alert was a stale view inside the `homelab-cockpit` container, whose `rprivate`-propagation bind mount was established ~1s before the host completed its HDD (re)mount, so the container never saw the update. Fixed with `docker restart homelab-cockpit`; canary file now visible inside the container. No data was at risk of spilling to internal NVMe. No compose/config changes needed.
 
