@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (35)
+- **Fixed false "External DAS mount disconnected" alert** on `homelab-cockpit` dashboard for `/mnt/hdd-music`. Root cause: `/dev/sdc1` was mounted correctly on the host the whole time (verified via `findmnt`, canary `.mounted` present, 723G/1.8T used) — the alert was a stale view inside the `homelab-cockpit` container, whose `rprivate`-propagation bind mount was established ~1s before the host completed its HDD (re)mount, so the container never saw the update. Fixed with `docker restart homelab-cockpit`; canary file now visible inside the container. No data was at risk of spilling to internal NVMe. No compose/config changes needed.
+
 ## 2026-09-19 (34)
 - **Deployed `headless-browser`** on `docker-host`: general-purpose remote browser (image `lscr.io/linuxserver/chromium:latest`, single-app webtop) so sessions like WA Web, claude.ai, or Antigravity stay logged in on the server instead of eating RAM in a browser tab on the user's PC. Started after investigating "ZapFast" (a WhatsApp desktop GUI client with no Docker image, ruled out as unsuitable) — user opted for a generic remote-browser container instead of a WA-specific one. Bound only to the docker-host Tailscale IP (`100.89.249.96:3010`), no LAN/public exposure. Persistent profile at `/opt/projects/headless-browser/config`. Compose mirrored to `configs/docker-compose/headless-browser.yml`.
 
