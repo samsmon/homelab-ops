@@ -1,0 +1,17 @@
+services:
+  headless-browser:
+    image: lscr.io/linuxserver/chromium:latest
+    container_name: headless-browser
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Jakarta
+      - TITLE=Headless Browser
+    volumes:
+      - /opt/projects/headless-browser/config:/config
+    ports:
+      # Bound to the docker-host Tailscale IP only — not reachable from the public
+      # internet or from other LAN devices outside the tailnet.
+      - "100.89.249.96:3010:3000"
+    shm_size: "1gb"
+    restart: unless-stopped

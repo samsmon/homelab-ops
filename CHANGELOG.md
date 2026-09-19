@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (34)
+- **Deployed `headless-browser`** on `docker-host`: general-purpose remote browser (image `lscr.io/linuxserver/chromium:latest`, single-app webtop) so sessions like WA Web, claude.ai, or Antigravity stay logged in on the server instead of eating RAM in a browser tab on the user's PC. Started after investigating "ZapFast" (a WhatsApp desktop GUI client with no Docker image, ruled out as unsuitable) — user opted for a generic remote-browser container instead of a WA-specific one. Bound only to the docker-host Tailscale IP (`100.89.249.96:3010`), no LAN/public exposure. Persistent profile at `/opt/projects/headless-browser/config`. Compose mirrored to `configs/docker-compose/headless-browser.yml`.
+
 ## 2026-09-19 (33)
 - **`portofolio` Projects section overhaul + `yado`/`sso.yado` redeploys** (all via SSH from this homelab-ops session, user-authorized exception to session-boundary rule):
   - **New project cards**: added Malas, Yado SSO, Homelab Dashboard, Pore.js to `src/lib/content/site.js`, with real screenshots uploaded to `static/projects/`. `realtime-group-checklist` Case Study link now points directly to its blog write-up (`/blog/membangun-group-checklist`) instead of a placeholder route.
