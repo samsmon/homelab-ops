@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (38)
+- **Updated `nhdl`** on `docker-host`: `git pull` in `/opt/projects/nhdl` (`1a4dd8e..131302c`, upstream batch deletion modal, queue search filter, status tooltips, and nhentai API changes), `docker compose up -d --build`. Container recreated (`c2d361abfd64` → `223e0d0051d5`), verified `HTTP 200` on `/`.
+
 ## 2026-09-19 (37)
 - **Attempted OpenClaw onboarding, aborted by user**: `openclaw-openclaw-gateway-1` was crash-looping (`Missing config`) because `openclaw setup` requires the gateway to be reachable, but the gateway itself refuses to start without config — chicken-and-egg. Root-caused a real bug along the way: `openclaw-cli` failed with `EACCES: permission denied, mkdir '/home/node/.openclaw/migration'` because `/root/.openclaw` on the host was owned by `root:root` while the container runs as `node` (uid/gid 1000) — **fixed permanently** with `chown -R 1000:1000 /root/.openclaw` (left in place, safe regardless of whether onboarding is retried later). Worked around the crash-loop with a temporary `docker-compose.override.yml` idling the gateway (`tail -f /dev/null`) so `openclaw setup` could run against it, but the actual setup wizard needs a real interactive TTY (QR code scanning etc.) that can't run through a non-interactive SSH session — user needs to run `docker exec -it openclaw-openclaw-gateway-1 node dist/index.js setup` themselves from their own terminal. User decided to abort for now; override file removed, both containers stopped cleanly (back to pre-attempt state, not crash-looping). Still **not onboarded** — retry later is just `docker compose up -d` + the `setup` command above, run by the user directly.
 
