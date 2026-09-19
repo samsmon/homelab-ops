@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+- [Claude Code] 2026-09-19: Deploying new service `headless-browser` (linuxserver/webtop:chromium, Tailscale/LAN-only, general-purpose remote browser for WA Web/claude.ai/etc.) | Locks: configs/docker-compose/headless-browser.yml, docs/services.md
 
 
 ---
