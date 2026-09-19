@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-19 (39)
+- **Updated `nhdl` again** on `docker-host`: `git pull` (`131302c..deeb833`, upstream fix for an infinite auto-continue loop on an already-complete queue), `docker compose up -d --build`. Container recreated (`223e0d0051d5` → `224abad9b016`), verified `HTTP 200` on `/`.
+
 ## 2026-09-19 (38)
 - **Updated `nhdl`** on `docker-host`: `git pull` in `/opt/projects/nhdl` (`1a4dd8e..131302c`, upstream batch deletion modal, queue search filter, status tooltips, and nhentai API changes), `docker compose up -d --build`. Container recreated (`c2d361abfd64` → `223e0d0051d5`), verified `HTTP 200` on `/`.
 
