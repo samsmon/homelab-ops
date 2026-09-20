@@ -9,6 +9,8 @@
 
 ## Next
 
+- [ ] `homelab-cockpit`: on-demand disk usage treemap visualizer (WizTree-style) for `/mnt/hdd-media`, `/mnt/hdd-cloud`, `/mnt/hdd-music` — manual trigger only, no auto-polling (per the 2026-09-15 (3) Docker-overhead lesson). Backend: `dust`/`gdu` instead of plain `du`. Being worked on in a separate `homelab-cockpit` session as of 2026-09-21.
+- [ ] `rclone crypt` remote on Google Drive for encrypted offsite cold-backup of music/manga/video (see `docs/decisions.md` 2026-09-20 plan) — blocked on `hdd-music`'s rescue finishing and its RMA/keep-using verdict settling first.
 - [ ] Connect rclone OAuth to Google Drive (idle 5TB, AI Pro) — headless OAuth setup pending.
 - [ ] homelab-sentinel: Telegram bot (Python, `python-telegram-bot`) — consolidates monitoring alerts + interactive queries + whitelisted management + short QnA (Gemini API free tier). Needs: Telegram bot token (@BotFather), Gemini API key (AI Studio).
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
