@@ -3,6 +3,18 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-21 — Plan: post-mortem `fio` stress test on `hdd-music` (only if it stays in service)
+
+- **Status: PLANNED, NOT EXECUTED.** Lowest priority of the open `hdd-music` plans — do this last, after the rescue finishes (`CHANGELOG.md` (57)/(59)) and the seller RMA/warranty outcome (see the wording drafted in-chat 2026-09-20) is known.
+- **Goal**: find a rough, practical "safe usage" guideline for this drive's NCQ-heavy/random-small-file failure mode (see (59)'s root-cause writeup), in case it ends up staying in service for the cold-backup role instead of being replaced by the seller.
+- **Explicitly NOT the goal**: finding a precise, reliable failure threshold. This is a controller/firmware-level intermittent fault, not a fixed performance ceiling — a test run could pass at high load one day and fail at low load another. Any numbers this produces are a rough caution guide, not a guarantee, and should be documented as such wherever they're written up.
+- **Only run this if**: the seller does not replace/refund the drive, and the user decides to keep using it (in the cold-backup-only role from the 2026-09-21 3-drive-reshuffle plan above). **Skip entirely if the drive gets replaced** — a healthy replacement drive doesn't need this.
+- **Planned approach**: use `fio` on `pve` (or wherever the drive ends up mounted) with a tiered set of scenarios, run one at a time, each observed live against `journalctl -kf | grep -i ata` (or whatever ata port it enumerates as) and `dmesg -Tw`:
+  1. Large sequential write (backup-pattern baseline — expected to pass, per today's evidence).
+  2. Random small-file read/write with increasing queue depth (iodepth 1 → 4 → 8 → 16 → 32), watching for the first sign of link resets / `failed to IDENTIFY` / command aborts at each tier.
+  3. Stop increasing as soon as any failure signal appears — that tier and below becomes the rough "avoid going above this" guidance, not a certified-safe number.
+- **Output**: a short guideline documented in `docs/architecture.md`'s drive table (e.g. "avoid concurrent/queued small-file I/O above iodepth N based on YYYY-MM-DD fio test — not a guarantee, controller fault is intermittent") to inform how `scripts/backup.sh`/`rclone`/whatever writes to this drive going forward (e.g. capping `rclone`'s `--transfers`/`--checkers` concurrency if it turns out concurrency is the real trigger, not just file-size/randomness).
+
 ## 2026-09-21 — Plan: full 3-drive role reshuffle (hdd-cloud→music, hdd-music→backup, Nextcloud/Syncthing→hdd-media)
 
 - **Status: PLANNED, NOT EXECUTED.** Supersedes/extends the 2026-09-20 "repurpose `hdd-music` as cold-backup" plan below with a fuller picture — that plan only covered what happens *to* `hdd-music`; this one covers where everything currently *on* it and *on* `hdd-cloud` ends up. Blocked on the same thing: the in-progress `hdd-music` rescue (`CHANGELOG.md` (57)/(58)/(59)) finishing first.
