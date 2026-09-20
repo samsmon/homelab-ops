@@ -3,6 +3,28 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-21 — Plan: full 3-drive role reshuffle (hdd-cloud→music, hdd-music→backup, Nextcloud/Syncthing→hdd-media)
+
+- **Status: PLANNED, NOT EXECUTED.** Supersedes/extends the 2026-09-20 "repurpose `hdd-music` as cold-backup" plan below with a fuller picture — that plan only covered what happens *to* `hdd-music`; this one covers where everything currently *on* it and *on* `hdd-cloud` ends up. Blocked on the same thing: the in-progress `hdd-music` rescue (`CHANGELOG.md` (57)/(58)/(59)) finishing first.
+- **New role assignment** (physical drive → new logical role):
+  | Physical drive | Current role | New role |
+  |---|---|---|
+  | Toshiba 2.5" 5400RPM 1TB (currently `hdd-cloud`, `/dev/sdb2`) | Nextcloud, Syncthing, shared LAN drop | **becomes `hdd-music`** — serves the rescued music library going forward (already the rescue's destination, so this is a natural continuation, not a second move) |
+  | WD Green 2TB (currently `hdd-music`, `/dev/sdd1`/floats, the unstable one) | Music library + `scripts/backup.sh` fallback target | **becomes `hdd-backup`** — cold-backup only, consistent with the 2026-09-20 decision below (sequential-write-only access pattern, given the NCQ/small-file failure mode found today) |
+  | Seagate Barracuda 7200RPM 1TB (`hdd-media`, `/dev/sdc2`) | Video/manga/qbittorrent | **stays `hdd-media`**, plus absorbs two new things (see below) |
+- **`hdd-media` absorbs two things**:
+  1. **Nextcloud + Syncthing** (user's explicit call: "ikut pindah ke hdd-media aja" rather than leaving them on the drive being renamed to `hdd-music`, or sourcing a 4th drive).
+  2. Everything currently on `hdd-music` **except** the `music/` folder — i.e. `backups/`, `download/`, `qbittorrent/`, `lost+found/` — into a **dedicated migration folder** (exact name TBD, e.g. `/mnt/hdd-media/from-hdd-music/`) rather than merging into `hdd-media`'s existing structure, so it's easy to review/re-sort later instead of silently interleaving with `hdd-media`'s own `videos/`/`manga-raw`/`manga-reader`/`qbittorrent` layout.
+- **Capacity check**: in progress as of this entry — `hdd-media` was at 633G/916G (73%) as of the last check today; need actual sizes of `hdd-cloud`'s `nextcloud/`+`syncthing/`+`shared/` folders (du was slow/backgrounded, not yet returned) plus `hdd-music`'s non-music folders before confirming it fits. **Do not execute the migration until this is confirmed to fit** — `hdd-media` is already the fullest of the three drives.
+- **Why this shape (not some other reshuffle)**: keeps the music library on a drive that's *not* the currently-flaky one (removes the drive most likely to fail from serving anything live), turns the flaky WD Green into the lowest-stakes role available (cold backup — matches today's finding that it tolerates sequential access fine), and consolidates Nextcloud/Syncthing (both frequent-small-file, live-sync workloads) onto `hdd-media`, which is the highest-performance drive of the three (7200RPM) and already handles a comparably bursty workload (qBittorrent/arr-stack).
+- **Still needed once capacity is confirmed and rescue finishes**:
+  1. Update every compose file that hardcodes the old paths: `jellyfin.yml` (`/mnt/hdd-music/jellyfin/music`), `navidrome.yml` (`/mnt/hdd-music/jellyfin/music:ro`), `feishin` (if path-dependent), `nextcloud.yml`/`syncthing.yml` (currently `/mnt/hdd-cloud/...`), `filebrowser.yml` (mounts all three), `scripts/backup.sh` (`BACKUP_DIR` fallback currently `/mnt/hdd-music/backups`, needs to become the new `hdd-backup` role instead).
+  2. Update `/etc/fstab` labels/mount points on `pve` to match the new role names (or keep device labels as-is and just document the role mapping — TBD which is less error-prone).
+  3. Update `docs/architecture.md`'s drive table and `docs/services.md` once the physical moves are done.
+  4. Decide the exact migration-folder name/structure for the non-music `hdd-music` leftovers on `hdd-media`.
+
+## 2026-09-20 — Plan: repurpose `hdd-music` as cold-backup only, add encrypted offsite sync to Google Drive
+
 ## 2026-09-20 — Plan: repurpose `hdd-music` as cold-backup only, add encrypted offsite sync to Google Drive
 
 - **Status: PLANNED, NOT EXECUTED.** Waiting on the in-progress `hdd-music` rescue rsync (see `CHANGELOG.md` (57)/(58)) to finish and the drive's fate (RMA vs. keep-using) to settle before starting this.
