@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- [Claude Code] 2026-09-21: Resolving cherry-pick conflict + doing White Archive -> Yado rename in external repo samsmon/portofolio (SSH direct edit on docker-host at /opt/projects/portfolio) | Locks: portfolio container/repo (not homelab-ops files)
+- [Claude Code] 2026-09-21: Migrating portfolio to personal-hosts (LXC 103), full 4-LXC split (media-hosts, drive-hosts), hdd-music finalized as cold-backup role. Verified previous portfolio lock was stale (clean git tree, no active cherry-pick/merge, matching last commit) before proceeding. | Locks: portfolio, docker-host media/drive containers, LXC 100/101/103, new LXCs, docs/architecture.md, docs/services.md, docs/decisions.md
 
 
 ---
