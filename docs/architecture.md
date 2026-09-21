@@ -115,6 +115,38 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         overcommitted (sum of all LXC disk sizes exceeds pool size) — **next storage cleanup pass should
         address this properly** (see roadmap.md). As of this LXC's resize to 15GB, thin pool headroom is
         down to roughly ~13GB — do not add more LXCs or grow existing ones without addressing this first.
+        **Update 2026-09-21 (later same day): this headroom concern is stale** — `pct fstrim` across all
+        LXCs recovered thin-pool usage from 88.80% to 55.24% (~70GB real headroom), see `CHANGELOG.md` (66).
+        This is what unblocked creating LXC 104 below.
+  └── LXC 104: "media-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.229
+        RAM allocated: 4GB (of 32GB total)
+        CPU allocated: 2 cores
+        Storage: 30GB (local-lvm thin pool: vm-104-disk-0)
+        Proxmox container features "nesting=1,keyctl=1"
+        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-cloud (mp1, for the rescued music library), /mnt/hdd-music (mp2)
+        Docker Engine (official docker-ce) + Compose plugin, own `shared_net` bridge network (separate
+        Docker network namespace from `docker-host`'s `shared_net` — same name, different network, since
+        Docker networks don't span LXCs)
+        Purpose: Created 2026-09-21 as part of finally executing the full-scope version of the
+        2026-09-20 "split docker-host into media/personal/drive/infra" plan (see `docs/decisions.md`),
+        once (66)'s `fstrim` fix reopened enough storage headroom. Hosts the entire media stack, migrated
+        from `docker-host` in one session: `qbittorrent` (port 8480, NPM `qb.suryatmaja.dev` updated),
+        `prowlarr`/`sonarr`/`radarr` (arr-stack, ports 9696/8989/7878, no NPM proxy hosts, no download
+        client was ever configured in Sonarr/Radarr so nothing needed updating there), `jellyfin` (port
+        8096, NPM `jellyfin.suryatmaja.dev` updated, `ServerId` confirmed unchanged post-migration —
+        config genuinely preserved, not a fresh install), `navidrome` + `feishin` (ports 4533/9180,
+        Feishin's `SERVER_URL` changed from a hardcoded IP to `http://navidrome:4533` — container-name
+        DNS resolution, since both now live on the same LXC's `shared_net`; Navidrome's 17,619-track
+        index confirmed intact post-migration), `komga` (port 25600, NPM `komga.suryatmaja.dev` updated),
+        `jdownloader2` (port 5800, config/downloads bind-mounted straight to `hdd-media`, no volume to
+        migrate). All config/data volumes migrated via `docker run --rm -v <vol>:/from -v /tmp:/to alpine
+        tar czf ...` → `scp` → `pct push` → import (same pattern proven on `personal-hosts`). Verified
+        every service live post-migration (HTTP checks, and for Jellyfin/Navidrome specifically confirmed
+        actual persisted data survived, not just that a container started) before stopping/removing the
+        old instance on `docker-host` each time. All 15 NPM-proxied domains re-verified working after the
+        full migration. **`docker-host` (LXC 100) is now infra + `nextcloud`/`syncthing` only** — the
+        `drive-hosts` split (moving those two out) is the one remaining piece of the original 4-way plan,
+        not yet done.
 ```
 
 **LXC, not VM** — chosen over a VM for minimal virtualization overhead, direct host kernel efficiency, and easy filesystem bind-mounting. Requires `nesting=1,keyctl=1` for Docker engine container isolation.
@@ -130,7 +162,8 @@ Router ISP (Main Gateway: 192.168.18.1)
               ├── LXC 100 docker-host: 192.168.18.225
               ├── LXC 101 yado-hosts: 192.168.18.226
               ├── LXC 102 dev-host: 192.168.18.227
-              └── LXC 103 shared-hosts: 192.168.18.228
+              ├── LXC 103 personal-hosts: 192.168.18.228
+              └── LXC 104 media-hosts: 192.168.18.229
 ```
 
 - **Switch:** **Mercusys MS105G (5-Port Gigabit Desktop Switch)** connects the ISP router, Main PC, and Homelab node, ensuring full 1000 Mbps line-rate file transfers between Main PC and Samba/media shares.
@@ -139,7 +172,8 @@ Router ISP (Main Gateway: 192.168.18.1)
   - docker-host (LXC 100): `192.168.18.225/24`, gateway `192.168.18.1`
   - yado-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
   - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
-  - shared-hosts (LXC 103): `192.168.18.228/24`, gateway `192.168.18.1`
+  - personal-hosts (LXC 103, was "shared-hosts"): `192.168.18.228/24`, gateway `192.168.18.1`
+  - media-hosts (LXC 104): `192.168.18.229/24`, gateway `192.168.18.1`
 - **DNS:** `192.168.18.225` (AdGuard Home on docker-host) primary for LAN, `1.1.1.1` upstream fallback. Host `systemd-resolved` stub disabled to free port 53.
 - **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`). **`shared-hosts`** (LXC 103, `100.88.119.26`) joined the tailnet 2026-09-21, node name `shared-hosts`.
 - **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
