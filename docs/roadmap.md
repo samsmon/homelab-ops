@@ -5,7 +5,6 @@
 ## Now
 
 - [ ] Automate periodic `pct fstrim` across all LXCs on `pve` (cron/systemd timer on the host) — `local-lvm` thin pool silently bloats from undiscarded deleted blocks otherwise; a one-off run on 2026-09-21 dropped usage from 88.80% to 55.24% (see `CHANGELOG.md` (66)), this will recur without automation.
-- [ ] Source a small mount/dock solution for HDD-Backup (WD Blue 320GB) — the 4th drive, beyond the original 3-drive dock plan
 - [x] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host) and `yado` (was `whitearchive`) on `yado-hosts` (LXC 101, was `whitearchive-hosts`). **`malas`, `sso-yado`, `pore-js` all deployed 2026-09-18** on the same host — see `docs/services.md`.
 
 ## Next
