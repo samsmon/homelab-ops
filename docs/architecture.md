@@ -94,8 +94,11 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         `checklist.suryatmaja.dev` updated to point here — **now runs its own bundled Postgres**
         (`group-checklist-db` container + named volume) instead of the cross-LXC `shared-postgres` on
         `docker-host`, deliberately isolated rather than exposing `shared-postgres` across LXC boundaries).
-        `portofolio` migration deferred — locked by a concurrent session doing its Yado rename as of
-        2026-09-21, see `CURRENT_OPS.md`. `reclip` and `headless-browser` were **not** migrated — user had
+        `portfolio` (migrated 2026-09-21, after confirming a stale lock in `CURRENT_OPS.md` from an
+        earlier session's Yado rename work was actually done — clean git tree, no in-progress
+        cherry-pick/merge — before proceeding; port 3080, NPM's `port.suryatmaja.dev` proxy host
+        `forward_host` updated to point here, dropped the `shared_net` external-network dependency since
+        it doesn't exist on this LXC and wasn't actually needed). `reclip` and `headless-browser` were **not** migrated — user had
         them deleted outright (container, image, and `/opt/projects/{reclip,headless-browser}` removed from
         `docker-host`); `headless-browser` also had a stale `tailscale serve` config on `docker-host`
         proxying to it (port 3010) left over from before the 2026-09-13 "tailscale serve dropped" decision
