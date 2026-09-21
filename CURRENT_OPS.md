@@ -5,7 +5,8 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+- [Claude Code] 2026-09-21: Resolving cherry-pick conflict + doing White Archive -> Yado rename in external repo samsmon/portofolio (SSH direct edit on docker-host at /opt/projects/portfolio) | Locks: portfolio container/repo (not homelab-ops files)
+- [Claude Code] 2026-09-21: Creating new LXC `shared-hosts` (VMID 103, 192.168.18.228) on pve for hosting third-party/friends' projects, installing Docker + Tailscale, then deploying samsmon/situlah | Locks: new LXC 103/shared-hosts, docs/architecture.md, docs/services.md
 
 
 ---
