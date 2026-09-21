@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-21 (71)
+- **Closed out the LXC split plan: user explicitly decided against a `drive-hosts` split.** Nextcloud and Syncthing stay on `docker-host` permanently rather than moving to a dedicated LXC — this is now the final, settled shape of the infrastructure, not a "not yet done" item. Updated `docs/decisions.md` (2026-09-20 split plan entry marked fully executed/closed), `docs/architecture.md` (LXC 100's entry), and `docs/services.md` (Media Stack section callout) to stop describing this as pending. Final topology: `docker-host` = infra + Nextcloud/Syncthing, `media-hosts` (104) = full media stack, `personal-hosts` (103) = user's own + friends' projects, `dev-host` (102) and `yado-hosts` (101) unchanged. No `infra-hosts` LXC was ever created — infra stayed bundled with `docker-host` the whole time, matching the original plan's own caution about how deeply the native systemd services (Samba, Tailscale, cloudflared) are embedded there.
+
 ## 2026-09-21 (70)
 - **Created `media-hosts` (LXC 104, `192.168.18.229`) and migrated the entire media stack off `docker-host` — the full-scope execution of the 2026-09-20 split plan, now that (66)'s `fstrim` fix reopened enough thin-pool headroom.** Ubuntu 24.04, Docker CE, own `shared_net` bridge (separate namespace from `docker-host`'s network of the same name), bind mounts for `hdd-media`/`hdd-cloud`/`hdd-music`. Static IP `.229` set after initial DHCP assignment, matching the other LXCs' convention.
   - **qBittorrent**: config volume was, once again, misnamed (`docker-compose_qbittorrent_config`, not `qbittorrent_config` — same pattern as (63)'s discovery) — exported/imported correctly this time using the right volume name (4.25MB, not the ~86-byte empty one the wrong name would've given). NPM's `qb.suryatmaja.dev` updated `.225`→`.229`.

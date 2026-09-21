@@ -62,7 +62,7 @@
 
 ## Media Stack
 
-> **All of these except Nextcloud migrated 2026-09-21 from `docker-host` to `media-hosts` (LXC 104, `192.168.18.229`)** — see `docs/architecture.md`'s LXC 104 entry for the full migration writeup (data volumes copied and verified, NPM proxy hosts repointed, container names/ports unchanged). Nextcloud stays on `docker-host` for now — it's slated for a future `drive-hosts` split that hasn't happened yet.
+> **All of these except Nextcloud migrated 2026-09-21 from `docker-host` to `media-hosts` (LXC 104, `192.168.18.229`)** — see `docs/architecture.md`'s LXC 104 entry for the full migration writeup (data volumes copied and verified, NPM proxy hosts repointed, container names/ports unchanged). Nextcloud/Syncthing stay on `docker-host` permanently — user explicitly declined the `drive-hosts` split 2026-09-21, this isn't a pending gap.
 
 | Service | Purpose | Port | Data location |
 |---|---|---|---|

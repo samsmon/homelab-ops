@@ -144,9 +144,10 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         every service live post-migration (HTTP checks, and for Jellyfin/Navidrome specifically confirmed
         actual persisted data survived, not just that a container started) before stopping/removing the
         old instance on `docker-host` each time. All 15 NPM-proxied domains re-verified working after the
-        full migration. **`docker-host` (LXC 100) is now infra + `nextcloud`/`syncthing` only** — the
-        `drive-hosts` split (moving those two out) is the one remaining piece of the original 4-way plan,
-        not yet done.
+        full migration. **`docker-host` (LXC 100) is now infra + `nextcloud`/`syncthing` permanently** —
+        user explicitly decided 2026-09-21 against a `drive-hosts` split, so Nextcloud/Syncthing staying
+        on `docker-host` is the final shape, not a pending gap. See `docs/decisions.md`'s 2026-09-20 split
+        plan entry for the closed-out status of the whole 4-LXC effort.
 ```
 
 **LXC, not VM** — chosen over a VM for minimal virtualization overhead, direct host kernel efficiency, and easy filesystem bind-mounting. Requires `nesting=1,keyctl=1` for Docker engine container isolation.
