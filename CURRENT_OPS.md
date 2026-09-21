@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+- [Claude Code] 2026-09-21: Renaming HDD mount points: old hdd-cloud (Toshiba, now pure music) -> hdd-music, old hdd-music (WD Green) -> hdd-backup. Touches /etc/fstab on pve, LXC mp configs for 100/103/104, Samba smb.conf, and compose files on docker-host/media-hosts/personal-hosts referencing these paths. | Locks: pve fstab, LXC 100/103/104 mp configs, docker-host Samba, all compose files referencing hdd-cloud/hdd-music
 
 
 ---
