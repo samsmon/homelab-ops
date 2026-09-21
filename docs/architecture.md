@@ -59,12 +59,12 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
         Docker Engine 29.8.0 + Compose plugin v5.5.1
         Purpose: Dedicated environment for personal web projects (yado, malas, sso-yado, pore-js, etc.)
-  └── LXC 102: "dev-host" (Ubuntu Server 24.04 LTS) — 192.168.18.227
+  └── LXC 102: "dev-host" (Ubuntu Server 24.04 LTS) — 192.168.18.227, Tailscale 100.73.165.64
         RAM allocated: 12GB (of 32GB total)
         CPU allocated: 4 cores
         Storage: 40GB (local-lvm thin pool: vm-102-disk-0)
-        Proxmox container features "nesting=1,keyctl=1"
-        Docker Engine 29.8.0 + Compose plugin v5.5.1
+        Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun, added 2026-09-21)
+        Docker Engine 29.8.0 + Compose plugin v5.5.1 + Tailscale (joined 2026-09-21)
         Purpose: Dedicated isolated environment for T3 Code (agent coding harness) — created
         2026-09-15 to stop T3 Code's I/O/CPU load from ever affecting the media stack /
         core services on docker-host again (see CHANGELOG for the incident that prompted this).
@@ -121,18 +121,18 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         **Update 2026-09-21 (later same day): this headroom concern is stale** — `pct fstrim` across all
         LXCs recovered thin-pool usage from 88.80% to 55.24% (~70GB real headroom), see `CHANGELOG.md` (66).
         This is what unblocked creating LXC 104 below.
-  └── LXC 104: "media-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.229
+  └── LXC 104: "media-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.229, Tailscale 100.113.250.97
         RAM allocated: 4GB (of 32GB total)
         CPU allocated: 2 cores
         Storage: 30GB (local-lvm thin pool: vm-104-disk-0)
-        Proxmox container features "nesting=1,keyctl=1"
+        Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun, added 2026-09-21)
         Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp2, pure music, renamed 2026-09-21 from hdd-cloud), /mnt/hdd-backup (mp3, renamed 2026-09-21 from hdd-music, unstable)
         Docker Engine (official docker-ce) + Compose plugin, own `shared_net` bridge network (separate
         Docker network namespace from `docker-host`'s `shared_net` — same name, different network, since
         Docker networks don't span LXCs). **Docker API exposed on `tcp://0.0.0.0:2375`** (no TLS/auth,
         LAN-only — same pattern as `yado-hosts`/`dev-host`, added 2026-09-21 so `homelab-cockpit` can
-        monitor it, user explicitly confirmed accepting this risk). **Tailscale NOT installed** (gap from
-        this LXC's creation, unlike `yado-hosts`/`personal-hosts`) — only reachable via LAN IP.
+        monitor it, user explicitly confirmed accepting this risk). Tailscale installed and joined
+        2026-09-21 (`100.113.250.97`) — reachable via LAN IP or Tailscale.
         Purpose: Created 2026-09-21 as part of finally executing the full-scope version of the
         2026-09-20 "split docker-host into media/personal/drive/infra" plan (see `docs/decisions.md`),
         once (66)'s `fstrim` fix reopened enough storage headroom. Hosts the entire media stack, migrated
@@ -182,7 +182,7 @@ Router ISP (Main Gateway: 192.168.18.1)
   - personal-hosts (LXC 103, was "shared-hosts"): `192.168.18.228/24`, gateway `192.168.18.1`
   - media-hosts (LXC 104): `192.168.18.229/24`, gateway `192.168.18.1`
 - **DNS:** `192.168.18.225` (AdGuard Home on docker-host) primary for LAN, `1.1.1.1` upstream fallback. Host `systemd-resolved` stub disabled to free port 53.
-- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`). **`shared-hosts`** (LXC 103, `100.88.119.26`) joined the tailnet 2026-09-21, node name `shared-hosts`.
+- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`shared-hosts`** (LXC 103, `100.88.119.26`) joined the tailnet 2026-09-21, node name `shared-hosts`. **`dev-host`** (LXC 102, `100.73.165.64`) and **`media-hosts`** (LXC 104, `100.113.250.97`) joined the tailnet 2026-09-21 — required adding `lxc.cgroup2.devices.allow: c 10:200 rwm` + `lxc.mount.entry: /dev/net dev/net none bind,create=dir` to both LXC configs (unprivileged containers don't get `/dev/net/tun` by default, so `tailscaled` failed to start until this was added, matching the pattern already present on `docker-host`/`shared-hosts`), then user completed interactive browser login for both. All 5 LXCs plus the `pve` host itself are now on the tailnet.
 - **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
 
 ## Storage Path Convention & Live Capacity
