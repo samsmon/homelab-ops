@@ -6,7 +6,6 @@
 ## Active Task Registry
 
 - [Claude Code] 2026-09-21: Resolving cherry-pick conflict + doing White Archive -> Yado rename in external repo samsmon/portofolio (SSH direct edit on docker-host at /opt/projects/portfolio) | Locks: portfolio container/repo (not homelab-ops files)
-- [Claude Code] 2026-09-21: Renaming LXC 103 (shared-hosts -> personal-hosts), resizing its disk, migrating nhdl + group-checklist from docker-host to it, deleting reclip + headless-browser entirely. Portfolio migration deferred (see lock above) until that clears. | Locks: LXC 103, nhdl/group-checklist/reclip/headless-browser containers on docker-host, docs/architecture.md, docs/services.md
 
 
 ---

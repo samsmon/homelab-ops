@@ -74,25 +74,44 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         (`/mnt/homelab_projects`), shared out via a dedicated Samba share (`[projects]`,
         restricted to `192.168.18.224` and `.227` by `hosts allow`) — the Proxmox host mounts
         that share at `/mnt/homelab_projects_smb` and bind-mounts it into LXC 102.
-  └── LXC 103: "shared-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.228, Tailscale 100.88.119.26
+  └── LXC 103: "personal-hosts" (renamed 2026-09-21, was "shared-hosts") (Ubuntu Server 24.04 LTS) — 192.168.18.228, Tailscale 100.88.119.26
         RAM allocated: 4GB (of 32GB total)
         CPU allocated: 2 cores
-        Storage: 10GB (local-lvm thin pool: vm-103-disk-0) — kept small deliberately, see storage note below
+        Storage: 15GB (local-lvm thin pool: vm-103-disk-0, resized 10G->15G on 2026-09-21)
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
+        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp1, currently a dead mount — see hdd-music's
+        entry in the storage table; `nhdl` no longer depends on it since its DOWNLOAD_DIR moved to hdd-media)
         Docker Engine (official docker-ce, download.docker.com repo) + Compose plugin + Tailscale
-        Purpose: Created 2026-09-21, dedicated environment for hosting **third-party/friends' projects**
-        via Docker (same pattern as yado-hosts, but yado-hosts is reserved for the user's own personal
-        projects). First tenant: `situlah` (samsmon/situlah — "eSAKIP", a Laravel 12 app for Dinas
-        Kesehatan Kabupaten Banjarnegara), deployed at `/opt/projects/situlah`, port 8081, SQLite DB
-        persisted in a named volume, `php artisan serve` inside a single custom-built container
-        (no docker-compose shipped with that repo, so one was authored in this session — see CHANGELOG).
-        **Storage warning:** `local-lvm` thin pool on `pve` was already at 85.89% actual usage when this
-        LXC was created — `pct create` was refused by LVM's `thin_pool_autoextend_threshold` safety check
-        (VG has 0 free PE, so autoextend is impossible either way). Worked around by raising
-        `thin_pool_autoextend_threshold` from 80 to 95 in `/etc/lvm/lvm.conf` on `pve` (backed up as
-        `lvm.conf.bak-<date>`) — this only raises the warning/block threshold, it does NOT add physical
-        capacity. The thin pool is now genuinely overcommitted (sum of all LXC disk sizes exceeds pool
-        size) — **next storage cleanup pass should address this properly** (see roadmap.md).
+        Purpose: Renamed 2026-09-21 from a friends'-projects-only host into a combined **personal +
+        friends' projects** host, after the 2026-09-20 "split docker-host into media/personal/drive/infra"
+        plan turned out infeasible at full scope (see CHANGELOG (62) — `local-lvm` thin pool only had
+        ~18GB real headroom, not enough for 4 new LXCs). User's own call: merge personal misc projects into
+        this LXC rather than create a 5th one, accepting the reduced trust-boundary isolation from friends'
+        code as a worthwhile tradeoff for the storage/resource savings.
+        Tenants: `situlah` (samsmon/situlah, friend's project — unchanged, see below), `nhdl` (migrated
+        2026-09-21 from `docker-host`, port 8098, no NPM proxy host — LAN/Tailscale IP:port access only),
+        `group-checklist` (migrated 2026-09-21 from `docker-host`, port 3001, NPM proxy host
+        `checklist.suryatmaja.dev` updated to point here — **now runs its own bundled Postgres**
+        (`group-checklist-db` container + named volume) instead of the cross-LXC `shared-postgres` on
+        `docker-host`, deliberately isolated rather than exposing `shared-postgres` across LXC boundaries).
+        `portofolio` migration deferred — locked by a concurrent session doing its Yado rename as of
+        2026-09-21, see `CURRENT_OPS.md`. `reclip` and `headless-browser` were **not** migrated — user had
+        them deleted outright (container, image, and `/opt/projects/{reclip,headless-browser}` removed from
+        `docker-host`); `headless-browser` also had a stale `tailscale serve` config on `docker-host`
+        proxying to it (port 3010) left over from before the 2026-09-13 "tailscale serve dropped" decision
+        — this was still actively bound to port 443 and caused an `nginx-proxy-manager` outage (all 15
+        proxy hosts down) when NPM was restarted for an unrelated reason during this same session; fixed
+        with `tailscale serve reset` + a full NPM container recreate. No further `tailscale serve` configs
+        should exist anywhere in this infra per that standing decision — if one is found again, remove it.
+        **Storage warning (from original 2026-09-21 creation, still relevant):** `local-lvm` thin pool on
+        `pve` was already at 85.89% actual usage when this LXC was first created — `pct create` was refused
+        by LVM's `thin_pool_autoextend_threshold` safety check (VG has 0 free PE, so autoextend is
+        impossible either way). Worked around by raising `thin_pool_autoextend_threshold` from 80 to 95 in
+        `/etc/lvm/lvm.conf` on `pve` (backed up as `lvm.conf.bak-<date>`) — this only raises the
+        warning/block threshold, it does NOT add physical capacity. The thin pool is now genuinely
+        overcommitted (sum of all LXC disk sizes exceeds pool size) — **next storage cleanup pass should
+        address this properly** (see roadmap.md). As of this LXC's resize to 15GB, thin pool headroom is
+        down to roughly ~13GB — do not add more LXCs or grow existing ones without addressing this first.
 ```
 
 **LXC, not VM** — chosen over a VM for minimal virtualization overhead, direct host kernel efficiency, and easy filesystem bind-mounting. Requires `nesting=1,keyctl=1` for Docker engine container isolation.
