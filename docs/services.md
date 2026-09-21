@@ -43,6 +43,14 @@
 
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
+### Host: shared-hosts (LXC 103, 192.168.18.228, Tailscale 100.88.119.26)
+
+> Dedicated to hosting **third-party/friends' projects** via Docker (not the user's own — those go on `yado-hosts` or `docker-host`). Created 2026-09-21.
+
+| Project | Repo | Access | Port | Notes |
+|---|---|---|---|---|
+| situlah (eSAKIP) | [samsmon/situlah](https://github.com/samsmon/situlah) | `http://100.88.119.26:8081` (Tailscale) or `http://192.168.18.228:8081` (LAN) — no public domain, no Cloudflare Tunnel | 8081 | **Deployed 2026-09-21.** Laravel 12 app for Dinas Kesehatan Kabupaten Banjarnegara (performance/KPI tracking — "SAKIP"). Repo ships no Dockerfile/docker-compose — both authored fresh this session (`/opt/projects/situlah/Dockerfile`, `docker-compose.yml`, `docker-entrypoint.sh`, not committed to the `situlah` repo itself, only living on the server). Single container: `php:8.3-cli-alpine` + composer + node, serves via `php artisan serve` (no nginx/php-fpm split — simplest viable setup, revisit if this needs to handle real concurrent load). DB is SQLite (per the repo's own `docs/TECH_STACK.md` — "zero-config" is an intentional design choice, not a shortcut taken here), persisted in named volume `situlah_situlah_database`; `storage/` persisted in `situlah_situlah_storage`. Migrations (51) + all seeders run automatically on first boot (guarded by a `storage/.initialized` marker so they don't re-run on restart). **Found and fixed a real bug in the upstream repo**: `database/seeders/IndSasSeeder.php` still inserted `tsastw1`..`tsastw4` into the `indsas` table, but migration `2026_09_02_000007_create_target_tw_tables.php` had already moved those columns out into separate `*_target_tw` tables — every fresh deploy would crash-loop on seed (then duplicate-key-loop on restart, since `UserSeeder` isn't idempotent). Fixed by stripping those 4 keys from the seeder's insert arrays (user approved this in-session; **not yet upstreamed to the `samsmon/situlah` GitHub repo** — do that next time that repo is worked on). Also hit a classic Docker/Laravel gotcha: `docker-compose.yml` originally had `env_file: .env`, which makes Docker set `APP_KEY` as a real (empty) container env var — phpdotenv then refuses to let `.env`'s value override it even after `artisan key:generate` writes a new one, so the app permanently 500'd with "No application encryption key". Fixed by generating a real `APP_KEY` directly into the server's `.env` file and dropping `env_file:` from the compose (the `.env` is baked into the image via `COPY . .` instead, so no run-time override fights it). Login seeded via `UserSeeder`/`PegawaiUserSeeder` — credentials given to the user directly, not stored in this repo. |
+
 ### Domain: n/a (Tailscale/LAN-only)
 
 | Project | Repo | Domain | Port | Notes |

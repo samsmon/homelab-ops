@@ -74,6 +74,25 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         (`/mnt/homelab_projects`), shared out via a dedicated Samba share (`[projects]`,
         restricted to `192.168.18.224` and `.227` by `hosts allow`) — the Proxmox host mounts
         that share at `/mnt/homelab_projects_smb` and bind-mounts it into LXC 102.
+  └── LXC 103: "shared-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.228, Tailscale 100.88.119.26
+        RAM allocated: 4GB (of 32GB total)
+        CPU allocated: 2 cores
+        Storage: 10GB (local-lvm thin pool: vm-103-disk-0) — kept small deliberately, see storage note below
+        Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
+        Docker Engine (official docker-ce, download.docker.com repo) + Compose plugin + Tailscale
+        Purpose: Created 2026-09-21, dedicated environment for hosting **third-party/friends' projects**
+        via Docker (same pattern as yado-hosts, but yado-hosts is reserved for the user's own personal
+        projects). First tenant: `situlah` (samsmon/situlah — "eSAKIP", a Laravel 12 app for Dinas
+        Kesehatan Kabupaten Banjarnegara), deployed at `/opt/projects/situlah`, port 8081, SQLite DB
+        persisted in a named volume, `php artisan serve` inside a single custom-built container
+        (no docker-compose shipped with that repo, so one was authored in this session — see CHANGELOG).
+        **Storage warning:** `local-lvm` thin pool on `pve` was already at 85.89% actual usage when this
+        LXC was created — `pct create` was refused by LVM's `thin_pool_autoextend_threshold` safety check
+        (VG has 0 free PE, so autoextend is impossible either way). Worked around by raising
+        `thin_pool_autoextend_threshold` from 80 to 95 in `/etc/lvm/lvm.conf` on `pve` (backed up as
+        `lvm.conf.bak-<date>`) — this only raises the warning/block threshold, it does NOT add physical
+        capacity. The thin pool is now genuinely overcommitted (sum of all LXC disk sizes exceeds pool
+        size) — **next storage cleanup pass should address this properly** (see roadmap.md).
 ```
 
 **LXC, not VM** — chosen over a VM for minimal virtualization overhead, direct host kernel efficiency, and easy filesystem bind-mounting. Requires `nesting=1,keyctl=1` for Docker engine container isolation.
@@ -88,7 +107,8 @@ Router ISP (Main Gateway: 192.168.18.1)
               ├── PVE Hypervisor: 192.168.18.224 (pve.suryatmaja.dev)
               ├── LXC 100 docker-host: 192.168.18.225
               ├── LXC 101 yado-hosts: 192.168.18.226
-              └── LXC 102 dev-host: 192.168.18.227
+              ├── LXC 102 dev-host: 192.168.18.227
+              └── LXC 103 shared-hosts: 192.168.18.228
 ```
 
 - **Switch:** **Mercusys MS105G (5-Port Gigabit Desktop Switch)** connects the ISP router, Main PC, and Homelab node, ensuring full 1000 Mbps line-rate file transfers between Main PC and Samba/media shares.
@@ -97,8 +117,9 @@ Router ISP (Main Gateway: 192.168.18.1)
   - docker-host (LXC 100): `192.168.18.225/24`, gateway `192.168.18.1`
   - yado-hosts (LXC 101): `192.168.18.226/24`, gateway `192.168.18.1`
   - dev-host (LXC 102): `192.168.18.227/24`, gateway `192.168.18.1`
+  - shared-hosts (LXC 103): `192.168.18.228/24`, gateway `192.168.18.1`
 - **DNS:** `192.168.18.225` (AdGuard Home on docker-host) primary for LAN, `1.1.1.1` upstream fallback. Host `systemd-resolved` stub disabled to free port 53.
-- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`).
+- **Remote Access (Tailscale):** Native systemd agent on Proxmox VE host (`100.108.61.124`, node `pve`), `docker-host` (`100.89.249.96`, node `docker-host.taila813af.ts.net`), and **`yado-hosts`** (LXC 101, `100.110.235.57`) — confirmed 2026-09-18 that the Tailscale node named `apps-host` in the admin console is actually this same machine, originally `hostname` = `whitearchive-hosts`, renamed again the same day to `yado-hosts` (see CHANGELOG/decisions.md for the "Yado" rebrand) — the Tailscale node name itself is still `apps-host` (an even older label from before either rename; Tailscale doesn't auto-follow OS hostname changes, so this would need to be renamed manually in the admin console if desired). Use `100.110.235.57` to reach anything on `yado-hosts` over Tailscale (e.g. `malas` on `:8082`, `sso-yado` on `:8081`, `pore-js` demo on `:8083`, `yado` on `:3000`) without needing DNS or the `.my.id` domain to be purchased/configured yet. **`dev-host` (LXC 102) is not yet joined to the tailnet** — pending a Tailscale auth key from the user (not something an agent can self-generate, needs the Tailscale admin console). Until then, `dev-host` is only reachable via LAN IP (`192.168.18.227`). **`shared-hosts`** (LXC 103, `100.88.119.26`) joined the tailnet 2026-09-21, node name `shared-hosts`.
 - **Public Access (Cloudflare Tunnel):** Native systemd `cloudflared` service on `docker-host` securely exposing public services (`suryatmaja.dev`, `dash.suryatmaja.dev`, `drive.suryatmaja.dev`, `t3.suryatmaja.dev`, `komga.suryatmaja.dev`, etc.) without opening router ports. Public hostname routing is managed in the Cloudflare Zero Trust dashboard, not a local config file. **`t3.suryatmaja.dev`'s route still points at the old `192.168.18.225:9001` (docker-host) and needs to be manually repointed to `192.168.18.227:9001` (dev-host)** after the 2026-09-15 t3code migration — see CHANGELOG.
 
 ## Storage Path Convention & Live Capacity
