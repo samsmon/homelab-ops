@@ -82,7 +82,9 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp1 — healthy again as of 2026-09-21's rename,
         this is the former hdd-cloud/Toshiba drive, pure music now; `nhdl` doesn't depend on its content
         since its DOWNLOAD_DIR moved to hdd-media, mount just happens to be named the same)
-        Docker Engine (official docker-ce, download.docker.com repo) + Compose plugin + Tailscale
+        Docker Engine (official docker-ce, download.docker.com repo) + Compose plugin + Tailscale.
+        **Docker API exposed on `tcp://0.0.0.0:2375`** (no TLS/auth, LAN-only — added 2026-09-21 for
+        `homelab-cockpit` monitoring, same pattern as `yado-hosts`/`dev-host`, user confirmed).
         Purpose: Renamed 2026-09-21 from a friends'-projects-only host into a combined **personal +
         friends' projects** host, after the 2026-09-20 "split docker-host into media/personal/drive/infra"
         plan turned out infeasible at full scope (see CHANGELOG (62) — `local-lvm` thin pool only had
@@ -127,7 +129,10 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp2, pure music, renamed 2026-09-21 from hdd-cloud), /mnt/hdd-backup (mp3, renamed 2026-09-21 from hdd-music, unstable)
         Docker Engine (official docker-ce) + Compose plugin, own `shared_net` bridge network (separate
         Docker network namespace from `docker-host`'s `shared_net` — same name, different network, since
-        Docker networks don't span LXCs)
+        Docker networks don't span LXCs). **Docker API exposed on `tcp://0.0.0.0:2375`** (no TLS/auth,
+        LAN-only — same pattern as `yado-hosts`/`dev-host`, added 2026-09-21 so `homelab-cockpit` can
+        monitor it, user explicitly confirmed accepting this risk). **Tailscale NOT installed** (gap from
+        this LXC's creation, unlike `yado-hosts`/`personal-hosts`) — only reachable via LAN IP.
         Purpose: Created 2026-09-21 as part of finally executing the full-scope version of the
         2026-09-20 "split docker-host into media/personal/drive/infra" plan (see `docs/decisions.md`),
         once (66)'s `fstrim` fix reopened enough storage headroom. Hosts the entire media stack, migrated
