@@ -84,13 +84,14 @@
 
 ## Monitoring
 
-> Overlap check: 5 tools touch "monitoring" — each is scoped to a distinct concern to avoid
+> Overlap check: 6 tools touch "monitoring" — each is scoped to a distinct concern to avoid
 > duplication. See the boundary notes below before adding alerting to more than one.
 
 | Service | Purpose | Port | Scope (to avoid overlap) |
 |---|---|---|---|
 | Scrutiny | HDD health monitoring (S.M.A.R.T.) | - | Drive-specific: Power-On Hours, Reallocated Sectors, temperature, historical SMART trends + failure-prediction alerts — distinct from Netdata's general resource metrics and not an uptime/container tool. **Not yet deployed.** |
 | homelab-sentinel (Telegram bot) | Docker container-level monitoring + Telegram alerts, PLUS interactive queries / whitelisted management / short QnA | - | Container health/resource (things Uptime Kuma's URL/TCP checks can't see) — owns Telegram notifications so Uptime Kuma's own alert integration isn't wired to Telegram in parallel. Also the interactive control surface (see decisions.md for the 3-tier capability design + guardrails). **Not actually deployed** — see Web Projects section above, live-audited 2026-09-18. |
+| Beszel | Lightweight historical system-resource monitoring (CPU/RAM/disk/network/temp trends across hosts) | 8090 (hub), 45876 (agent, `network_mode: host`) | **Deployed 2026-09-21** on `docker-host` (`/opt/projects/beszel/docker-compose.yml`, mirrored to `configs/docker-compose/beszel.yml`). Hub + agent (this host only, for now). Agent pairing key is a self-generated ed25519 keypair at `/opt/projects/beszel/beszel_agent_key{,.pub}` on the server (not committed) — baked into the agent's `KEY` env var directly rather than going through the hub UI's own key exchange, so no interactive pairing step was needed server-side. Distinct from Homelab Cockpit (real-time dashboard, no history) and Netdata-if-ever-deployed (per-second granularity, no long-term retention) — Beszel's niche is lightweight historical trend charts. **Still needs, from the user**: open `http://192.168.18.225:8090`, create the first admin account (can't be automated — account creation needs a human), then add a system using host `127.0.0.1`, port `45876`, and the agent's public key above. |
 
 ## Other Self-Hosted Apps
 

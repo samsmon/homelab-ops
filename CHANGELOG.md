@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-21 (74)
+- **Deployed Beszel** (github.com/henrygd/beszel) — lightweight historical system monitoring (hub+agent, Go+SQLite) — on `docker-host`. `/opt/projects/beszel/docker-compose.yml` (mirrored to `configs/docker-compose/beszel.yml`), hub on `:8090`, agent on `:45876` (`network_mode: host`) for `docker-host` itself. Generated the agent's ed25519 pairing keypair server-side and baked the pubkey straight into the agent's `KEY` env var, skipping the hub UI's normal interactive key-exchange step. Confirmed both containers healthy, hub answering `HTTP 200`. **User still needs to**: visit `http://192.168.18.225:8090`, create the first admin account (account creation isn't something an agent can do), and register the `docker-host` system using `127.0.0.1:45876` + the generated public key.
+
 ## 2026-09-21 (73)
 - **Updated Homelab Cockpit to latest code.** Was 8 commits behind on `docker-host` (`de8a033` → `3a39f7f`): treemap scanner, remote git pull/rebuild via SSH, real SSL cert checks (removed Sentinel bot hardcodes), Proxmox storage fetch dedup, Docker stats stream leak fix, delta-only WebSocket snapshots, streamed container stats + direct thermal read, host CPU%/disk device fixes. Found a local-only commit (`de8a033`, on-demand treemap scanner) that had never been pushed — rebased it onto `origin/main` instead of discarding, then pushed. Also fixed the repo's `origin` remote, still pointing at the pre-rename `srytmj/homelab-dashboard` (missed by (51)'s sweep) — repointed to `samsmon/homelab-dashboard` (GitHub's rename redirect confirmed it resolves fine either way, but no reason to rely on that). Rebuilt and recreated `homelab-cockpit` via `docker compose up -d --build`; verified `HTTP 200` on `:8050` post-deploy.
 
