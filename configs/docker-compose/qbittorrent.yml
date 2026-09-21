@@ -12,7 +12,6 @@ services:
     volumes:
       - qbittorrent_config:/config
       - /mnt/hdd-media/qbittorrent/downloads:/downloads
-      - /mnt/hdd-music/qbittorrent/downloads:/downloads-music
     ports:
       - "8480:8480"
       - "6881:6881"

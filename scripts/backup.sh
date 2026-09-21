@@ -1,7 +1,9 @@
 #!/bin/bash
 # Backup script for homelab critical data
 # Backs up: PostgreSQL dump, Docker compose configs & infra setups.
-# Targets HDD-Backup if mounted, with fallback to HDD-Music (/mnt/hdd-music/backups).
+# Targets HDD-Backup if mounted (WD Green 2TB, unstable — see docs/architecture.md),
+# with fallback to HDD-Media (/mnt/hdd-media/backups). HDD-Music is now a pure music
+# drive (2026-09-21 rename) and is deliberately NOT a fallback target anymore.
 # Supports optional offsite sync to Google Drive via rclone if configured.
 
 set -euo pipefail
@@ -12,7 +14,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [ -d "/mnt/hdd-backup" ] && mountpoint -q "/mnt/hdd-backup"; then
   BACKUP_DIR="/mnt/hdd-backup/backups"
 else
-  BACKUP_DIR="/mnt/hdd-music/backups"
+  BACKUP_DIR="/mnt/hdd-media/backups"
 fi
 
 RETENTION_DAYS=30

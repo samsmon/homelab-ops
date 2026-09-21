@@ -15,7 +15,7 @@ services:
       ND_BASEURL: ""
     volumes:
       - navidrome_data:/data
-      - /mnt/hdd-music/music:/music:ro
+      - /mnt/hdd-music/music-rescue:/music:ro
     networks:
       - shared_net
 

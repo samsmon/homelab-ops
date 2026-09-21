@@ -25,16 +25,16 @@ This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unc
 1. **Internal OS SSD (256GB M.2 SATA SSD via 2.5" Bay Adapter)**:
    - Drive: `MidasForce SSD 256GB` (`/dev/sda`).
    - Role: Proxmox VE host OS, swap, VM/LXC virtual disks, and database metadata.
-2. **HDD-Music (2TB 3.5" Western Digital Green via LM 418 SATA Port)**:
-   - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623` (`/dev/sdc1`, 1.8TB usable).
-   - Role: Dedicated music streaming library (`jellyfin/music` scanned by Navidrome & Jellyfin) + local backup staging destination (`backups/`).
+2. **HDD-Backup (2TB 3.5" Western Digital Green via LM 418 SATA Port)** — renamed 2026-09-21, was `HDD-Music`:
+   - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623` (device letter floats, currently detached — see status row below).
+   - Role (intended, not currently reliable): cold-backup target. **⚠️ Failed a sequential-write test on 2026-09-21 and dropped from the kernel** — its safety even for this role is now in question. See the drive-status table below before trusting it with anything.
+   - Mounted at `/mnt/hdd-backup` when up.
 3. **HDD-Media (1TB 3.5" Seagate Barracuda 7200 RPM via LM 418 SATA Port)**:
    - Drive: `ST1000DM010-2EP102`, serial `W9AS0LSD` (`/dev/sdd2`, label `hdd-media`, 916GB usable).
-   - Role: High-throughput media storage — Videos (`videos/{anime,movies,tv}`), raw manga master (`manga-raw`), auto-optimized reader library (`manga-reader` for Komga), and torrent downloads (`qbittorrent`).
-   - *Note on disk allocation:* The physical 3.5" 7200 RPM Seagate Barracuda drive is dedicated to `hdd-media` (`sdd2`) for high-IOPS random seek performance, while the 2.5" 5400 RPM Toshiba drive is dedicated to `hdd-cloud` (`sdb2`).
-4. **HDD-Cloud (1TB 2.5" Toshiba HDD 5400 RPM via LM 418 SATA Port)**:
-   - Drive: `TOSHIBA MQ04ABF100`, serial `Y9CSTR0WT` (`/dev/sdb2`, label `hdd-cloud`, 916GB usable).
-   - Role: Nextcloud data directory, Syncthing continuous device sync, and general LAN shared drop (`shared/`). Quiet and low-power operation.
+   - Role: High-throughput media storage — Videos (`videos/{anime,movies,tv}`), raw manga master (`manga-raw`), auto-optimized reader library (`manga-reader` for Komga), torrent downloads (`qbittorrent`), **plus Nextcloud + Syncthing data + misc personal folders** (absorbed from the old `hdd-cloud` on 2026-09-21).
+4. **HDD-Music (1TB 2.5" Toshiba HDD 5400 RPM via LM 418 SATA Port)** — renamed 2026-09-21, was `HDD-Cloud`:
+   - Drive: `TOSHIBA MQ04ABF100`, serial `Y9CSTR0WT` (`/dev/sdb2`, 916GB usable).
+   - Role: **Pure music library only** (`music-rescue/`, scanned by Navidrome & Jellyfin). Nextcloud/Syncthing/LAN-drop data that used to live here moved to `hdd-media`. Mounted at `/mnt/hdd-music`.
 
 - **Power for the external HDD dock:** Separate **Enhance ENP-2320 PSU** (Flex ATX, 200W, Active PFC), not the M710q's internal 65W/90W adapter. Two independent power domains prevent power starvation and voltage-spike risks to the HDDs. Uses a 24-pin ATX jumper (shorts PS_ON to Ground) to power on without a motherboard, plus Molex-to-SATA power cables per drive and cooling fans.
 - **Cable routing:** Case backplate is open to route SATA data cables from the LM 418 out to the external drive dock. The backplate opening over the RAM is covered with a magnetic dust mesh panel.
@@ -49,7 +49,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
   │     Storage: 150GB (local-lvm thin pool: vm-100-disk-0)
   │     Proxmox container features "nesting=1,keyctl=1" enabled
   │     Hardware Pass-through: /dev/dri/card0, /dev/dri/renderD128 (Intel HD 630 iGPU)
-  │     Bind Mounts: /mnt/hdd-media, /mnt/hdd-cloud, /mnt/hdd-music
+  │     Bind Mounts: /mnt/hdd-media, /mnt/hdd-music, /mnt/hdd-backup (renamed 2026-09-21, was hdd-cloud/hdd-music)
   │     Docker Engine 29.8.0 + Compose plugin v5.5.1 + Tailscale + cloudflared
   │     Purpose: Core infrastructure, homelab cockpit, media stack, DB, tools, portfolio
   └── LXC 101: "yado-hosts" (renamed 2026-09-18, was "whitearchive-hosts") (Ubuntu Server 24.04 LTS) — 192.168.18.226
@@ -123,7 +123,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         CPU allocated: 2 cores
         Storage: 30GB (local-lvm thin pool: vm-104-disk-0)
         Proxmox container features "nesting=1,keyctl=1"
-        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-cloud (mp1, for the rescued music library), /mnt/hdd-music (mp2)
+        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp2, pure music, renamed 2026-09-21 from hdd-cloud), /mnt/hdd-backup (mp3, renamed 2026-09-21 from hdd-music, unstable)
         Docker Engine (official docker-ce) + Compose plugin, own `shared_net` bridge network (separate
         Docker network namespace from `docker-host`'s `shared_net` — same name, different network, since
         Docker networks don't span LXCs)
@@ -186,18 +186,17 @@ Router ISP (Main Gateway: 192.168.18.1)
 | OS, Proxmox, Docker engine | OS SSD (`/`) | ext4, `MidasForce SSD 256GB` (sda) | 50G / 147G (36%) on docker-host |
 | Project code + repositories | OS SSD (`/mnt/homelab_projects/`) | ext4, OS SSD (sda) | Included in `/` |
 | Database metadata (Postgres/Redis) | OS SSD (named volumes) | ext4, OS SSD (sda) | Included in `/` |
-| Music library (Navidrome & Jellyfin) | **HDD-Cloud (`/mnt/hdd-cloud/music-rescue/`)** — moved here 2026-09-21, was `HDD-Music`, see that drive's status row below | ext4, `Toshiba 1TB 2.5"` (sdb2) | 717G of 916G |
-| Movies, TV, Anime, Manga, Torrents, JDownloader, Nextcloud, Syncthing, misc personal folders | HDD-Media (`/mnt/hdd-media/`) — **absorbed Nextcloud/Syncthing/misc folders from `hdd-cloud` on 2026-09-21** (~112GB combined) as part of making `hdd-cloud` a pure music drive | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdd2) | ~791G / 916G (86%) |
-| **`hdd-cloud` is now music-only** | `/mnt/hdd-cloud/` contains just `music-rescue/` (717GB) + `lost+found` — Nextcloud/Syncthing/personal folders moved to `hdd-media` above, 2026-09-21 | ext4, `Toshiba 1TB 2.5"` (sdb2) | 717G / 916G (78%) |
+| Music library (Navidrome & Jellyfin) | **HDD-Music (`/mnt/hdd-music/music-rescue/`)** — this is the *renamed* drive (was `hdd-cloud`/Toshiba, mount point renamed 2026-09-21). Not the old WD Green (that's `hdd-backup` now). | ext4, `Toshiba 1TB 2.5"` (sdb2) | 717G / 916G (78%) — otherwise empty except `lost+found` |
+| Movies, TV, Anime, Manga, Torrents, JDownloader, Nextcloud, Syncthing, misc personal folders | HDD-Media (`/mnt/hdd-media/`) — **absorbed Nextcloud/Syncthing/misc folders from the old `hdd-cloud` on 2026-09-21** (~112GB combined) as part of that drive becoming pure music | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdd2) | ~791G / 916G (86%) |
 
 ## Storage Drives — Physical Inventory
 
 | Drive Role | Hardware Model | Form Factor & Capacity | Serial Number | Mount Point | Status |
 |---|---|---|---|---|---|
 | **OS SSD** | MidasForce SSD 256GB (via SATA-to-M.2 adapter) | M.2 SATA in 2.5" Bay (256GB) | `RE202410151200000921` | `/` (sda) | **Active.** Boot, PVE LVM-thin pool, LXC root disks. |
-| **HDD-Music (old, WD Green — role TBD, worse than thought)** | Western Digital Green (`WD20EZRX-00DC0B0`) | 3.5" SATA III (2TB) | `WD-WCC1T0899623` | `/mnt/hdd-music` (device letter floats, currently detached) | **⚠️ DOWN again, and the "safe if sequential" theory is now disproven.** Root cause remains the drive's own controller/firmware (confirmed not cable, not platters — see (56)/(59)). **2026-09-21 (75): failed under a plain large-file sequential write** (copying video files) within ~2.5 minutes — first time it's failed on a workload type every prior test showed it tolerating (the (57)-(59) 717GB *read*-based rescue ran 15hrs fine; this was a *write* of new data). EXT4 auto-remounted read-only, then the drive fully dropped from the kernel (`ata9.00: disable device`/`detaching`). **Revised conclusion: not reliably safe for bulk writes of any kind**, not just NCQ-heavy random I/O — the earlier "cold-backup" role assumption needs to be reconsidered, possibly abandoned for this specific drive. **717GB of music from the original rescue is still physically present** (a different directory, untouched by this failed write — presumed intact but not re-verified) — redundant with the canonical copy on `hdd-cloud`. **No further write attempts planned** until/unless the drive is replaced (RMA sent, no response — see roadmap.md). The planned rename to `hdd-backup` is on hold given this finding, not because of naming (the WD Blue 320GB "4th drive" plan that name previously collided with was dropped 2026-09-21 — `hdd-backup` is free to use for this drive whenever its role is settled). |
-| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdd2) | **Active.** High-throughput Media: `videos/`, `manga-raw`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders** (absorbed from `hdd-cloud` 2026-09-21, ~112GB — see `hdd-cloud`'s row). Now at ~86% used, the fullest of the 3 active drives. |
-| **HDD-Cloud (now pure music)** | Toshiba 2.5" HDD (`MQ04ABF100`) | 2.5" SATA III 5400 RPM (1TB) | `Y9CSTR0WT` | `/mnt/hdd-cloud` (sdb2) | **Active, repurposed 2026-09-21.** Was Nextcloud/Syncthing/LAN shared + music; now contains **only** `music-rescue/` (717GB, what Navidrome/Jellyfin actually serve) + `lost+found`. Nextcloud/Syncthing/personal folders moved to `hdd-media`. **Mount point/label still says "hdd-cloud"** — the user wants an actual rename to reflect the new role, not yet done (touches `/etc/fstab`, Samba, and compose files across 3 LXCs — paused for planning). |
+| **HDD-Backup** (was `HDD-Music`, WD Green — **role in doubt**) | Western Digital Green (`WD20EZRX-00DC0B0`) | 3.5" SATA III (2TB) | `WD-WCC1T0899623` | `/mnt/hdd-backup` (device letter floats; renamed from `/mnt/hdd-music` 2026-09-21) | **⚠️ Up as of the 2026-09-21 rename, but reliability is unresolved.** Root cause remains the drive's own controller/firmware (confirmed not cable, not platters — see (56)/(59)). **2026-09-21: failed under a plain large-file sequential write** (copying video files) within ~2.5 minutes — the first time it failed on a workload type every prior test showed it tolerating (the read-based 717GB rescue ran 15hrs fine; this was a write of new data). EXT4 auto-remounted read-only, then the drive fully dropped from the kernel (`ata9.00: disable device`/`detaching`) — recovered via another physical power-cycle later the same session. **Revised conclusion: not reliably safe for bulk writes of any kind.** Renamed to `hdd-backup` anyway per user's explicit instruction (proceeding with the rename doesn't imply the reliability question is resolved — it isn't). **717GB of music from the original rescue is still physically present** (`music/` folder) — redundant with the canonical copy now on `hdd-music` (see below), kept as an incidental extra copy. **Do not write new data here without accepting real risk of another drop.** RMA sent to seller, no response — user has stopped waiting on it. |
+| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdd2) | **Active.** High-throughput Media: `videos/`, `manga-raw`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders** (absorbed from the old `hdd-cloud` 2026-09-21, ~112GB). Now at ~86% used, the fullest of the 3 active drives. |
+| **HDD-Music** (was `HDD-Cloud`, Toshiba — now pure music) | Toshiba 2.5" HDD (`MQ04ABF100`) | 2.5" SATA III 5400 RPM (1TB) | `Y9CSTR0WT` | `/mnt/hdd-music` (sdb2; renamed from `/mnt/hdd-cloud` 2026-09-21) | **Active, healthy, repurposed 2026-09-21.** Was Nextcloud/Syncthing/LAN shared + music; now contains **only** `music-rescue/` (717GB, what Navidrome/Jellyfin actually serve) + `lost+found`. Nextcloud/Syncthing/personal folders moved to `hdd-media`. Full rename executed: `/etc/fstab` (by UUID), LXC `mp` configs on `docker-host`/`media-hosts`, every compose file referencing the old path, and Samba (`smb.conf`, share renamed `[hdd-cloud]`→`[hdd-music]`) all updated and verified working. |
 
 ### Directory Hierarchy
 
@@ -211,32 +210,38 @@ Router ISP (Main Gateway: 192.168.18.1)
 ├── manga-raw/              # Raw manga master archive
 ├── manga-reader/           # Optimized WebP manga library (scanned by Komga)
 ├── qbittorrent/            # Staging download torrents
-└── jdownloader/            # JDownloader2 config + downloads
+├── jdownloader/            # JDownloader2 config + downloads
+├── nextcloud/              # Nextcloud data (moved here from hdd-cloud 2026-09-21)
+├── syncthing/              # Syncthing data (moved here from hdd-cloud 2026-09-21)
+└── from-hdd-cloud/         # Misc personal folders relocated from hdd-cloud 2026-09-21 (Download, Image, etc.)
 ```
 
-#### HDD-Music (`/mnt/hdd-music/`)
+#### HDD-Music (`/mnt/hdd-music/`) — renamed 2026-09-21, was `hdd-cloud` (Toshiba)
 ```
 /mnt/hdd-music/
-├── music/                 # 717GB clean music collection scanned by Navidrome
-├── jellyfin/
-│   └── music/         # Legacy Jellyfin music mount
+├── music-rescue/           # 717GB music collection scanned by Navidrome & Jellyfin
+└── lost+found/
 ```
 
-#### HDD-Cloud (`/mnt/hdd-cloud/`)
+#### HDD-Backup (`/mnt/hdd-backup/`) — renamed 2026-09-21, was `hdd-music` (WD Green, unstable)
 ```
-/mnt/hdd-cloud/
-├── nextcloud/            # Nextcloud primary storage root
-├── syncthing/            # P2P multi-device sync
-└── shared/               # LAN drop, accessible via SMB \\docker-host\shared
+/mnt/hdd-backup/
+├── music/                  # 717GB, redundant extra copy from the original rescue
+├── backups/                # scripts/backup.sh target (when this drive is actually mounted)
+├── download/                # legacy, mostly empty
+├── qbittorrent/             # legacy, mostly empty
+└── lost+found/
 ```
 
 ## Windows Network Access (SMB/Samba & WSDD)
 
 - **Active Daemons:** `smbd` and `wsdd` systemd services running on `docker-host`.
-- **Samba Shares (`/etc/samba/smb.conf`):**
-  - `shared` → `/mnt/hdd-cloud/shared` (Read/Write, LAN drop)
+- **Samba Shares (`/etc/samba/smb.conf`, current as of the 2026-09-21 rename):**
+  - `homelab` → `/mnt` (everything, browse into subfolders)
+  - `hdd-music` → `/mnt/hdd-music` (pure music library — renamed from `hdd-cloud`)
+  - `hdd-media` → `/mnt/hdd-media`
+  - `hdd-backup` → `/mnt/hdd-backup` (WD Green, unstable — renamed from `hdd-2tb`)
   - `manga` → `/mnt/hdd-media/manga-raw` (Read/Write, ingest for manga optimizer)
-  - `media` → `/mnt/hdd-media` (Movies, TV, Anime)
-  - `music` → `/mnt/hdd-music` (Music collection)
+  - `projects` → `/mnt/homelab_projects` (restricted to `dev-host`/`pve` IPs, for T3 Code)
   - `projects` → `/mnt/homelab_projects` (Read/Write, restricted to PVE and dev-host for T3 Code /workspace)
 - **WSDD (Web Services Dynamic Discovery):** Allows the homelab server to appear automatically under Windows Explorer "Network" without manual IP typing.

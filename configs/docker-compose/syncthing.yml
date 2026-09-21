@@ -6,7 +6,7 @@ services:
     hostname: docker-host
     volumes:
       - syncthing_config:/var/syncthing/config
-      - /mnt/hdd-cloud/syncthing:/var/syncthing/data
+      - /mnt/hdd-media/syncthing:/var/syncthing/data
     ports:
       - "8384:8384"       # Web UI
       - "22000:22000/tcp" # Sync protocol

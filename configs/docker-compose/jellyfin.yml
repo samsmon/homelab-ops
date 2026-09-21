@@ -4,7 +4,7 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     volumes:
-      - /mnt/hdd-music/music:/media/music
+      - /mnt/hdd-music/music-rescue:/media/music
       - /mnt/hdd-media/videos/movies:/media/movies
       - /mnt/hdd-media/videos/tv:/media/tv
       - /mnt/hdd-media/videos/anime:/media/anime

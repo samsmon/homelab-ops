@@ -7,7 +7,7 @@ services:
     ports:
       - "8085:80"
     volumes:
-      - /mnt/hdd-cloud:/srv/HDD-Cloud
+      - /mnt/hdd-backup:/srv/HDD-Backup
       - /mnt/hdd-media:/srv/HDD-Media
       - /mnt/hdd-music:/srv/HDD-Music
       - /opt/infra/filebrowser/filebrowser.db:/database/filebrowser.db

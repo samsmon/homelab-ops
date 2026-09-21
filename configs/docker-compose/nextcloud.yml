@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # set in .env, never commit the real value — same shared Postgres user as postgres-redis.yml
       REDIS_HOST: shared-redis
     volumes:
-      - /mnt/hdd-cloud/nextcloud:/var/www/html
+      - /mnt/hdd-media/nextcloud:/var/www/html
       - ./mpm-tuning.conf:/etc/apache2/conf-enabled/mpm-tuning.conf:ro
     ports:
       - "8080:80"
