@@ -9,12 +9,16 @@ services:
       - ./beszel_data:/beszel_data
 
   beszel-agent:
-    image: henrygd/beszel-agent:latest
+    image: henrygd/beszel-agent
     container_name: beszel-agent
     restart: unless-stopped
     network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./beszel_agent_data:/var/lib/beszel-agent
+      # monitor other disks / partitions by mounting a folder in /extra-filesystems
+      # - /mnt/disk/.beszel:/extra-filesystems/sda1:ro
+    env_file: .env
     environment:
       LISTEN: 45876
-      KEY: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQYVeaaclzs6g170+35DuzaY1TQngRc/f4ENn7N0wCj beszel-agent-docker-host"
+      HUB_URL: http://192.168.18.225:8090
