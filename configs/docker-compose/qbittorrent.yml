@@ -3,27 +3,22 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
+    network_mode: host  # switched 2026-09-22 from shared_net bridge: the container needs the LXC's real
+      # global IPv6 address directly (ISP is behind CGNAT for IPv4, so IPv6 is the only path for inbound
+      # peer connections) — Docker's bridge network has no IPv6 of its own, so qBittorrent couldn't
+      # advertise a reachable address to trackers/peers even though inbound port-forwarding "worked"
+      # (that was just docker-proxy's IPv4 NAT translating in, invisible to the app itself)
     environment:
       PUID: "1000"
       PGID: "1000"
       TZ: Asia/Jakarta
-      WEBUI_PORT: "8480"  # must match the host-side port mapping below, or the Web UI rejects connections (CSRF host-header check)
+      WEBUI_PORT: "8480"
       TORRENTING_PORT: "6881"
     volumes:
       - qbittorrent_config:/config
       - /mnt/hdd-media/qbittorrent/downloads:/downloads
       - /mnt/hdd-media/qbittorrent/watch-torrents:/watch-torrents
-    ports:
-      - "8480:8480"
-      - "6881:6881"
-      - "6881:6881/udp"
     stop_grace_period: "10s"  # let it save resume data on shutdown
-    networks:
-      - shared_net
 
 volumes:
   qbittorrent_config:
-
-networks:
-  shared_net:
-    external: true
