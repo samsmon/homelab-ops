@@ -114,6 +114,14 @@ When asked to automate a recurring task:
 
 ---
 
+## Execution preference
+When Superpowers reaches the execution phase, always use `executing-plans`
+(inline, single-context) instead of `subagent-driven-development`, unless
+explicitly told otherwise. This keeps token usage lower for infrastructure
+tasks that are typically straightforward.
+
+---
+
 ## Storage Convention Reminder
 - OS, Docker engine, images, project code, and DB metadata live on internal SSD (`/`).
 - Bulk media lives on dedicated external HDDs:

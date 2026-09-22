@@ -1,6 +1,14 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-22 (90)
+- **Rebooted LXC 100 (`docker-host`) and LXC 104 (`media-hosts`) to update stale bind mounts of `/mnt/hdd-backup` to `/dev/sde1`.**
+  - Following the earlier SATA power cable swap on `hdd-backup` (WD Green), the device letter shifted from `/dev/sdd` to `/dev/sde`. While the Proxmox host (`pve`) mounted `/dev/sde1` cleanly via UUID, LXC 100 and LXC 104 retained stale bind-mount handles pointing to the old `/dev/sdd1`, throwing "Input/output error" on file access and triggering the "External DAS mount disconnected" alert on `homelab-cockpit`.
+  - Executed `pct reboot 100` and `pct reboot 104` on `pve`.
+  - Verified post-reboot: both LXCs now show `/mnt/hdd-backup` mounted on `/dev/sde1` (1.8T, 45% used) and canary file `/mnt/hdd-backup/.mounted` is accessible without I/O errors.
+  - Verified all containers on LXC 100 (including `homelab-cockpit`, `filebrowser`, `nextcloud`, `nginx-proxy-manager`) and LXC 104 (including `jellyfin`, `qbittorrent`, `navidrome`) restarted cleanly and are healthy.
+  - Verified `homelab-cockpit` dashboard alert cleared now that canary is accessible and storage reports healthy.
+  - Unattended monitoring cron job (`/etc/cron.d/hdd-backup-daily-test`) and active reverse sync on `pve` remain untouched and running.
 
 ## 2026-09-22 (89)
 - **Ran a fuller stress-test pass on `hdd-backup` post-cable-swap (30 min max load on all 3 drives simultaneously) — all clean — then set up automated daily monitoring for a week.**
