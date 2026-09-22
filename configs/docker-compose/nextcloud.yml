@@ -14,6 +14,7 @@ services:
     volumes:
       - /mnt/hdd-media/nextcloud:/var/www/html
       - ./mpm-tuning.conf:/etc/apache2/conf-enabled/mpm-tuning.conf:ro
+      - /mnt/hdd-media/nextcloud-dropbox:/dropbox
     ports:
       - "8080:80"
     networks:
