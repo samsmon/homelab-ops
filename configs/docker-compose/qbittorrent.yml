@@ -12,6 +12,7 @@ services:
     volumes:
       - qbittorrent_config:/config
       - /mnt/hdd-media/qbittorrent/downloads:/downloads
+      - /mnt/hdd-media/qbittorrent/watch-torrents:/watch-torrents
     ports:
       - "8480:8480"
       - "6881:6881"
