@@ -3,6 +3,13 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-22 — `hdd-backup` (WD Green WD20EZRX) confirmed drive-side hardware fault, stays cold-only, no repair pursued
+
+- **Status: DECIDED, no further action planned.** Root-cause narrowed down as far as it can be without disassembly. `smartctl -x` on 2026-09-22 showed: no reallocated/pending/uncorrectable sectors (platters themselves are fine), but `UDMA_CRC_Error_Count` raw=21430 (WORST=001, right at threshold) plus a fresh `READ DMA EXT` / `Device Fault (ABRT)` entry in the error log from the most recent power-up — consistent with the NCQ/link-failure pattern already documented in the 2026-09-20/21 entries below.
+- User has already swapped the SATA data cable multiple times and moved the drive across multiple SATA ports on the motherboard — both ruled out as the cause. That leaves only the drive side: its own SATA connector, or its controller/PCB. Board-level repair isn't pursued — not something a general IT tech fixes economically (PCB swaps need firmware/calibration matching to the specific unit), and the drive is already relegated to the lowest-stakes role available.
+- **Decision: leave `hdd-backup` mounted in its existing cold-backup-only role (see 2026-09-20/21 entries below), do not pursue physical repair, do not RMA/replace proactively.** User explicitly deprioritized it ("gausah deh, jadi biener-biener cold aja") rather than chase further diagnosis or a fix. If it fails outright in the future, replace the drive rather than repair it.
+- **Consequence for open plans**: the `fio` stress test plan immediately below is now lower priority still (nice-to-have tuning info, not a blocker for anything) — the drive's role is fixed regardless of what that test would find. The `rclone crypt` Google Drive cold-backup plan (2026-09-20 entry below) is unaffected — it still applies once started, since it only ever assumed sequential/cold access to this drive.
+
 ## 2026-09-21 — Plan: post-mortem `fio` stress test on `hdd-music` (only if it stays in service)
 
 - **Status: PLANNED, NOT EXECUTED.** Lowest priority of the open `hdd-music` plans — do this last, after the rescue finishes (`CHANGELOG.md` (57)/(59)) and the seller RMA/warranty outcome (see the wording drafted in-chat 2026-09-20) is known.
