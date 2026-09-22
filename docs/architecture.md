@@ -218,8 +218,14 @@ Router ISP (Main Gateway: 192.168.18.1)
 ├── qbittorrent/            # Staging download torrents
 ├── jdownloader/            # JDownloader2 config + downloads
 ├── nextcloud/              # Nextcloud data (moved here from hdd-cloud 2026-09-21)
+├── nextcloud-dropbox/      # Nextcloud files_external auto-ingest folder (added 2026-09-22)
 ├── syncthing/              # Syncthing data (moved here from hdd-cloud 2026-09-21)
-└── from-hdd-cloud/         # Misc personal folders relocated from hdd-cloud 2026-09-21 (Download, Image, etc.)
+├── nhdl/downloads/         # nhdl service dir per compose config
+├── download/nhdl/          # nhdl's actual live working dir (logs/list state) — do not touch, actively written
+├── personal/               # Misc personal folders, consolidated 2026-09-22 (was loose clutter in root:
+│                            # Compressed/, Images/, Mods/, Tugas/, a stray PDF). Empty Windows-artifact
+│                            # folders (Config.Msi, Recovery, Gapenting, Downloads, shared) deleted same day.
+└── lost+found/
 ```
 
 #### HDD-Music (`/mnt/hdd-music/`) — renamed 2026-09-21, was `hdd-cloud` (Toshiba)

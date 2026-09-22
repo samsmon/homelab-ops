@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-22 (84)
+- **Tidied loose personal clutter at the root of `hdd-media` (via SMB share), left every service-linked folder untouched.** User asked to organize the share without touching folders wired to live services (Nextcloud, Jellyfin `videos/`, etc.).
+  - Created `hdd-media/personal/` and moved the non-service root clutter into it: `Compressed/` (personal archives + `tokopedia_stickers`), `Images/` (263 personal photos), `Mods/` (game mods), `Tugas/` (coursework), and one loose PDF.
+  - Deleted 5 empty, unused Windows-artifact folders: `Config.Msi/`, `Recovery/Logs` + `Recovery/`, `Gapenting/`, `Downloads/`, `shared/` — all confirmed empty before deletion, user approved.
+  - Found `hdd-media/download/nhdl/` had logs/state files with timestamps from minutes before this session — flagged to user as likely a live nhdl working directory (despite `docs/architecture.md`/`docs/services.md` describing nhdl's `DOWNLOAD_DIR` as `manga-raw/nsfw` and its declared dir as `nhdl/downloads`). User confirmed it's actively in use — left untouched, not investigated further this session.
+  - Updated `docs/architecture.md`'s HDD-Media directory tree to match live state (was still describing the already-deleted `from-hdd-cloud/` folder from entry (83)).
+
 ## 2026-09-22 (83)
 - **Cleared `hdd-media/from-hdd-cloud` migration leftover folder entirely (43GB freed) and set up a Nextcloud "Dropbox" auto-ingest folder.** User needed space on `hdd-media` (93% full) for a music torrent batch.
   - **Nextcloud "Dropbox" external storage**: while investigating where to put some files, discovered the live `nextcloud` container had been silently broken since the 2026-09-21 `hdd-cloud`→`hdd-music` rename — its compose file was updated correctly, but the container itself was only `restart`ed (not recreated) on reboot, so it kept its stale `/mnt/hdd-cloud/nextcloud` bind mount source, which no longer existed (Docker had silently substituted an empty directory). `docker exec` into it even failed with "possible container breakout detected" — a symptom of the dangling mount, not an actual security issue. Fixed with `docker compose up -d --force-recreate` (confirmed with user first, per repo rules on container changes) — mount corrected to `/mnt/hdd-media/nextcloud`, 14GB of real data confirmed intact and visible again. **This was a real outage window (2026-09-21 reboot → 2026-09-22 fix) that went unnoticed** — worth remembering that any bind-mount path change requires `--force-recreate`, not just editing the compose file, or `docker compose up -d` if the container was never manually restarted outside compose.
