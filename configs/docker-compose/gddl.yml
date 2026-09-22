@@ -1,0 +1,21 @@
+services:
+  gddl:
+    build: .
+    container_name: gddl
+    restart: unless-stopped
+    ports:
+      - "8099:8080"
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+      - DOWNLOAD_DIR=/mnt/hdd-media/downloads
+      - CONFIG_DIR=/config
+      - EXTRA_DRIVES=/mnt/hdd-media,/mnt/hdd-backup
+      - AUTH_ENABLED=true
+      - AUTH_USER=admin
+      - AUTH_PASS=adminadmin
+    volumes:
+      - ./config:/config
+      - /mnt/hdd-media/downloads:/downloads
+      - /mnt/hdd-media:/mnt/hdd-media:rw
+      - /mnt/hdd-backup:/mnt/hdd-backup:rw

@@ -1,6 +1,17 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-22 (92)
+- **Deployed Google Drive Downloader (`gddl`) on LXC 103 (`personal-hosts`) with dual HDD access.**
+  - Added mount point `mp2: /mnt/hdd-backup` to LXC 103 via Proxmox PVE.
+  - Cloned repository `samsmon/gddl` to `/opt/projects/gddl`.
+  - Configured `docker-compose.yml` publishing port `8099:8080`, with persistent storage at `/opt/projects/gddl/config` and dual storage volumes:
+    - `/mnt/hdd-media` (default download path `/mnt/hdd-media/downloads`)
+    - `/mnt/hdd-backup` (`/mnt/hdd-backup/downloads`)
+    - `EXTRA_DRIVES=/mnt/hdd-media,/mnt/hdd-backup` for in-app storage browser selection.
+  - Rebuilt image using Go 1.23 + Node 20 / Alpine runtime. Verified container running healthy and disk write test succeeded on both drives.
+  - Added configuration to `configs/docker-compose/gddl.yml` and documented in `docs/services.md` and `docs/architecture.md`.
+
 ## 2026-09-22 (91)
 - **Tuned PostgreSQL & Redis memory limits and enabled 8GB RAM disk (`tmpfs`) for Jellyfin transcoding.**
   - **LXC RAM Rebalancing**: Dynamic live hotplug via Proxmox (`pct set`) without restarting any LXC hosts:

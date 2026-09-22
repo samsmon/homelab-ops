@@ -79,9 +79,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         CPU allocated: 2 cores
         Storage: 15GB (local-lvm thin pool: vm-103-disk-0, resized 10G->15G on 2026-09-21)
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
-        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp1 — healthy again as of 2026-09-21's rename,
-        this is the former hdd-cloud/Toshiba drive, pure music now; `nhdl` doesn't depend on its content
-        since its DOWNLOAD_DIR moved to hdd-media, mount just happens to be named the same)
+        Bind Mounts: /mnt/hdd-media (mp0), /mnt/hdd-music (mp1), /mnt/hdd-backup (mp2 — added 2026-09-22 for gddl)
         Docker Engine (official docker-ce, download.docker.com repo) + Compose plugin + Tailscale.
         **Docker API exposed on `tcp://0.0.0.0:2375`** (no TLS/auth, LAN-only — added 2026-09-21 for
         `homelab-cockpit` monitoring, same pattern as `yado-hosts`/`dev-host`, user confirmed).
