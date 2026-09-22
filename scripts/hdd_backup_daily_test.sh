@@ -2,6 +2,12 @@
 # Daily read-stress test for hdd-backup (WD Green), monitoring whether UDMA_CRC_Error_Count
 # stays flat after the 2026-09-22 power cable swap (splitter -> dedicated single-lane cable).
 # Self-removes from cron after 7 runs. See docs/decisions.md for context.
+#
+# NOTE: cron runs with a minimal PATH (often just /usr/bin:/bin), which doesn't include
+# /usr/sbin where smartctl lives — this silently broke UDMA_CRC logging on the first run
+# (2026-09-22, empty before/after values) even though the actual stress test ran fine.
+# Explicit PATH below fixes it for good.
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 set -uo pipefail
 
 MOUNT=/mnt/hdd-backup
@@ -50,12 +56,18 @@ RUN=$(( $(cat "$COUNTFILE" 2>/dev/null || echo 0) + 1 ))
     echo "!!! PERINGATAN: UDMA_CRC_Error_Count NAIK dari $BEFORE ke $AFTER !!!"
   fi
   echo "===== $(date) - Run $RUN/7 DONE ====="
+
+  # Counter write moved inside the logged block so any failure here is visible in the log
+  # instead of silently leaving the count file stale (bit us on the very first run).
+  if echo "$RUN" > "$COUNTFILE"; then
+    echo "Counter updated: $RUN"
+  else
+    echo "!!! GAGAL nulis counter ke $COUNTFILE !!!"
+  fi
+
+  if [ "$RUN" -ge 7 ]; then
+    echo "7 run selesai, self-removing cron job"
+    rm -f "$CRONFILE"
+  fi
   echo
 } >> "$LOGFILE" 2>&1
-
-echo "$RUN" > "$COUNTFILE"
-
-if [ "$RUN" -ge 7 ]; then
-  echo "$(date): 7 run selesai, self-removing cron job" >> "$LOGFILE"
-  rm -f "$CRONFILE"
-fi
