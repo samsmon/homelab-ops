@@ -18,7 +18,16 @@ services:
       - qbittorrent_config:/config
       - /mnt/hdd-media/qbittorrent/downloads:/downloads
       - /mnt/hdd-media/qbittorrent/watch-torrents:/watch-torrents
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+      # host networking means this container inherits the LXC's /etc/resolv.conf, which points at
+      # Tailscale's MagicDNS (100.100.100.100) — that resolver couldn't resolve normal internet
+      # hostnames (trackers, etc.), which silently broke every torrent (stalled with no error visible
+      # in qBittorrent itself). Override with public DNS since this container has no need for
+      # Tailscale-scoped hostnames.
     stop_grace_period: "10s"  # let it save resume data on shutdown
 
 volumes:
   qbittorrent_config:
+    external: true
