@@ -3,6 +3,12 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-22 — Update: power cable swap on `hdd-backup` passed initial stress tests, "drive-side hardware fault" conclusion below may need revisiting
+
+- **Status: PROMISING, NOT YET CONCLUSIVE.** Contradicts (partially) the "not economically repairable, drive-side connector/PCB" framing in the entry directly below — turns out there was one more untested variable: the drive shared a single Molex-to-3-SATA power splitter with other drives, never tested in isolation.
+- User sourced a dedicated single-lane Molex-to-SATA cable, replaced the shared splitter for this drive only. Two stress tests after the swap both came back completely clean (zero new `ata9` errors, `UDMA_CRC_Error_Count` unchanged at 21430): a 20GB sequential write, and a concurrent random-read+sequential-stream test deliberately replicating the exact "scan + playback" pattern that used to cause drops when this was `hdd-music`. See `CHANGELOG.md` (88) for full detail.
+- **Not revising the cold-only decision yet** — one day of clean tests isn't equivalent to the weeks of real usage that originally surfaced the problem, and the error count (21430) was accumulated over a long period, not necessarily reproducible on demand every time. Watch `UDMA_CRC_Error_Count` over the next 1-2 weeks of normal use before concluding anything. If it stays flat, the "drive-side fault, no repair" framing in the entry below was likely wrong — it was the power splitter, a $5 fix, not the drive itself.
+
 ## 2026-09-22 — `hdd-backup` (WD Green WD20EZRX) confirmed drive-side hardware fault, stays cold-only, no repair pursued
 
 - **Status: DECIDED, no further action planned.** Root-cause narrowed down as far as it can be without disassembly. `smartctl -x` on 2026-09-22 showed: no reallocated/pending/uncorrectable sectors (platters themselves are fine), but `UDMA_CRC_Error_Count` raw=21430 (WORST=001, right at threshold) plus a fresh `READ DMA EXT` / `Device Fault (ABRT)` entry in the error log from the most recent power-up — consistent with the NCQ/link-failure pattern already documented in the 2026-09-20/21 entries below.
