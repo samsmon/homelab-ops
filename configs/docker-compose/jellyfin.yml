@@ -11,6 +11,8 @@ services:
       - jellyfin_config:/config
     ports:
       - "8096:8096"
+    tmpfs:
+      - /transcode:size=8G
     # Uncomment if hardware transcoding becomes available (Intel Quick Sync)
     devices:
       - /dev/dri:/dev/dri

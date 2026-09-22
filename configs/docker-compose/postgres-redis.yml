@@ -5,6 +5,13 @@ services:
     image: postgres:16-alpine
     container_name: shared-postgres
     restart: unless-stopped
+    command: >
+      postgres
+      -c shared_buffers=2GB
+      -c effective_cache_size=6GB
+      -c maintenance_work_mem=512MB
+      -c work_mem=32MB
+      -c max_connections=200
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # set in .env, never commit the real value
@@ -19,6 +26,10 @@ services:
     image: redis:7-alpine
     container_name: shared-redis
     restart: unless-stopped
+    command: >
+      redis-server
+      --maxmemory 4gb
+      --maxmemory-policy allkeys-lru
     volumes:
       - redis_data:/data
     networks:

@@ -1,6 +1,17 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-22 (91)
+- **Tuned PostgreSQL & Redis memory limits and enabled 8GB RAM disk (`tmpfs`) for Jellyfin transcoding.**
+  - **LXC RAM Rebalancing**: Dynamic live hotplug via Proxmox (`pct set`) without restarting any LXC hosts:
+    - LXC 104 (`media-hosts`): Increased RAM from 4GB to 12GB.
+    - LXC 100 (`docker-host`): Adjusted RAM from 12GB to 8GB.
+    - LXC 102 (`dev-host`): Adjusted RAM from 12GB to 6GB (was idling with <300MB used).
+  - **Jellyfin Transcoding**: Added 8GB `tmpfs` mounted at `/transcode` in `configs/docker-compose/jellyfin.yml` on `media-hosts`. Video transcoding now writes directly to in-memory RAM disk, eliminating SSD wear and playback buffering delays.
+  - **PostgreSQL & Redis Buffer Tuning**: Updated `configs/docker-compose/postgres-redis.yml` on `docker-host`:
+    - PostgreSQL: Set `shared_buffers=2GB`, `effective_cache_size=6GB`, `work_mem=32MB`, `max_connections=200`. Database query tables now stay pinned in RAM cache.
+    - Redis: Set `--maxmemory 4gb` with `--maxmemory-policy allkeys-lru` to prevent memory exhaustion while offering generous in-memory cache space.
+  - Verified live: Zero downtime across all LXCs, containers recreated in ~2 seconds and fully operational.
 ## 2026-09-22 (90)
 - **Rebooted LXC 100 (`docker-host`) and LXC 104 (`media-hosts`) to update stale bind mounts of `/mnt/hdd-backup` to `/dev/sde1`.**
   - Following the earlier SATA power cable swap on `hdd-backup` (WD Green), the device letter shifted from `/dev/sdd` to `/dev/sde`. While the Proxmox host (`pve`) mounted `/dev/sde1` cleanly via UUID, LXC 100 and LXC 104 retained stale bind-mount handles pointing to the old `/dev/sdd1`, throwing "Input/output error" on file access and triggering the "External DAS mount disconnected" alert on `homelab-cockpit`.

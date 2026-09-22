@@ -44,7 +44,7 @@ This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unc
 ```
 Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.dev, 192.168.18.224, Tailscale 100.108.61.124
   ├── LXC 100: "docker-host" (Ubuntu Server 24.04 LTS) — 192.168.18.225
-  │     RAM allocated: 12GB (of 32GB total)
+  │     RAM allocated: 8GB (of 32GB total, adjusted 2026-09-22 for Postgres/Redis tuning)
   │     CPU allocated: 4 cores (of 4 total on i5-7500)
   │     Storage: 150GB (local-lvm thin pool: vm-100-disk-0)
   │     Proxmox container features "nesting=1,keyctl=1" enabled
@@ -60,7 +60,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Docker Engine 29.8.0 + Compose plugin v5.5.1
         Purpose: Dedicated environment for personal web projects (yado, malas, sso-yado, pore-js, etc.)
   └── LXC 102: "dev-host" (Ubuntu Server 24.04 LTS) — 192.168.18.227, Tailscale 100.73.165.64
-        RAM allocated: 12GB (of 32GB total)
+        RAM allocated: 6GB (of 32GB total, adjusted 2026-09-22 from 12GB to rebalance into media-hosts)
         CPU allocated: 4 cores
         Storage: 40GB (local-lvm thin pool: vm-102-disk-0)
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun, added 2026-09-21)
@@ -122,7 +122,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         LXCs recovered thin-pool usage from 88.80% to 55.24% (~70GB real headroom), see `CHANGELOG.md` (66).
         This is what unblocked creating LXC 104 below.
   └── LXC 104: "media-hosts" (Ubuntu Server 24.04 LTS) — 192.168.18.229, Tailscale 100.113.250.97
-        RAM allocated: 4GB (of 32GB total)
+        RAM allocated: 12GB (of 32GB total, boosted 2026-09-22 with 8GB tmpfs for Jellyfin transcoding)
         CPU allocated: 2 cores
         Storage: 30GB (local-lvm thin pool: vm-104-disk-0)
         Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun, added 2026-09-21)
