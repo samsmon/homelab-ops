@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- [Claude-Code] 2026-09-23 21:50 WIB: Converting nhdl (859 title folders, raw images) to .cbz archives, verify-then-delete-original per folder | Locks: /mnt/hdd-media/download/nhdl
+- [Antigravity] 2026-09-23 23:06 WIB: Consolidating jav into jav thumb and generating MPC-HC contact sheets/Jellyfin hardlinks | Locks: /mnt/hdd-media/videos/movies/nsfw
 
 
 
