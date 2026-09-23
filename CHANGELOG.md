@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (116)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`faa795d`→`2f79c64`): cookie redirect preservation, 3-cookie validation, in-app confirm dialog, log text selection, plus cURL auto-extraction / JSON cookie support / quick guide in the cookie pool modal. No new required env vars, compose untouched by upstream. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (115)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`f356053`→`faa795d`): cross-drive move engine, lazy link ingestion, multi-cookie pool auto-failover. Confirmed no new required env vars before updating (checked `git diff` for new `os.Getenv` calls — none). Same stash/pull/pop pattern as prior updates, `docker compose up -d --build`, verified `HTTP 200`.
   - **Noted, not changed**: post-rebuild the active download folder is `/mnt/hdd-backup/download` (from `config/config.json`'s `download_folder`, not the compose `DOWNLOAD_DIR` env — a persisted UI setting, now actually honored since (113)'s "auto-persist default save path" feature landed). This runs counter to `hdd-backup`'s cold-backup-only role from `docs/decisions.md`, but user explicitly confirmed leaving it as-is when flagged.
