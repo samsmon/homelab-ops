@@ -1,6 +1,14 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (110)
+- **Consolidated `hdd-media/videos/movies/nsfw/jav` into `jav thumb` (Option B) and generated 5x8 MPC-HC thumbnail sheets for all 70 videos.**
+  - Moved all 23 videos from `jav/` to `jav thumb/` and cleaned up empty directory.
+  - Sanitized long titles exceeding 200 bytes down to canonical code filenames to prevent ext4 255-byte limit errors.
+  - Generated missing 40-clip MPC-HC style contact sheets using fast-seek FFmpeg + multithreaded Pillow with CJK font support.
+  - Created zero-cost ext4 hardlinks for every video: `[video].jpg` (Jellyfin primary poster) and `[video]-thumb.jpg` (Jellyfin backdrop), ensuring permanent visibility in Jellyfin and media players.
+  - Verified 100% coverage (70/70 videos) across `jav thumb/` (67) and `biasa/` (3). Triggered Jellyfin library refresh.
+
 ## 2026-09-23 (109)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`62f8d2f`→`c922098`): perf tweak, boosts download throughput with 1MB I/O buffers and HTTP transport tuning (gdrive + discord downloaders, folder listing). Same stash/pull/pop pattern as (107) — local `docker-compose.yml` edit untouched by upstream, `docker compose up -d --build`, verified `HTTP 200`.
 
