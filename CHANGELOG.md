@@ -1,6 +1,20 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (98)
+- **Resolved SMB name mangling (`_FCR9Q~X` and `_P6X4P~L`), consolidated *Luna discography into J-Pop, and reorganized Uma Musume into 5 subseries pattern folders.**
+  - **Fixed SMB Name Mangling**:
+    - Renamed `Doujinshi/[ahi:] ~` to `Doujinshi/[ahi] ~`, eliminating the invalid colon character (`:`) and resolving Windows SMB mangled alias `_P6X4P~L`.
+    - Consolidated `Doujinshi/*Luna ~` into `J-Pop/＊Luna ~`, eliminating the invalid asterisk (`*`) and resolving Windows SMB mangled alias `_FCR9Q~X`.
+  - **Consolidated `*Luna` Discography**: Merged releases from `Doujinshi` (`Step of Youth`) and `Vocaloid` (`IMPERFECT`, `Magic of Youth`) into `Lossless/J-Pop/＊Luna ~/` alongside `INNATE`. All 4 albums are now unified under one official artist folder using Windows-safe full-width asterisk (`＊`).
+  - **Reorganized `Anime/Uma Musume ~` by Discography Subseries**: Classified all 36 albums into 5 canonical pattern subfolders while preserving chronological `[YYYY.MM.DD]` album naming:
+    - `01. WINNING LIVE Series/` (22 albums, 440 tracks, 32.87GB)
+    - `02. ANIMATION DERBY Series/` (8 albums, 113 tracks, 5.24GB)
+    - `03. STARTING GATE Series/` (2 albums, 25 tracks, 0.67GB)
+    - `04. Theatrical & Specials/` (3 albums, 75 tracks, 2.27GB)
+    - `05. Compilations/` (1 album, 10 tracks, 0.40GB)
+  - **Master Catalog Updated**: Re-indexed `/mnt/hdd-backup/music/catalog.sqlite` with 18,445 tracks. Verified zero remaining loose folders. SMART `UDMA_CRC_Error_Count` remained rock solid at 21430.
+
 ## 2026-09-23 (97)
 - **Resolved all music library anomalies on `hdd-backup`: permanent deletion of Fujian Series, standardized Uma Musume, extracted remaining archives, and fixed MusicBee cuesheet errors.**
   - **Permanently Deleted `Doujinshi/Fujian Series ~`**: Removed 2,473 non-audio cosplay photo/video files (~21GB) as explicitly commanded by user.
