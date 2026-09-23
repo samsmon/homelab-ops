@@ -1,6 +1,13 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (111)
+- **Organized `hdd-media/videos/movies/nsfw` into 1-folder-per-movie Jellyfin standard with single clean `.jpg` thumbnail.**
+  - Cleaned up redundant image variations (`_thumbs.jpg`, `.mp4_thumbs.jpg`, `-thumb.jpg`), keeping exactly one high-resolution contact sheet image per title (`[name].jpg`).
+  - Restructured all 70 videos into individual dedicated movie folders (67 in `jav thumb/`, 3 in `biasa/`).
+  - Verified 100% clean audit: every folder contains exactly 1 `.mp4` and 1 `.jpg` (zero loose files in root directories).
+  - Triggered Jellyfin library scan.
+
 ## 2026-09-23 (110)
 - **Consolidated `hdd-media/videos/movies/nsfw/jav` into `jav thumb` (Option B) and generated 5x8 MPC-HC thumbnail sheets for all 70 videos.**
   - Moved all 23 videos from `jav/` to `jav thumb/` and cleaned up empty directory.
