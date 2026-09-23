@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (120)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`219c202`→`dd29b3c`): removes the 60s timeout on the OAuth-bypass stream client (was likely killing large-file downloads mid-transfer) and adds logger calls for single-file downloads; also adds upstream's own `TODO.md` (rclone token import, full English localization — informational only, no action needed here). No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (119)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`4218c8f`→`219c202`): fixes (118)'s new OAuth flow for LAN access — normalizes private LAN IP redirect URIs to `localhost` (Google's OAuth client rejects raw LAN IPs like `192.168.18.228` as redirect URIs) and adds a custom redirect URI override for edge cases. Relevant since `gddl` is reached via LAN IP here. No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 
