@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (117)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`2f79c64`→`28c5caa`): supports the cURL `-b` cookie flag on import and sanitizes control characters in header fields. No new required env vars, compose untouched by upstream. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (116)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`faa795d`→`2f79c64`): cookie redirect preservation, 3-cookie validation, in-app confirm dialog, log text selection, plus cURL auto-extraction / JSON cookie support / quick guide in the cookie pool modal. No new required env vars, compose untouched by upstream. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 
