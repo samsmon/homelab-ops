@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (119)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`4218c8f`→`219c202`): fixes (118)'s new OAuth flow for LAN access — normalizes private LAN IP redirect URIs to `localhost` (Google's OAuth client rejects raw LAN IPs like `192.168.18.228` as redirect URIs) and adds a custom redirect URI override for edge cases. Relevant since `gddl` is reached via LAN IP here. No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (118)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`28c5caa`→`4218c8f`), biggest feature update yet: **Google OAuth2 integration with automated quota-bypass** (`ggdl_temp` copy-then-download trick) as an alternative to cookie-pool failover, plus a manual code-paste flow (rclone-style) for headless setups. Checked carefully before updating since OAuth usually implies new required config — confirmed it's fully opt-in: client ID/secret are entered and stored via the UI (`config.json`, not compose env vars), and the redirect URI is derived dynamically from the request's `Host` header rather than hardcoded, so no compose changes were needed. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200` and clean startup log. OAuth not configured/tested — opt-in feature, left for the user to set up if wanted.
 
