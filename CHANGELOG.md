@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (118)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`28c5caa`→`4218c8f`), biggest feature update yet: **Google OAuth2 integration with automated quota-bypass** (`ggdl_temp` copy-then-download trick) as an alternative to cookie-pool failover, plus a manual code-paste flow (rclone-style) for headless setups. Checked carefully before updating since OAuth usually implies new required config — confirmed it's fully opt-in: client ID/secret are entered and stored via the UI (`config.json`, not compose env vars), and the redirect URI is derived dynamically from the request's `Host` header rather than hardcoded, so no compose changes were needed. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200` and clean startup log. OAuth not configured/tested — opt-in feature, left for the user to set up if wanted.
+
 ## 2026-09-24 (117)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`2f79c64`→`28c5caa`): supports the cURL `-b` cookie flag on import and sanitizes control characters in header fields. No new required env vars, compose untouched by upstream. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 
