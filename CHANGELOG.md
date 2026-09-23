@@ -1,6 +1,10 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (115)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`f356053`→`faa795d`): cross-drive move engine, lazy link ingestion, multi-cookie pool auto-failover. Confirmed no new required env vars before updating (checked `git diff` for new `os.Getenv` calls — none). Same stash/pull/pop pattern as prior updates, `docker compose up -d --build`, verified `HTTP 200`.
+  - **Noted, not changed**: post-rebuild the active download folder is `/mnt/hdd-backup/download` (from `config/config.json`'s `download_folder`, not the compose `DOWNLOAD_DIR` env — a persisted UI setting, now actually honored since (113)'s "auto-persist default save path" feature landed). This runs counter to `hdd-backup`'s cold-backup-only role from `docs/decisions.md`, but user explicitly confirmed leaving it as-is when flagged.
+
 ## 2026-09-24 (114)
 - **Closed out the manga-raw broken-file cleanup: 0/2422 broken now, down from 870 on 2026-09-23.** Added two reusable scripts (`scripts/sync-music.sh`, `scripts/sync-manga.sh`) to `scripts/` for the user to run manually and later hook into a cron manager — both use `rsync --checksum` (skip-if-content-matches, replace-if-differs/misplaced/corrupt), matching the pattern established in (112).
   - Re-downloaded the 22 titles that (112) identified as having no replacement, using the `.nhdl-id` codes extracted from their sidecar files. This time the download tool auto-compressed to `.cbz` directly (no raw-folder conversion needed).
