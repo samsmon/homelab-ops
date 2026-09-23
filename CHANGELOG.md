@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (95)
+- **Deep reorganization and cleanup of all remaining music staging directories on `hdd-backup` (`~Extract/`, `Torrent/done`, `Torrent/!leeching`, loose root albums, and Islet/Doujinshi consolidation).**
+  - **Islet / Tayori Discography Consolidated**: Merged fractured Islet releases from `Lossless/J-Pop/Tayori (Islet)~` and loose M3 folders into `Lossless/Doujinshi/Islet (Tayori) ~/`. Preserved both 16-bit and 24-bit Hi-Res editions of `[M3-45] CYANIDE` and `[M3-49] ASTER`, alongside all singles (`memento`, `星になる`, `ワンダー`, `可惜夜`, `鯨の背中`). Deleted empty source folder in J-Pop.
+  - **`~Extract/` Fully Cleared & Removed**: Extracted and verified 5 pending archives (`Shiny Colors 2nd season` singles/albums, `Amane Kanata`, `hololive ID Juara Khatulistiwa`). Relocated all 36 extracted albums in `~Extract/flac/` into canonical `Lossless/` categories (`Anime`, `Vtuber`, `J-Pop`, `Doujinshi`, `Vocaloid`). Tested all FLACs with `flac -t` (100% passed). Cleanly removed `~Extract/` directory.
+  - **`Torrent/done` Cleared & Categorized (172 folders)**: Removed orphan/empty folders (`Ado` empty dedup folder, and `Vivy` orphan cover folder where corrupt FLAC was quarantined and clean album already exists). Classified and moved all 170 albums (2024–2025 releases) to appropriate `Lossless/` folders (`Anime`, `Vtuber`, `J-Pop`, `Vocaloid`, `Doujinshi`). `Torrent/done` is now completely clean.
+  - **`Torrent/!leeching` Purged**: Deleted 19 abandoned 0-byte ghost directories (including empty `Koikatsu` and `HoneySelect` repack directories). Cleared duplicate singles for `Watame` and `Koyori`. Integrated 53 tracks of `Tokyo 7th Sisters` into canonical artist folder.
+  - **Root & Loose Folders Cleaned**: Relocated `メメントモリ Lament Collection Vol.2` and `No Group` anime single to `Lossless/Anime/`. Relocated loose `Lossy/` root albums (`fishpond`, `Bassy`, `Ray`, `BotchiBoromaru`) into `Lossy/Doujinshi/` and `Lossy/Anime/`.
+  - **Master Catalog Updated**: Re-indexed SQLite master catalog `/mnt/hdd-backup/music/catalog.sqlite` (now tracking 18,392 active tracks). Storage usage settled at 759GB used / 981GB free (44%). `UDMA_CRC_Error_Count` remained rock solid at 21430.
+
 ## 2026-09-23 (94)
 - **Completed full music master integrity scan, staging deduplication, and reorganization on `hdd-backup` (WD Green), plus purged non-Lossless clutter on `hdd-music` (Toshiba).**
   - **Master Architecture Shift (`hdd-backup` as Master, `hdd-music` as Curated Playback)**: User decided to make `hdd-backup` the comprehensive master repository and use `hdd-music` strictly for a lightweight curated listening library (`Lossless/`).
