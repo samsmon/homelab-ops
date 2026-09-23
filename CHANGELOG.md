@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (99)
+- **Restructured Gakuen Idolmaster (`学園アイドルマスター ~`) into a dedicated per-character/artist hierarchy and unified all releases from `Im@s ~`.**
+  - **Full Audio Stream Integrity Verification**: Verified bit-stream health of all 146 FLAC files across both Gakumas repositories using `flac -t -s` (100% passed, 0 corrupt).
+  - **Unification & De-duplication**: Consolidated 35 releases from `Lossless/Anime/Im@s ~/学園アイドルマスター` and 32 releases from `Lossless/Anime/学園アイドルマスター ~/` into a single canonical hub `Lossless/Anime/学園アイドルマスター ~/`. Removed the empty `Anime/Im@s ~` directory.
+  - **Per-Character/Artist Hierarchy Established**:
+    - Created dedicated folders for all 13 idols: `01. 花海咲季 (Saki Hanami)`, `02. 月村手毬 (Temari Tsukimura)`, `03. 藤田ことね (Kotone Fujita)`, `04. 有村麻央 (Mao Arimura)`, `05. 葛城リーリヤ (Lilja Katsuragi)`, `06. 倉本千奈 (China Kuramoto)`, `07. 紫雲清夏 (Sumika Shiun)`, `08. 篠澤広 (Hiro Shinosawa)`, `09. 姫崎莉波 (Rinami Himesaki)`, `10. 花海佑芽 (Ume Hanami)`, `11. 秦谷美鈴 (Misuzu Hataya)`, `12. 十王星南 (Sena Juo)`, and `13. 雨夜燕 (Tsubame Amaya)`.
+    - Grouped all-cast anthems, unit releases (`Begrazia`), and trio event combinations (`ENDLESS DANCE`, `Howling over the World`, `がむしゃらに行こう！`, `ミラクルナナウ(ﾟ∀ﾟ)！`, `古今東西ちょちょいのちょい`) cleanly inside `00. 全体曲・ユニット (All Stars & Units)/`.
+  - **Master Catalog Updated**: Re-indexed `/mnt/hdd-backup/music/catalog.sqlite` tracking 18,445 active tracks. SMART `UDMA_CRC_Error_Count` remained rock solid at 21430.
+
 ## 2026-09-23 (98)
 - **Resolved SMB name mangling (`_FCR9Q~X` and `_P6X4P~L`), consolidated *Luna discography into J-Pop, and reorganized Uma Musume into 5 subseries pattern folders.**
   - **Fixed SMB Name Mangling**:
