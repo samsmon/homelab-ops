@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- [Claude-Code] 2026-09-23 21:15 WIB: Moving hdd-media/qbittorrent/watch-torrents (77GB) -> hdd-backup/music/Torrent/done, then FLAC integrity scan | Locks: /mnt/hdd-media/qbittorrent/watch-torrents, /mnt/hdd-backup/music/Torrent/done
+*(No active tasks currently locked)*
 
 
 

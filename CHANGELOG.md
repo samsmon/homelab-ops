@@ -1,6 +1,12 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (105)
+- **Moved `hdd-media/qbittorrent/watch-torrents` (77GB, 300 albums) to `hdd-backup/music/Torrent/done` and verified integrity — freed `hdd-media` from 99% to 90% full.** Root cause of the 77GB living in `watch-torrents` in the first place: qBittorrent's default watched-folder behavior saves completed downloads alongside the `.torrent` file's own location unless overridden, so the whole batch landed there instead of `downloads/`.
+  - `rsync` copy (not straight move) to `hdd-backup` first, verified via `--checksum` dry-run diff (empty = perfect match, 1708/1708 files, 77G/77G both sides), only then deleted the source. Zero risk of data loss if anything had gone wrong mid-copy.
+  - Ran `flac -t` integrity test on all 1313 FLAC files in the moved batch — **zero corrupt files**. Spot-checked the non-FLAC leftovers (243 txt, 76 png, 70 jpg, 4 log, 1 cue, 1 mp3) via `file` — all valid, no truncation.
+  - This is also incidental extra real-world validation for `hdd-backup`'s power-cable fix: 77GB written to it with zero `dmesg` errors, consistent with the clean stress-test results so far.
+
 ## 2026-09-23 (104)
 - **Codified mandatory Album Ingestion & Consistency Protocol across repo rules for all AI agents.**
   - **CLAUDE.md & docs/music-standards.md**: Added universal 8-point ingestion checklist for `Lossless/` and `Lossy/`:
