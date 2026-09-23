@@ -1,7 +1,13 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
-## 2026-09-24 (113)
+## 2026-09-24 (114)
+- **Closed out the manga-raw broken-file cleanup: 0/2422 broken now, down from 870 on 2026-09-23.** Added two reusable scripts (`scripts/sync-music.sh`, `scripts/sync-manga.sh`) to `scripts/` for the user to run manually and later hook into a cron manager — both use `rsync --checksum` (skip-if-content-matches, replace-if-differs/misplaced/corrupt), matching the pattern established in (112).
+  - Re-downloaded the 22 titles that (112) identified as having no replacement, using the `.nhdl-id` codes extracted from their sidecar files. This time the download tool auto-compressed to `.cbz` directly (no raw-folder conversion needed).
+  - Merged via `sync-manga.sh --merge-only`. 8 of 22 didn't get picked up by the exact-name-match merge because the downloader used slightly shortened titles this round (e.g. dropped a `2`/`3` suffix, dropped a parenthetical subtitle) — left the old broken stub orphaned under its old filename. Manually identified all 14 orphans (some were pre-existing from before, not just these 22), verified the correctly-named new file was valid (`file` = Zip, not HTML) before deleting each old stub.
+  - Final audit: **`JP`: 0/961 broken, `Unofficial`: 0/1453 broken.**
+
+## 2026-09-23 (112)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`c922098`→`f356053`): adds folder creation inside the save-path picker, fixes default save path auto-persist + add-dialog path sync, allows relocating in-progress downloads, and adds a concurrency-risk guide. Same stash/pull/pop pattern as (107)/(109) — local `docker-compose.yml` edit untouched by upstream, `docker compose up -d --build`, verified `HTTP 200`.
 
 ## 2026-09-23 (112)

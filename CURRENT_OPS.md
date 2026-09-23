@@ -7,7 +7,6 @@
 
 - [Antigravity] 2026-09-24 00:00 WIB: Synchronizing /mnt/hdd-music/music/Lossless with /mnt/hdd-backup/music/Lossless master | Locks: /mnt/hdd-music/music/Lossless
 - [Antigravity] 2026-09-23 23:40 WIB: Seeding /mnt/hdd-backup/videos from /mnt/hdd-media/videos & creating sync-videos.sh | Locks: /mnt/hdd-backup/videos, /mnt/hdd-media/videos
-- [Claude-Code] 2026-09-24 00:20 WIB: Merging 22-title nhdl batch into manga-raw/nsfw (JP/Unofficial), reconciling near-renamed broken duplicates | Locks: /mnt/hdd-media/download, /mnt/hdd-media/manga-raw/nsfw/JP, /mnt/hdd-media/manga-raw/nsfw/Unofficial
 
 
 
