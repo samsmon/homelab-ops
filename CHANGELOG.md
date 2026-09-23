@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (109)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`62f8d2f`→`c922098`): perf tweak, boosts download throughput with 1MB I/O buffers and HTTP transport tuning (gdrive + discord downloaders, folder listing). Same stash/pull/pop pattern as (107) — local `docker-compose.yml` edit untouched by upstream, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-23 (108)
 - **Converted all 858 raw-image `nhdl` title folders on `hdd-media` into `.cbz` archives, freeing further space (90%→77% full).** Each title folder (`Japanese/<Artist>/<Title>/*.webp` etc) was previously stored as loose images rather than an archive, inconsistent with the 24 titles that already existed as `.cbz` and less optimal for Komga to serve.
   - Used `zip -0` (store mode, no compression — images are already compressed formats, so this is just packaging, not size reduction) per folder, verified each archive with `unzip -tq` immediately after creation, and only deleted the original folder once verification passed. Zero failures, zero folders skipped, zero raw folders left behind afterward.
