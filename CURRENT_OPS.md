@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+- [Claude-Code] 2026-09-23 21:50 WIB: Converting nhdl (859 title folders, raw images) to .cbz archives, verify-then-delete-original per folder | Locks: /mnt/hdd-media/download/nhdl
 
 
 
