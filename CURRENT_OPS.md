@@ -4,8 +4,9 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+ 
+ *(No active tasks currently locked)*
 
-*(No active tasks currently locked)*
 
 
 ---

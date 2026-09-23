@@ -1,6 +1,19 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (97)
+- **Resolved all music library anomalies on `hdd-backup`: permanent deletion of Fujian Series, standardized Uma Musume, extracted remaining archives, and fixed MusicBee cuesheet errors.**
+  - **Permanently Deleted `Doujinshi/Fujian Series ~`**: Removed 2,473 non-audio cosplay photo/video files (~21GB) as explicitly commanded by user.
+  - **Investigated & Cleaned `Anime/Galaxy Triangle ~`**: Identified artist as **La prière** (nayuta, 藍月なくる, 棗いつき). Confirmed full official 7-track release already exists in `Lossless/Vtuber/La Prière ~/La prière - Galaxy Triangle/`. Purged the incomplete 2-track duplicate stub from `Anime/`.
+  - **Standardized `Anime/Uma Musume ~` (36 Albums) & Fixed MusicBee Errors**:
+    - Renamed all 36 albums/singles to canonical chronological release order format `[YYYY.MM.DD] ...` matching `学園アイドルマスター ~`.
+    - Removed redundant whole-disc CD images (`LACM-*.flac`, `LACA-*.flac`) and root cuesheets from `ANIMATION DERBY 01–05` where individual split tracks were already present. Eliminated ~1.25GB of duplicate data and permanently resolved MusicBee cuesheet parsing/duplicate track playback errors.
+  - **Archive Extraction & Verification (`Priere` & `TRUE`)**:
+    - Extracted 2 BOOTH albums in `J-Pop/如月梢 (Priere＊) ~` (`天元歌合`, `どりーみんどりーむ！`), verified all 20 FLACs with `flac -t`, and cleaned source zips.
+    - Extracted 4 singles in `J-Pop/TRUE ~` (`UNISONIA`, `ailes`, `BUTTERFLY EFFECTOR`, `Divine Spell`), verified all 10 FLACs, and cleaned nested `True/True/TRUE/` directory structure.
+  - **Purged 12 Orphan Stubs**: Removed 12 empty or cover-only directory stubs left over after earlier corrupt audio files were quarantined to `_corrupted_needs_redownload/`.
+  - **Master Catalog Updated**: Re-indexed `/mnt/hdd-backup/music/catalog.sqlite` with 18,445 verified tracks (671GB). Available storage on `hdd-backup` expanded to 1,003GB (43% used). SMART `UDMA_CRC_Error_Count` remained rock solid at 21430.
+
 ## 2026-09-23 (96)
 - **Achieved 100% Zero-Loose organization across all Lossless music categories on `hdd-backup` (485 artist/franchise folders).**
   - **Zero Loose Albums Achieved**: Conducted two thorough grouping passes on `Doujinshi`, `Anime`, `Vtuber`, `J-Pop`, `Vocaloid`, and `Global`. Grouped all 363+ loose albums into their canonical artist or franchise folders ending with the `~` notation (0 loose albums remain in any category root).
