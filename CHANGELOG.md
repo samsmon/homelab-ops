@@ -1,6 +1,33 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (103)
+- **Restructured Gochuumon wa Usagi Desu ka into 3 canonical subseries and consolidated THE IDOLM@STER franchise umbrella.**
+  - **Gochuumon wa Usagi Desu ka (`ご注文はうさぎですか？？ ~`) Overhaul**:
+    - Converted and split 3 uncompressed WAV+CUE albums (`宝箱のジェットコースター`, `ぴょん'sぷりんぷるん`, `ハートぷるぷる事件です`) into individual FLAC tracks with embedded Vorbis comments from CUE metadata, keeping `BK/` booklet scans intact.
+    - Split single disc image `ノーポイッ！ [FLAC+CUE+BK]` into 9 standalone FLAC tracks.
+    - Renamed mora raw store IDs (`10-0005482832.flac`, `1-0007706200.flac`...) to clean numbered titles in `ときめきポポロン♪ [FLAC 48kHz／24bit]`, `cup of chino`, and Character Songs `01 ココア` through `05 メグ`.
+    - Flattened nested `FLAC/` folders in `Daydream cafe` and `ごちうさブレンド` directly into album roots.
+    - Consolidated scans (`BK/`) from 16-bit CD-DA folder into `ときめきポポロン♪ [FLAC 48kHz／24bit+BK]`.
+    - Purged duplicate releases: removed 16-bit and CUE image duplicates of `order the songs` (retaining the 24-bit/48kHz Hi-Res version) and deduplicated `10th Anniversary`.
+    - Removed piracy tracker leftovers (`.url` links, `Read.txt`, `Discord.txt`, duplicate lowercase covers).
+    - Grouped all 20 releases across 3 subseries: `01. Theme Songs (OP & ED)`, `02. Character Song Series`, and `03. Albums & Compilations` (146 FLACs total).
+  - **THE IDOLM@STER Franchise Umbrella (`Anime/THE IDOLM@STER ~/`)**:
+    - Unified all Idolmaster branches under `Anime/THE IDOLM@STER ~/`.
+    - Relocated `学園アイドルマスター` preserving 100% of its pristine 4-tier structure (`01. Solo` with 13 character folders, `02. Duo`, `03. Trio`, and `04. All Stars & Units`) and artist-first naming.
+    - Structured `シャイニーカラーズ` into 4 subseries:
+      - `01. Song for Prism Series/` (housing 7 albums ready for incoming Song for Prism releases).
+      - `02. ECHOES Series/` (ECHOES 01, 07, 08, 09).
+      - `03. Anime Series/` (deduplicated `Over the prism`, 2nd Season OP, Halloween album).
+      - `04. Unit Singles & Compilations/` (`COLORFUL FE@THERS -CoMETIK-`).
+    - Housed `vα-liv` under `THE IDOLM@STER ~/vα-liv/`.
+    - Removed obsolete empty top-level directories `学園アイドルマスター ~` and `アイドルマスター シャイニーカラーズ ~`.
+  - **System, Permissions & Catalog**:
+    - Rebuilt master SQLite catalog `/mnt/hdd-backup/music/catalog.sqlite` tracking 18,366 valid tracks.
+    - Created reusable catalog indexing script `scripts/update_catalog.py`.
+    - Applied `100000:100000` ownership and `775` permissions across both libraries for Windows SMB access.
+    - Verified drive SMART health (`UDMA_CRC_Error_Count` = 21430, 0 errors).
+
 ## 2026-09-23 (102)
 - **Synchronized music standards documentation and CLAUDE.md guidelines with the 4-tier Gakumas model.**
   - **docs/music-standards.md**: Updated visual classification table to strictly reference the 4-tier target paths (`01. Solo/[Character]/`, `02. Duo/`, `03. Trio/`, `04. All Stars & Units/`) and added explicit Duo specification with alphabetical sorting requirement.

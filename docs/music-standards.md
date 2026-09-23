@@ -43,13 +43,14 @@ Anime/Uma Musume ~/
 
 ---
 
-## 3. Gakuen Idolmaster (`Anime/学園アイドルマスター ~`) Standard
+## 3. THE IDOLM@STER Umbrella (`Anime/THE IDOLM@STER ~/`) Standard
 
-Gakuen Idolmaster is structured into **4 dedicated separation tiers** (`Solo`, `Duo`, `Trio`, `All Stars & Units`):
+All branches of the Idolmaster franchise reside under `Anime/THE IDOLM@STER ~/`:
 
 ```
-Anime/学園アイドルマスター ~/
-├── 01. Solo/                                   (13 character subfolders, albums strictly named 'Artist - Title [Format]')
+Anime/THE IDOLM@STER ~/
+├── 学園アイドルマスター/
+│   ├── 01. Solo/                                   (13 character subfolders, albums strictly named 'Artist - Title [Format]')
 │   ├── 01. 花海咲季 (Saki Hanami)/
 │   ├── 02. 月村手毬 (Temari Tsukimura)/
 │   ├── 03. 藤田ことね (Kotone Fujita)/
@@ -64,11 +65,17 @@ Anime/学園アイドルマスター ~/
 │   ├── 12. 十王星南 (Sena Juo)/
 │   └── 13. 雨夜燕 (Tsubame Amaya)/
 │
-├── 02. Duo/                                    (Folder reserved for future duo releases: '[Artist 1・Artist 2] - Title [Format]')
+│   ├── 02. Duo/                                    (Folder reserved for future duo releases: '[Artist 1・Artist 2] - Title [Format]')
+│   ├── 03. Trio/                                   (All 20 trio releases strictly named '[Artist 1・Artist 2・Artist 3] - Title [Format]' with artists sorted alphabetically)
+│   └── 04. All Stars & Units/                      (Official units like Begrazia, student combinations, and academy-wide anthems)
 │
-├── 03. Trio/                                   (All 20 trio releases strictly named '[Artist 1・Artist 2・Artist 3] - Title [Format]' with artists sorted alphabetically)
+├── シャイニーカラーズ/                               (THE IDOLM@STER SHINY COLORS)
+│   ├── 01. Song for Prism Series/                  (All Song for Prism releases, e.g. 'Happier／枕木の歌', '時限式狂騒ワンダーランド')
+│   ├── 02. ECHOES Series/                          (ECHOES 01..N)
+│   ├── 03. Anime Series/                           (Anime 2nd season OP, Halloween, Over the prism)
+│   └── 04. Unit Singles & Compilations/            (COLORFUL FE@THERS -CoMETIK-)
 │
-└── 04. All Stars & Units/                      (Official units like Begrazia, student combinations, and academy-wide anthems)
+└── vα-liv/                                         (PROJECT IM@S virtual idol releases, e.g. 上水流宇宙)
 ```
 
 ### Folder Naming Consistency Rules:
@@ -93,3 +100,22 @@ Anime/学園アイドルマスター ~/
 | **All Stars & Seasons** | Artwork massal/seluruh murid (*all cast ensemble*), logo Hatsuboshi Gakuen, atau ilustrasi musiman (pantai/musim panas, kembang api/musim gugur, halloween, valentine, sakura). | Lagu kebangsaan akademi atau single festival musiman yang dibawakan secara kolektif. | `初 HAJIME`, `Campus mode!!`, `キミとセミブルー`, `冠菊`, `仮装狂騒曲`, `ハッピーミルフィーユ`, `桜フォトグラフ`, `SUPREMACY`, `ナイワ` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
 | **Official Units** | Logo unit resmi dan busana seragam unit panggung. | Rilis unit resmi dalam game. | `Begrazia - Star-mine` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
 | **Media Tie-in (Manga)** | Artwork gaya komik/manga, sampul tankobon, disertai booklet scan. | CD bundling komik resmi. | `GOLD RUSH (1) オリジナルCD「かちドキ」` | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
+
+---
+
+## 4. Gochuumon wa Usagi Desu ka (`Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~`) Standard
+
+All releases in `ご注文はうさぎですか？？ ~` are organized into **3 canonical subseries folders**:
+
+```
+Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/
+├── 01. Theme Songs (OP & ED)/                     (TV Anime OP & ED singles for Season 1, ??, BLOOM)
+├── 02. Character Song Series/                     (Unit singles, Character Song Series 01..05, cup of chino, 10th Anniversary)
+└── 03. Albums & Compilations/                     (ごちうさブレンド, order the songs [WEB-FLAC], メインテーマリアレンジ)
+```
+
+### Essential Rules for GochiUsa Releases:
+1. **Never Nest Audio in `FLAC/` or `WAV/`**: Audio files (`.flac`) must reside directly in the root of the album folder. Only artwork scans may reside in a `BK/` subfolder.
+2. **Split Whole-Disc Images**: Uncompressed single-file `.wav` or `.flac` disc images with `.cue` sheets must always be split into individual FLAC tracks (`shnsplit -o flac -f <cue> <audio>`) with proper vorbis tags embedded.
+3. **No Raw mora IDs**: Always rename raw store IDs (`1-0007...`, `10-0005...`) to clean numbered track titles (`01. [Title].flac`).
+4. **Zero Piracy/Tracker Junk**: Remove all `.url` shortcuts, forum promo `.txt` files (`Read.txt`, `Discord.txt`), and duplicate artwork.
