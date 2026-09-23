@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (96)
+- **Achieved 100% Zero-Loose organization across all Lossless music categories on `hdd-backup` (485 artist/franchise folders).**
+  - **Zero Loose Albums Achieved**: Conducted two thorough grouping passes on `Doujinshi`, `Anime`, `Vtuber`, `J-Pop`, `Vocaloid`, and `Global`. Grouped all 363+ loose albums into their canonical artist or franchise folders ending with the `~` notation (0 loose albums remain in any category root).
+  - **Doujinshi Reorganized (29 folders, 0 loose)**: Merged `ABSOLUTE CASTAWAY` into `中恵光城 (ABSOLUTE CASTAWAY) ~`, grouped loose releases into `棗いつき (Itsuki Natsume) ~`, `Lunatic★Melody ~`, `Room97 ~`, `*Luna ~`, `nayuta ~`, `まめこ (Sugar Bunny) ~`, and `波乗りザッパ ~`. Cleared `sukidesuost` by moving `KAF` to Vtuber, `RIM` to Vtuber, and `UNIDOTS` to J-Pop.
+  - **Anime Reorganized (81 folders, 0 loose)**: Grouped 163+ loose albums into major franchise hubs: `学園アイドルマスター ~` (30+ albums), `アイドルマスター シャイニーカラーズ ~`, `BanG Dream! ~`, `IDOLY PRIDE ~`, `Love Live ~` (including 21 singles of `イキヅライブ！ BLUEBIRD`), `ブルーアーカイブ (Blue Archive) ~`, `Girls Band Cry ~`, `結束バンド (Bocchi the Rock!) ~`, `Uma Musume ~`, `Arknights ~`, `Spice and Wolf ~`, etc.
+  - **Vtuber Reorganized (93 folders, 0 loose)**: Grouped 117+ loose releases into official agency/talent folders across Hololive JP/EN/ID (Suisei, Fubuki, Miko, Kanata, Watame, Koyori, AZKi, Botan, Noel, Towa, Mio, Marine, Haachama, ReGLOSS, FLOW GLOW), KAMITSUBAKI (KAF, RIM, Harusaruhi, Isekaijoucho, V.W.P), Nijisanji, VSPO, HIMEHINA, etc.
+  - **J-Pop, Vocaloid & Global Reorganized (0 loose)**: Grouped 51+ loose J-Pop albums into artist hubs (Ado, ReoNa, ClariS, ZUTOMAYO, Yorushika, YOASOBI, Aimer, Soraru, Gohobi, Fujikawa Chiai, UNIDOTS, HoneyWorks), grouped loose Vocaloid into artist hubs (DECO*27, TUYU, PinocchioP, MAISONdes, Sekai, 八王子P, cosMo@暴走P, livetune), and consolidated Caitlin Myers in Global.
+  - **Master Catalog Updated**: Re-indexed SQLite catalog `/mnt/hdd-backup/music/catalog.sqlite` tracking 18,383 valid tracks. Free space: 982GB available on `hdd-backup`, 298GB on `hdd-music`. SMART CRC count unchanged at 21430.
+
 ## 2026-09-23 (95)
 - **Deep reorganization and cleanup of all remaining music staging directories on `hdd-backup` (`~Extract/`, `Torrent/done`, `Torrent/!leeching`, loose root albums, and Islet/Doujinshi consolidation).**
   - **Islet / Tayori Discography Consolidated**: Merged fractured Islet releases from `Lossless/J-Pop/Tayori (Islet)~` and loose M3 folders into `Lossless/Doujinshi/Islet (Tayori) ~/`. Preserved both 16-bit and 24-bit Hi-Res editions of `[M3-45] CYANIDE` and `[M3-49] ASTER`, alongside all singles (`memento`, `星になる`, `ワンダー`, `可惜夜`, `鯨の背中`). Deleted empty source folder in J-Pop.
