@@ -128,3 +128,15 @@ tasks that are typically straightforward.
   - `/mnt/hdd-music/`: Music library (Jellyfin) + fallback backup target
   - `/mnt/hdd-media/`: Movies/TV, anime, manga-raw, manga-reader (Komga), torrent downloads
   - `/mnt/hdd-cloud/`: Nextcloud data, Syncthing, shared LAN SMB drop
+
+---
+
+## 🎵 Music Library Standards (`hdd-backup` & `hdd-music`)
+Full specifications are recorded in [`docs/music-standards.md`](docs/music-standards.md). Always follow these rules:
+1. **Zero Loose Albums Rule**: Every album/single must live inside a canonical artist or franchise folder ending with `~` (e.g. `Anime/学園アイドルマスター ~/`, `J-Pop/＊Luna ~/`).
+2. **Windows SMB Safe Naming**: Never use characters forbidden in Windows NTFS/FAT (`\ / : * ? " < > |`) in folder or file names. Use full-width equivalents (e.g. `＊` instead of `*`, remove colons `:`) to prevent Samba 8.3 DOS name mangling (`_FCR9Q~X`, `_P6X4P~L`).
+3. **Franchise Hierarchies**:
+   - **Uma Musume**: 5 canonical subseries folders (`01. WINNING LIVE Series`, `02. ANIMATION DERBY Series`, `03. STARTING GATE Series`, `04. Theatrical & Specials`, `05. Compilations`). Remove redundant full-CD images (`LACM-*.flac`, `LACA-*.flac`) and root cuesheets when split tracks exist.
+   - **Gakuen Idolmaster**: Dedicated Per-Character/Artist hierarchy (`00. 全体曲・ユニット`, `01. 花海咲季` s/d `13. 雨夜燕`). Refer to `docs/music-standards.md` for cover art and metadata rules for classifying Birthday, Solo Debut, Solo Special (True End), Physical CD Singles, Event Songs (Trio Ver), and All Stars.
+4. **Master Catalog**: Always re-index `/mnt/hdd-backup/music/catalog.sqlite` whenever music tracks or folders are added, moved, or deleted.
+

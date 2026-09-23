@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (100)
+- **Codified permanent Music Library Standards and Gakuen Idolmaster categorization rules across homelab documentation.**
+  - **Created `docs/music-standards.md`**: Comprehensive reference detailing:
+    - Zero loose albums rule across all categories on `hdd-backup` and `hdd-music`.
+    - Strict Windows SMB safe naming guidelines (avoiding `:` and ASCII `*` to eliminate 8.3 name mangling like `_FCR9Q~X`).
+    - Uma Musume 5-series discography pattern standards.
+    - Gakuen Idolmaster visual cover art, track structure, and metadata classification matrix (distinguishing Birthday singles, 1st Solo debuts, Physical CD singles with scans, Solo Special True End tracks, subsequent 2025 solo updates, Event Songs trio combinations, and All Stars anthems).
+  - **Updated `CLAUDE.md`**: Added permanent `Music Library Standards` section directing all AI agents to adhere to `docs/music-standards.md` on future album and file ingestions without repeating preliminary research.
+
 ## 2026-09-23 (99)
 - **Restructured Gakuen Idolmaster (`学園アイドルマスター ~`) into a dedicated per-character/artist hierarchy and unified all releases from `Im@s ~`.**
   - **Full Audio Stream Integrity Verification**: Verified bit-stream health of all 146 FLAC files across both Gakumas repositories using `flac -t -s` (100% passed, 0 corrupt).
