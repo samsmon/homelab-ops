@@ -7,7 +7,7 @@
 ## 1. Universal Library Standards
 
 1. **Zero Loose Albums Rule**:
-   - Every single album or single must reside inside an official canonical artist or franchise folder ending with a tilde space (`~`), e.g., `Lossless/Anime/学園アイドルマスター ~/` or `Lossless/J-Pop/＊Luna ~/`.
+   - Every single album or single must reside inside an official canonical artist or franchise folder ending with a tilde space (`~`), e.g., `Lossless/Anime/THE IDOLM@STER ~/` or `Lossless/J-Pop/＊Luna ~/`.
    - Never leave unparented loose album folders in category roots (`Anime`, `Doujinshi`, `J-Pop`, `Vtuber`, `Vocaloid`, `Global`).
 
 2. **Windows SMB Safe Naming (Strict No-Mangling Rule)**:
@@ -23,6 +23,29 @@
    - `/mnt/hdd-backup/music/`: Comprehensive master repository containing all full discographies (`Lossless/`, `Lossy/`, `catalog.sqlite`).
    - `/mnt/hdd-music/music/`: Lightweight curated listening library (`Lossless/`).
    - Whenever tracks or folders are added, moved, or deleted, always re-index the master SQLite catalog at `/mnt/hdd-backup/music/catalog.sqlite`.
+
+4. **Mandatory Album Ingestion & Consistency Protocol (Lossless & Lossy)**:
+   Whenever adding, moving, downloading, or reorganizing new albums into `Lossless/` or `Lossy/`, all AI agents must follow this 8-point checklist:
+   1. **Franchise/Artist Umbrella Check**: Check if an existing `~` folder already covers the release (e.g. `THE IDOLM@STER ~`, `Uma Musume ~`). If so, locate the correct subseries folder before placing the album. Never drop albums loose into the franchise root or category root.
+   2. **Strict Hierarchy Compliance**: If a subseries pattern exists (e.g., `Song for Prism Series/`, `WINNING LIVE Series/`, `01. Solo/[Character]/`), place the album strictly into its matching tier.
+   3. **Consistent Album Folder Naming**:
+      - Canonical pattern: `[YYYY.MM.DD] [Artist] - [Title] [Format]` (or franchise standard, e.g. Gakumas: `[Artist] - [Title] [Format]`).
+      - Format declaration is mandatory: e.g. `[FLAC]`, `[FLAC 96kHz／24bit]`, `[FLAC+BK]`, `[MP3 320k]`.
+   4. **Flat Album Root (Zero Nested Audio)**:
+      - All audio files (`.flac`, `.mp3`) must reside directly in the root of the album folder.
+      - **FORBIDDEN**: Never leave files inside nested `FLAC/`, `WAV/`, or `MP3/` folders.
+      - **PERMITTED SUBFOLDERS**: Only `BK/` (booklet scans) and `Disc 1/`, `Disc 2/` (for multi-disc releases).
+   5. **Track Naming & Metadata Integrity**:
+      - Track files must follow `01. [Title].[ext]` or `01 - [Artist] - [Title].[ext]`.
+      - **FORBIDDEN**: Leaving raw web store download IDs (e.g. mora `1-0007...` or `10-0005...`).
+      - All embedded Vorbis/ID3 tags (`TITLE`, `ARTIST`, `ALBUM`, `TRACKNUMBER`) must be filled and match official metadata.
+   6. **No Redundant Disc Images / WAVs**:
+      - Single uncompressed `.wav` or `.flac` disc images accompanied by `.cue` must be split into standalone tracks (`shnsplit`) and tagged. Delete the full-disc image if split tracks are present to avoid player errors and duplicate entries in MusicBee.
+   7. **Zero Junk Policy**:
+      - Strip all piracy forum links (`.url`), downloader advertisements (`Read.txt`, `Discord.txt`), and duplicate lowercase artwork (`cover.jpg` when `Cover.jpg` exists).
+   8. **Permissions & Catalog Indexing**:
+      - Execute `chown -R 100000:100000` and `chmod -R 775` (directories) / `664` (files) on all newly added paths to ensure seamless Windows SMB read/write access.
+      - Execute `python3 scripts/update_catalog.py` to refresh `/mnt/hdd-backup/music/catalog.sqlite`.
 
 ---
 

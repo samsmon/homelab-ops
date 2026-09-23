@@ -132,12 +132,22 @@ tasks that are typically straightforward.
 ---
 
 ## 🎵 Music Library Standards (`hdd-backup` & `hdd-music`)
-Full specifications are recorded in [`docs/music-standards.md`](docs/music-standards.md). Always follow these rules:
-1. **Zero Loose Albums Rule**: Every album/single must live inside a canonical artist or franchise folder ending with `~` (e.g. `Anime/学園アイドルマスター ~/`, `J-Pop/＊Luna ~/`).
-2. **Windows SMB Safe Naming**: Never use characters forbidden in Windows NTFS/FAT (`\ / : * ? " < > |`) in folder or file names. Use full-width equivalents (e.g. `＊` instead of `*`, remove colons `:`) to prevent Samba 8.3 DOS name mangling (`_FCR9Q~X`, `_P6X4P~L`).
-3. **Franchise Hierarchies**:
-   - **Uma Musume**: 5 canonical subseries folders (`01. WINNING LIVE Series`, `02. ANIMATION DERBY Series`, `03. STARTING GATE Series`, `04. Theatrical & Specials`, `05. Compilations`). Remove redundant full-CD images (`LACM-*.flac`, `LACA-*.flac`) and root cuesheets when split tracks exist.
-   - **THE IDOLM@STER**: Master franchise umbrella (`Anime/THE IDOLM@STER ~/`). Sub-branches include `学園アイドルマスター` (strict 4-tier model: `01. Solo`, `02. Duo`, `03. Trio`, `04. All Stars & Units`), `シャイニーカラーズ` (subseries: `01. Song for Prism Series`, `02. ECHOES Series`, `03. Anime Series`, `04. Unit Singles & Compilations`), and `vα-liv`. Refer to `docs/music-standards.md` for full categorization rules.
-   - **Gochuumon wa Usagi Desu ka**: 3 canonical subseries folders (`01. Theme Songs (OP & ED)`, `02. Character Song Series`, `03. Albums & Compilations`). Audio tracks must reside in the album root (never nest in `FLAC/`). Split all uncompressed WAV+CUE images into FLAC tracks and purge piracy tracker junk.
-4. **Master Catalog**: Always re-index `/mnt/hdd-backup/music/catalog.sqlite` whenever music tracks or folders are added, moved, or deleted.
+Full specifications are recorded in [`docs/music-standards.md`](docs/music-standards.md). ALL AI agents MUST enforce these rules when ingesting, downloading, moving, or reorganizing albums in `Lossless/` or `Lossy/`:
+
+1. **Zero Loose Albums Rule**: Every single album/single must reside inside an official canonical artist or franchise folder ending with `~` (e.g. `Anime/THE IDOLM@STER ~/`, `J-Pop/＊Luna ~/`). Never place loose albums in category roots (`Anime`, `Doujinshi`, `J-Pop`, `Vtuber`, `Vocaloid`, `Global`).
+2. **Strict Hierarchy Compliance**: Always inspect and respect established franchise subseries before dropping files. If a franchise has canonical subfolders, new albums MUST be placed in their matching subfolder (e.g. `THE IDOLM@STER ~/シャイニーカラーズ/01. Song for Prism Series/`, `Uma Musume ~/01. WINNING LIVE Series/`, or `Gakumas/01. Solo/[Idol]/`). Never leave unparented albums at the franchise root.
+3. **Consistent Album Folder Naming**:
+   - Universal pattern: `[YYYY.MM.DD] [Artist] - [Title] [Format]` (or franchise-specific convention like Gakumas `[Artist] - [Title] [Format]`).
+   - Format tag is mandatory: e.g. `[FLAC]`, `[FLAC 96kHz／24bit]`, `[FLAC+BK]`, `[MP3 320k]`.
+4. **Flat Album Root (Zero Nested Audio)**:
+   - Audio tracks (`.flac`, `.mp3`) must always sit directly in the album folder. Never create nested `FLAC/`, `WAV/`, or `MP3/` folders. Only `BK/` (booklet scans) and `Disc 1/`, `Disc 2/` (for multi-disc releases) are permitted subdirectories.
+5. **Track Naming & Metadata Integrity**:
+   - Track files must follow `01. [Title].[ext]` or `01 - [Artist] - [Title].[ext]`. Never leave raw store IDs (mora `1-0007...`) or unnamed tracks. Embedded Vorbis/ID3 tags (`TITLE`, `ARTIST`, `ALBUM`, `TRACKNUMBER`) must be filled and accurate.
+6. **No Redundant Disc Images / WAVs**:
+   - Split single-file WAV/FLAC images with CUE into individual standalone tracks. Delete redundant whole-disc images when split tracks exist.
+7. **Windows SMB Safe Naming**: Never use characters forbidden in Windows NTFS/FAT (`\ / : * ? " < > |`) in folder or file names. Use full-width equivalents (e.g. `＊` instead of `*`, remove colons `:` or use full-width `：`) to prevent Samba 8.3 DOS name mangling (`_FCR9Q~X`, `_P6X4P~L`).
+8. **Zero Junk Policy**: Strip piracy forum links (`.url`), downloader `.txt` ads (`Read.txt`, `Discord.txt`, etc.), and duplicate lowercase cover files (`cover.jpg` when `Cover.jpg` exists).
+9. **Ownership & Master Catalog**:
+   - Apply `chown -R 100000:100000` and `chmod -R 775` (dirs) / `664` (files) on new additions so SMB users have immediate access.
+   - Always run `python3 /mnt/hdd-backup/music/scripts/update_catalog.py` (or repository `scripts/update_catalog.py`) to refresh `catalog.sqlite`.
 

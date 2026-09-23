@@ -1,6 +1,18 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (104)
+- **Codified mandatory Album Ingestion & Consistency Protocol across repo rules for all AI agents.**
+  - **CLAUDE.md & docs/music-standards.md**: Added universal 8-point ingestion checklist for `Lossless/` and `Lossy/`:
+    1. Zero loose albums outside `~` folders in category roots.
+    2. Strict hierarchy compliance: must place new albums inside established subseries (e.g. `Song for Prism Series`, `WINNING LIVE Series`, `01. Solo/[Character]`).
+    3. Mandatory consistent naming: `[YYYY.MM.DD] [Artist] - [Title] [Format]`.
+    4. Flat album root: audio tracks must reside directly in the album folder (never nested in `FLAC/`, `WAV/`, or `MP3/`).
+    5. Clean track naming & metadata: `01. [Title].[ext]`, no raw store IDs (mora `1-0007...`), full Vorbis/ID3 tags.
+    6. Split full-disc images with CUE into standalone tracks and delete redundant disc images.
+    7. Zero junk policy: purge piracy links (`.url`), download ads (`.txt`), and duplicate lowercase artwork.
+    8. Permissions & Indexing: apply `chown -R 100000:100000`, `chmod -R 775` (dirs) / `664` (files), and run `update_catalog.py`.
+
 ## 2026-09-23 (103)
 - **Restructured Gochuumon wa Usagi Desu ka into 3 canonical subseries and consolidated THE IDOLM@STER franchise umbrella.**
   - **Gochuumon wa Usagi Desu ka (`ご注文はうさぎですか？？ ~`) Overhaul**:
