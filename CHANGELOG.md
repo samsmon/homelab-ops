@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (107)
+- **Updated `gddl` (personal-hosts) to latest upstream** (`e855552`→`62f8d2f`): adds Discord CDN download support (anti-rate-limit, HTTP range resume) plus a repo/release-URL and extra-drives-separator fix. Stashed the server-specific local `docker-compose.yml` edit (container name/port `8099`, `DOWNLOAD_DIR`, `EXTRA_DRIVES` mounts) before pulling, confirmed the 2 upstream commits didn't touch that file, popped the stash back, `docker compose up -d --build`. Verified `HTTP 200` and clean startup log post-rebuild.
+
 ## 2026-09-23 (106)
 - **Deduplicated redundant videos in `hdd-media/videos/movies/nsfw` — freed 26GB (disk usage dropped from 80% to 77%).**
   - Scanned all 80 videos across `jav/`, `jav thumb/`, and `biasa/` analyzing duration via `ffprobe`, JAV codes, resolutions, and bitrates.
