@@ -1,6 +1,12 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (106)
+- **Deduplicated redundant videos in `hdd-media/videos/movies/nsfw` — freed 26GB (disk usage dropped from 80% to 77%).**
+  - Scanned all 80 videos across `jav/`, `jav thumb/`, and `biasa/` analyzing duration via `ffprobe`, JAV codes, resolutions, and bitrates.
+  - Eliminated 10 duplicate video files across 9 titles (`CJOD-527`, `WAAA-682`, `PPPE-435`, `NSODN-025`, `PRED-886`, `MIDE-786`, `HMN-377`, `SNOS-258`, `GOJI-058`) and 4 orphan thumbs.
+  - Retained high-resolution/raw master files and cleaner titles while removing identical hash duplicates, lower-resolution encodes, and `_2.mp4` redownloads. Library verified at 70 unique videos.
+
 ## 2026-09-23 (105)
 - **Moved `hdd-media/qbittorrent/watch-torrents` (77GB, 300 albums) to `hdd-backup/music/Torrent/done` and verified integrity — freed `hdd-media` from 99% to 90% full.** Root cause of the 77GB living in `watch-torrents` in the first place: qBittorrent's default watched-folder behavior saves completed downloads alongside the `.torrent` file's own location unless overridden, so the whole batch landed there instead of `downloads/`.
   - `rsync` copy (not straight move) to `hdd-backup` first, verified via `--checksum` dry-run diff (empty = perfect match, 1708/1708 files, 77G/77G both sides), only then deleted the source. Zero risk of data loss if anything had gone wrong mid-copy.
