@@ -3,6 +3,16 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-24 — Adopted Master-Playback Architecture for Video Library (Alur A: Master on `hdd-backup`, Playback on `hdd-media`)
+
+- **Status: DECIDED & EXECUTED.** User requested adopting the same master-playback pattern used for music for the video library: `/mnt/hdd-backup/videos` acts as the primary master storage (cold archive), while `/mnt/hdd-media/videos` acts as the active serving library for Jellyfin (playback clone).
+- **Implementation**:
+  - Initial 411 GB seeding copy from `hdd-media` to `hdd-backup` completed cleanly at 2026-09-24 03:09 WIB (440.57 GB transferred, exit code 0).
+  - Both sides verified identical size (`411G /mnt/hdd-backup/videos` vs `411G /mnt/hdd-media/videos`).
+  - Script created at `scripts/sync-videos.sh` (installed to `/usr/local/bin/sync-videos`), using `rsync -avh --partial --inplace --info=progress2` with `flock` concurrency locking. Supports `--to-backup` for reverse seeding/backup.
+  - Automation active on `docker-host`: `configs/systemd/homelab-video-sync.service` and `homelab-video-sync.timer` running daily at 04:30 WIB.
+- **Hardware Stability**: The 440 GB sustained write to the WD Green (`hdd-backup`) completed with zero errors and `UDMA_CRC_Error_Count` remained rock-solid at 21430 (0 new errors), confirming the stability of the dedicated Molex-to-SATA power cable swap.
+
 ## 2026-09-22 — Update: power cable swap on `hdd-backup` passed initial stress tests, "drive-side hardware fault" conclusion below may need revisiting
 
 - **Status: PROMISING, NOT YET CONCLUSIVE.** Contradicts (partially) the "not economically repairable, drive-side connector/PCB" framing in the entry directly below — turns out there was one more untested variable: the drive shared a single Molex-to-3-SATA power splitter with other drives, never tested in isolation.

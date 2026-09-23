@@ -26,8 +26,8 @@ This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unc
    - Drive: `MidasForce SSD 256GB` (`/dev/sda`).
    - Role: Proxmox VE host OS, swap, VM/LXC virtual disks, and database metadata.
 2. **HDD-Backup (2TB 3.5" Western Digital Green via LM 418 SATA Port)** — renamed 2026-09-21, was `HDD-Music`:
-   - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623` (device letter floats, currently detached — see status row below).
-   - Role (intended, not currently reliable): cold-backup target. **⚠️ Failed a sequential-write test on 2026-09-21 and dropped from the kernel** — its safety even for this role is now in question. See the drive-status table below before trusting it with anything.
+   - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623`.
+   - Role: Cold-backup target and Master Media Archive (`/mnt/hdd-backup/music`, `/mnt/hdd-backup/videos`). Stabilized 2026-09-22 following dedicated Molex-to-SATA power cable swap (zero errors over sustained 440GB sequential write on 2026-09-24, UDMA CRC errors stable at 21430).
    - Mounted at `/mnt/hdd-backup` when up.
 3. **HDD-Media (1TB 3.5" Seagate Barracuda 7200 RPM via LM 418 SATA Port)**:
    - Drive: `ST1000DM010-2EP102`, serial `W9AS0LSD` (`/dev/sdd2`, label `hdd-media`, 916GB usable).

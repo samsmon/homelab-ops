@@ -1,6 +1,14 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (121)
+- **Completed 411 GB video library seeding to `hdd-backup`, established Alur A master-playback architecture, and activated automated daily sync.**
+  - Seeded 440.57 GB of video content from `/mnt/hdd-media/videos` to `/mnt/hdd-backup/videos` via `sync-videos --to-backup` (completed cleanly with exit code 0; verified identical size: `411G` on both drives).
+  - Adopted Alur A architecture: `/mnt/hdd-backup/videos` serves as the cold Master Archive, while `/mnt/hdd-media/videos` serves as the active Playback/Serving clone for Jellyfin.
+  - Created reusable sync script `scripts/sync-videos.sh` (installed to `/usr/local/bin/sync-videos` on `docker-host`) with `flock` locking, `--partial --inplace` efficiency, and bidirectional support (`--to-backup`).
+  - Deployed and enabled systemd timer on `docker-host`: `homelab-video-sync.timer` and `homelab-video-sync.service` (runs daily at 04:30 WIB).
+  - Confirmed WD Green (`hdd-backup`) hardware health: S.M.A.R.T. `UDMA_CRC_Error_Count` unchanged at 21430 (zero errors during full 440 GB transfer), with 512 GB free space remaining (71% utilized).
+
 ## 2026-09-24 (120)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`219c202`→`dd29b3c`): removes the 60s timeout on the OAuth-bypass stream client (was likely killing large-file downloads mid-transfer) and adds logger calls for single-file downloads; also adds upstream's own `TODO.md` (rclone token import, full English localization — informational only, no action needed here). No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 

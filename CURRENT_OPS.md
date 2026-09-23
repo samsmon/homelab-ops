@@ -6,7 +6,6 @@
 ## Active Task Registry
 
 - [Antigravity] 2026-09-24 00:00 WIB: Synchronizing /mnt/hdd-music/music/Lossless with /mnt/hdd-backup/music/Lossless master | Locks: /mnt/hdd-music/music/Lossless
-- [Antigravity] 2026-09-23 23:40 WIB: Seeding /mnt/hdd-backup/videos from /mnt/hdd-media/videos & creating sync-videos.sh | Locks: /mnt/hdd-backup/videos, /mnt/hdd-media/videos
 
 
 

@@ -1,0 +1,8 @@
+[Unit]
+Description=Homelab Video Sync (Master hdd-backup -> Playback hdd-media)
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sync-videos
+User=root
