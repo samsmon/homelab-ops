@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-- **Gemini/Antigravity (2026-09-23 13:24)**: Music integrity scan & staging cleanup on `/mnt/hdd-music/music` | Locks: `hdd-music`, `hdd-backup`
+*(No active tasks currently locked)*
 
 
 ---
