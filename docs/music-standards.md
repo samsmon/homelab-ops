@@ -45,25 +45,39 @@ Anime/Uma Musume ~/
 
 ## 3. Gakuen Idolmaster (`Anime/学園アイドルマスター ~`) Standard
 
-Gakuen Idolmaster is structured into a **Per-Character/Artist Hierarchy** consisting of 13 idol folders plus an All-Stars & Units folder:
+Gakuen Idolmaster is structured into **4 dedicated separation tiers** (`Solo`, `Duo`, `Trio`, `All Stars & Units`):
 
 ```
 Anime/学園アイドルマスター ~/
-├── 00. 全体曲・ユニット (All Stars & Units)/
-├── 01. 花海咲季 (Saki Hanami)/
-├── 02. 月村手毬 (Temari Tsukimura)/
-├── 03. 藤田ことね (Kotone Fujita)/
-├── 04. 有村麻央 (Mao Arimura)/
-├── 05. 葛城リーリヤ (Lilja Katsuragi)/
-├── 06. 倉本千奈 (China Kuramoto)/
-├── 07. 紫雲清夏 (Sumika Shiun)/
-├── 08. 篠澤広 (Hiro Shinosawa)/
-├── 09. 姫崎莉波 (Rinami Himesaki)/
-├── 10. 花海佑芽 (Ume Hanami)/
-├── 11. 秦谷美鈴 (Misuzu Hataya)/
-├── 12. 十王星南 (Sena Juo)/
-└── 13. 雨夜燕 (Tsubame Amaya)/
+├── 01. Solo/                                   (13 character subfolders, albums strictly named 'Artist - Title [Format]')
+│   ├── 01. 花海咲季 (Saki Hanami)/
+│   ├── 02. 月村手毬 (Temari Tsukimura)/
+│   ├── 03. 藤田ことね (Kotone Fujita)/
+│   ├── 04. 有村麻央 (Mao Arimura)/
+│   ├── 05. 葛城リーリヤ (Lilja Katsuragi)/
+│   ├── 06. 倉本千奈 (China Kuramoto)/
+│   ├── 07. 紫雲清夏 (Sumika Shiun)/
+│   ├── 08. 篠澤広 (Hiro Shinosawa)/
+│   ├── 09. 姫崎莉波 (Rinami Himesaki)/
+│   ├── 10. 花海佑芽 (Ume Hanami)/
+│   ├── 11. 秦谷美鈴 (Misuzu Hataya)/
+│   ├── 12. 十王星南 (Sena Juo)/
+│   └── 13. 雨夜燕 (Tsubame Amaya)/
+│
+├── 02. Duo/                                    (Folder reserved for future duo releases: '[Artist 1・Artist 2] - Title [Format]')
+│
+├── 03. Trio/                                   (All 20 trio releases strictly named '[Artist 1・Artist 2・Artist 3] - Title [Format]' with artists sorted alphabetically)
+│
+└── 04. All Stars & Units/                      (Official units like Begrazia, student combinations, and academy-wide anthems)
 ```
+
+### Folder Naming Consistency Rules:
+1. **Solo Releases**: Must always follow `[Artist] - [Title] [Format]`, e.g. `花海咲季 - Fighting My Way [FLAC 96kHz／24bit]`, `藤田ことね - 世界一可愛い私 [1st Single CD-FLAC]`.
+2. **Duo & Trio Releases**: Artists must be listed in **alphabetical order**, followed by title: `[Artist 1・Artist 2・Artist 3] - [Title] [Format]`.
+   - Example: `[藤田ことね・花海咲季・月村手毬] - ENDLESS DANCE [FLAC 96kHz／24bit]` (Fujita, Hanami, Tsukimura).
+   - Example: `[有村麻央・篠澤広・紫雲清夏] - Howling over the World [FLAC 96kHz／24bit]` (Arimura, Shinosawa, Shiun).
+3. **All Stars & Units**: Official unit name or all-stars artist name first: `Begrazia - Star-mine [FLAC 96kHz／24bit]`, `初星学園 - 初 HAJIME [FLAC]`.
+
 
 ### Visual & Metadata Classification Guide for Gakumas
 

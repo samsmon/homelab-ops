@@ -1,6 +1,16 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (101)
+- **Standardized Gakuen Idolmaster into 4 distinct tier folders (`Solo`, `Duo`, `Trio`, `All Stars & Units`) with strict `[Artist] - [Title]` naming.**
+  - **4-Tier Structural Separation**:
+    - `01. Solo/`: Contains 13 idol character subfolders (`01. 花海咲季` .. `13. 雨夜燕`), housing 42 solo releases. Every album strictly formatted as `[Artist] - [Title] [Format]`.
+    - `02. Duo/`: Established dedicated placeholder directory for future duo releases (`[Artist 1・Artist 2] - [Title] [Format]`).
+    - `03. Trio/`: Consolidated all 20 trio event and seasonal releases. Formatted as `[Artist 1・Artist 2・Artist 3] - [Title] [Format]` with artists sorted alphabetically.
+    - `04. All Stars & Units/`: Housing official units (`Begrazia`), multi-character combinations (`SUPREMACY`, `Let's GO!! ICHI-NO-NI!!`, `ナイワ`), and full-cast anthems (`初`, `Campus mode!!`).
+  - **Updated Standards Documentation**: Updated `docs/music-standards.md` to record the 4-tier model and strict artist-first naming syntax.
+  - **Master Catalog Updated**: Re-indexed `/mnt/hdd-backup/music/catalog.sqlite` tracking 18,445 valid tracks. SMART `UDMA_CRC_Error_Count` remained rock solid at 21430.
+
 ## 2026-09-23 (100)
 - **Codified permanent Music Library Standards and Gakuen Idolmaster categorization rules across homelab documentation.**
   - **Created `docs/music-standards.md`**: Comprehensive reference detailing:
