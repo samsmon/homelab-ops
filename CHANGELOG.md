@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (112)
+- **Merged the converted `nhdl` batch into `manga-raw/nsfw` (`Japanese`→`JP`, `English`→`Unofficial`), fixing hundreds of previously-broken entries in the existing collection.**
+  - Pre-merge audit found the existing collection had a large number of `.cbz` files that were actually **saved HTML error pages** (10-17KB, `file` identified them as HTML, not valid zip archives) rather than real manga — almost certainly leftover from failed downloads. Full audit: **326/934 broken in `JP`, 544/1433 broken in `Unofficial`** (870 total).
+  - Cross-referenced against the fresh `nhdl` download: 315 of `JP`'s broken files and all 533 of `Unofficial`'s broken files had an exact-name match in the new download — i.e. the new download was a **fix**, not a risk of overwriting something better. Spot-checked the 8 exact-name matches that *were* already valid in `JP`: sizes identical or within a few KB, no quality concern.
+  - Also checked for renamed/fuzzy duplicates (same content, different filename) among the 35+24 titles that had no exact name match — compared by file size against the full valid (non-HTML) existing collection, zero coincidental matches found, confirming these are genuinely new additions.
+  - Executed the merge via `rsync` (default overwrite-on-copy), verified post-merge: `JP`'s broken-file count dropped from 326 to the expected 11 (titles with no fresh replacement available — listed below for future re-download). Deleted the now-empty `/mnt/hdd-media/download/nhdl` source.
+  - **22 titles remain broken** (no replacement was available in this batch) — flagged for manual re-download later: 11 in `JP` (Ashiomi Masato, Baketsu Purin, Gonza, Izure, Ken-1, Kirishima Ayu, Kurukuru, Maskwolf Keinv, Nako Sir, Tawara Hiryuu, Zonebell Tsukiji — full title list in this session's transcript) and 11 in `Unofficial` (Akagi Asahito, Amazon, Azuse, Clone Ningen, Furiouzly, Ginen, Hyji, Jinsuke, Juna Juna Juice, Komagata, Nodo).
+  - `hdd-media` usage: 77% (unchanged from (108), since this was an internal move within the same drive, not new data).
+
 ## 2026-09-23 (111)
 - **Organized `hdd-media/videos/movies/nsfw` into 1-folder-per-movie Jellyfin standard with single clean `.jpg` thumbnail.**
   - Cleaned up redundant image variations (`_thumbs.jpg`, `.mp4_thumbs.jpg`, `-thumb.jpg`), keeping exactly one high-resolution contact sheet image per title (`[name].jpg`).
