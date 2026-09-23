@@ -1,6 +1,11 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-23 (102)
+- **Synchronized music standards documentation and CLAUDE.md guidelines with the 4-tier Gakumas model.**
+  - **docs/music-standards.md**: Updated visual classification table to strictly reference the 4-tier target paths (`01. Solo/[Character]/`, `02. Duo/`, `03. Trio/`, `04. All Stars & Units/`) and added explicit Duo specification with alphabetical sorting requirement.
+  - **CLAUDE.md**: Updated section 3 to mandate the 4-tier Gakumas directory hierarchy and strict `[Artist] - [Title] [Format]` naming standard across all AI agents.
+
 ## 2026-09-23 (101)
 - **Standardized Gakuen Idolmaster into 4 distinct tier folders (`Solo`, `Duo`, `Trio`, `All Stars & Units`) with strict `[Artist] - [Title]` naming.**
   - **4-Tier Structural Separation**:

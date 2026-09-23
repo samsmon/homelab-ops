@@ -137,6 +137,6 @@ Full specifications are recorded in [`docs/music-standards.md`](docs/music-stand
 2. **Windows SMB Safe Naming**: Never use characters forbidden in Windows NTFS/FAT (`\ / : * ? " < > |`) in folder or file names. Use full-width equivalents (e.g. `＊` instead of `*`, remove colons `:`) to prevent Samba 8.3 DOS name mangling (`_FCR9Q~X`, `_P6X4P~L`).
 3. **Franchise Hierarchies**:
    - **Uma Musume**: 5 canonical subseries folders (`01. WINNING LIVE Series`, `02. ANIMATION DERBY Series`, `03. STARTING GATE Series`, `04. Theatrical & Specials`, `05. Compilations`). Remove redundant full-CD images (`LACM-*.flac`, `LACA-*.flac`) and root cuesheets when split tracks exist.
-   - **Gakuen Idolmaster**: Dedicated Per-Character/Artist hierarchy (`00. 全体曲・ユニット`, `01. 花海咲季` s/d `13. 雨夜燕`). Refer to `docs/music-standards.md` for cover art and metadata rules for classifying Birthday, Solo Debut, Solo Special (True End), Physical CD Singles, Event Songs (Trio Ver), and All Stars.
+   - **Gakuen Idolmaster**: Strict 4-tier separation (`01. Solo` [13 character subfolders `01. 花海咲季` s/d `13. 雨夜燕`], `02. Duo`, `03. Trio` [artists sorted alphabetically], `04. All Stars & Units`). Album folders strictly follow `[Artist] - [Title] [Format]`. Refer to `docs/music-standards.md` for cover art, categorization matrix, and naming rules.
 4. **Master Catalog**: Always re-index `/mnt/hdd-backup/music/catalog.sqlite` whenever music tracks or folders are added, moved, or deleted.
 
