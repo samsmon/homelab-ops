@@ -21,4 +21,3 @@
 2. **Locking**: If your task modifies a service/compose file, list it above under Active Task Registry.
 3. **No Collision**: Do NOT touch files or containers locked by another active agent.
 4. **Push Immediately**: Selesai task, update `CHANGELOG.md`, bersihkan lock dari file ini, lalu `git add . && git commit && git push`.
-- [Claude Code] 2026-09-24: Updating gddl (personal-hosts) to latest upstream (f356053) | Locks: personal-hosts /opt/projects/gddl, gddl container

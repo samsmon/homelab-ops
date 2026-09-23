@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (113)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`c922098`→`f356053`): adds folder creation inside the save-path picker, fixes default save path auto-persist + add-dialog path sync, allows relocating in-progress downloads, and adds a concurrency-risk guide. Same stash/pull/pop pattern as (107)/(109) — local `docker-compose.yml` edit untouched by upstream, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-23 (112)
 - **Merged the converted `nhdl` batch into `manga-raw/nsfw` (`Japanese`→`JP`, `English`→`Unofficial`), fixing hundreds of previously-broken entries in the existing collection.**
   - Pre-merge audit found the existing collection had a large number of `.cbz` files that were actually **saved HTML error pages** (10-17KB, `file` identified them as HTML, not valid zip archives) rather than real manga — almost certainly leftover from failed downloads. Full audit: **326/934 broken in `JP`, 544/1433 broken in `Unofficial`** (870 total).
