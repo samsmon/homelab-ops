@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (127)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`e55968a`→`b1e99eb`): fixes duplicate-filename collisions, adds HTTP 416 (Range Not Satisfiable) recovery, and freezes the table header on scroll. No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (126)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`0b30c38`→`e55968a`), 3 commits: dedicated `chunked` package for parallel multi-chunk downloads (now works on resume too, plus chunk-progress badges in the UI), Discord CDN downloads fixed for HTTP/2 stream errors + a new AI-agent export/refresh workflow, and multi-socket HTTP/1.1 transport enforced for Google Drive to bypass its TCP connection limit (Discord downloads intentionally kept single-stream). No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 
