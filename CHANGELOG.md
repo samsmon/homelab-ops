@@ -2,6 +2,16 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-24 (133)
+- **Enforced strict server-side execution rule in `CLAUDE.md` and launched background Master Library Healing & Migration daemon.**
+  - **Rule Enforcement (`CLAUDE.md`)**:
+    - Added Section 2 Rule 4: Mandatory server-side execution (`docker-host` / `pve`) for all analysis, audits, tagging, and heavy operations to eliminate local PC CPU/RAM and SMB network bottlenecks, allowing Antigravity sessions to be safely closed while jobs proceed uninterrupted.
+  - **Launched Master Library Healing Daemon (`master_healing_daemon.py` PID 644705)**:
+    - Fixed Sizuk album tagging (`TITLE` UTF-8 characters restored from `?????`, embedded cover art re-linked cleanly), moved to canonical `Lossless/J-Pop/Sizuk ~/`, and purged misplaced/duplicate folders.
+    - Purged redundant monolithic rip `Lossless/Anime/かくりよの宿飯 ~` (verified existing 8-track FLAC in `Lossless/J-Pop/Tōyama Nao 東山奈央 ~`).
+    - Migrated misplaced VTuber and Doujinshi/Vocaloid releases from `J-Pop/` to canonical `Vtuber/`, `Doujinshi/`, and `Vocaloid/` folders.
+    - Script running full library tag scan, permission enforcement (`100000:100000`), catalog SQLite update, and internal 1:1 rsync mirroring to `Z:\` (`hdd-music`).
+
 ## 2026-09-24 (132)
 - **Tuned Samba for high-speed MusicBee traversal, conducted comprehensive 24k-file Lossless audit, and detached sync into independent PVE server daemon.**
   - **Samba Performance Tuning (`smb.conf`)**:
