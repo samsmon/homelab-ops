@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-24 (130)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`b1e99eb`→`ae496df`), 3 commits: autonomous "Anti-Throttle" watchdog that detects CDN bandwidth throttling and auto-activates a Cloudflare WARP local SOCKS5 proxy (or a custom proxy pool) with WireGuard key rotation and seamless reconnect at the exact byte offset; Stop All / Resume All queue controls with atomic backend endpoints; IDM-style multi-socket Discord downloads with auto-healing chunk restart, virtual scrolling, and stable sort. Checked carefully since WARP support could've meant a new binary dependency — confirmed `Dockerfile` is untouched (`warp-cli` isn't bundled in the image) and the code degrades gracefully via `exec.LookPath`, falling back to an optional user-configured custom proxy string, or a clear error if neither is present — no build/env changes needed. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200` and clean startup log.
+
 ## 2026-09-24 (129)
 - **Implemented canonical Option A hierarchy for `THE IDOLM@STER SHINY COLORS` and ingested 55 discography archives (~35GB) from `download/`.**
   - Established 5-tier canonical hierarchy under `/mnt/hdd-backup/music/Lossless/Anime/THE IDOLM@STER ~/シャイニーカラーズ/`:
