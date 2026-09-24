@@ -2,6 +2,20 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-24 (132)
+- **Tuned Samba for high-speed MusicBee traversal, conducted comprehensive 24k-file Lossless audit, and detached sync into independent PVE server daemon.**
+  - **Samba Performance Tuning (`smb.conf`)**:
+    - Applied `hide unreadable = no` to `[homelab]` and all storage shares, eliminating expensive per-file Linux permission evaluations during client-side library scans.
+    - Added directory fast-traversal parameters (`case sensitive = auto`, `preserve case = yes`) to `[global]` and cleanly reloaded `smbd`.
+  - **Full Library Deep Audit (24,144 files across `/mnt/hdd-backup/music/Lossless`)**:
+    - Purged 172 redundant `.cue` sheets across split albums to permanently resolve MusicBee duplicate-track parsing.
+    - Flattened 11 nested audio directories (`FLAC/`, `WAV/`) directly into parent album roots.
+    - Removed 245 advertisement files (`.url`, `Discord.txt`, `Readme.txt`).
+    - Fixed folder naming: renamed `06. "CANVAS" (2023)` to `06. CANVAS (2023)` eliminating Samba 8.3 name mangling.
+    - Verified bitstream health: 0 corrupt FLACs, 0 zero-byte audio files.
+  - **Independent Sync Daemon (`scripts/run_daemon_sync.sh`)**:
+    - Deployed detached background daemon on PVE hypervisor via `nohup` (`/tmp/run_daemon_sync.sh` logging to `/var/log/sync-music-final.log`) to mirror Uma Musume (~86 GB) and complete Lossless changes to `/mnt/hdd-music/music/Lossless/` without depending on client SSH session persistence.
+
 ## 2026-09-24 (131)
 - **Replaced and upgraded `Uma Musume ~` discography with complete 130-album torrent dataset (84.6 GB), preserving Astell&Kern Special CD.**
   - Reorganized into 7 canonical subseries under `/mnt/hdd-backup/music/Lossless/Anime/Uma Musume ~/`:
