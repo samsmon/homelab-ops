@@ -251,7 +251,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 - **Active Daemons:** `smbd` and `wsdd` systemd services running on `docker-host`.
 - **Samba Shares (`/etc/samba/smb.conf`, current as of the 2026-09-21 rename):**
   - `homelab` → `/mnt` (everything, browse into subfolders)
-  - `hdd-music` → `/mnt/hdd-music` (pure music library — renamed from `hdd-cloud`)
+  - `hdd-music` → `/mnt/hdd-music` (pure music library — renamed from `hdd-cloud`). **`hide unreadable = no` override added 2026-09-24** (global default is `yes`) — speeds up client-side directory enumeration (MusicBee etc. scanning the large library over SMB) by skipping Samba's per-file permission pre-check, safe here since everything is `force user/group = root` with `0777` masks anyway.
   - `hdd-media` → `/mnt/hdd-media`
   - `hdd-backup` → `/mnt/hdd-backup` (WD Green, unstable — renamed from `hdd-2tb`)
   - `manga` → `/mnt/hdd-backup/manga-raw` (Read/Write, ingest for manga optimizer — moved from `hdd-media` 2026-09-24)
