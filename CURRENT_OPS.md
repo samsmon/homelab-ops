@@ -5,9 +5,7 @@
 
 ## Active Task Registry
 
-
-
-
+- [Antigravity] [2026-09-24 14:29 WIB]: Ingesting and reorganizing THE IDOLM@STER SHINY COLORS discography archives into Option A hierarchy | Locks: /mnt/hdd-backup/music/Lossless/Anime/THE IDOLM@STER ~/シャイニーカラーズ/
 
 
 
@@ -18,3 +16,4 @@
 2. **Locking**: If your task modifies a service/compose file, list it above under Active Task Registry.
 3. **No Collision**: Do NOT touch files or containers locked by another active agent.
 4. **Push Immediately**: Selesai task, update `CHANGELOG.md`, bersihkan lock dari file ini, lalu `git add . && git commit && git push`.
+- [Claude Code] 2026-09-24: Adding hide-unreadable=no override to [hdd-music] Samba share for faster MusicBee scans | Locks: docker-host smb.conf [hdd-music]
