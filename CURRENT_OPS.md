@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-*(No active tasks currently locked)*
+(No active locks)
 
 
 

@@ -51,17 +51,19 @@
 
 ## 2. Uma Musume (`Anime/Uma Musume ~`) Standard
 
-All releases in `Uma Musume ~` are grouped into **5 canonical subseries folders** based on official Lantis discography lines:
+All releases in `Uma Musume ~` are grouped into **7 canonical subseries folders** based on official Lantis discography lines:
 
 ```
 Anime/Uma Musume ~/
 ├── 01. WINNING LIVE Series/                     (Smartphone game vocal & BGM albums 01..N)
-├── 02. ANIMATION DERBY Series/                  (TV Anime Season 1, Season 2 & Umayon releases)
-├── 03. STARTING GATE Series/                   (Early franchise vocal & unit collection singles)
-├── 04. Theatrical & Specials/                  (Films & Web ONA: Shinjidai no Tobira, ROAD TO THE TOP)
-└── 05. Compilations/                           (Audiophile & special editions: Astell&Kern Special CD)
+├── 02. ANIMATION DERBY Series/                  (TV Anime Season 1, Season 2 & 3 releases)
+├── 03. STARTING GATE Series/                   (Early franchise vocal & unit collection singles 01..12)
+├── 04. SOLO VOCAL TRACKS/                      (Special event solo vocal compilation albums Vol.1..N)
+├── 05. UMAYURU & UMAYON/                       (Short anime spinoff singles and mini-albums)
+├── 06. Singles, OST & Other/                   (Films, ONA ROAD TO THE TOP, Cinderella Gray, web singles)
+└── 07. Compilations/                           (Audiophile & special editions: Astell&Kern Special CD)
 ```
-- Folder naming within subseries: Preserve chronological release dates `[YYYY.MM.DD] ... [FLAC]`.
+- Folder naming within subseries: Preserve chronological release dates `[YYYY.MM.DD] ... [FLAC]` or `[FLAC 96kHz／24bit]`.
 - Always purge whole-disc CD images (`LACM-*.flac`, `LACA-*.flac`) and root cuesheets when individual split tracks are already present to avoid duplicate tracks and cuesheet errors in MusicBee.
 
 ---

@@ -2,6 +2,20 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-24 (131)
+- **Replaced and upgraded `Uma Musume ~` discography with complete 130-album torrent dataset (84.6 GB), preserving Astell&Kern Special CD.**
+  - Reorganized into 7 canonical subseries under `/mnt/hdd-backup/music/Lossless/Anime/Uma Musume ~/`:
+    1. `01. WINNING LIVE Series/` (39 albums, WINNING LIVE 01..23, Remix, etc.)
+    2. `02. ANIMATION DERBY Series/` (15 albums, Seasons 1..3, Season 2 OST)
+    3. `03. STARTING GATE Series/` (14 albums, 01..12 & Unit Collections)
+    4. `04. SOLO VOCAL TRACKS/` (18 albums, 3rd..7th event compilations)
+    5. `05. UMAYURU & UMAYON/` (11 albums, singles & mini-albums)
+    6. `06. Singles, OST & Other/` (39 albums, Shinjidai no Tobira, ROAD TO THE TOP, Cinderella Gray, etc.)
+    7. `07. Compilations/` (Preserved audiophile release: `[2018.12.14] ウマ娘 プリティーダービー Astell&Kern Special Compilation CD [FLAC 96kHz／24bit]`)
+  - Total 131 albums, 2,084 audio tracks (100% FLAC, majority 96kHz/24bit & 48kHz/24bit Hi-Res).
+  - Replaced former 38 albums containing 124 lossy `.m4a` files with full lossless FLAC audio. Sanitized folder names for Windows SMB compatibility.
+  - Re-indexed `/mnt/hdd-backup/music/catalog.sqlite` (now tracking 20,079 total library tracks). Permissions applied `100000:100000` (775/664).
+
 ## 2026-09-24 (130)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`b1e99eb`→`ae496df`), 3 commits: autonomous "Anti-Throttle" watchdog that detects CDN bandwidth throttling and auto-activates a Cloudflare WARP local SOCKS5 proxy (or a custom proxy pool) with WireGuard key rotation and seamless reconnect at the exact byte offset; Stop All / Resume All queue controls with atomic backend endpoints; IDM-style multi-socket Discord downloads with auto-healing chunk restart, virtual scrolling, and stable sort. Checked carefully since WARP support could've meant a new binary dependency — confirmed `Dockerfile` is untouched (`warp-cli` isn't bundled in the image) and the code degrades gracefully via `exec.LookPath`, falling back to an optional user-configured custom proxy string, or a clear error if neither is present — no build/env changes needed. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200` and clean startup log.
 
