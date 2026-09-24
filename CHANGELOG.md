@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (126)
+- **Updated `gddl` (personal-hosts) to latest upstream again** (`0b30c38`→`e55968a`), 3 commits: dedicated `chunked` package for parallel multi-chunk downloads (now works on resume too, plus chunk-progress badges in the UI), Discord CDN downloads fixed for HTTP/2 stream errors + a new AI-agent export/refresh workflow, and multi-socket HTTP/1.1 transport enforced for Google Drive to bypass its TCP connection limit (Discord downloads intentionally kept single-stream). No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
+
 ## 2026-09-24 (125)
 - **Added `hide unreadable = no` override to the `[hdd-music]` Samba share** to speed up client-side directory scans (user reported MusicBee scanning the music library over SMB feels slow/heavy). Global default is `hide unreadable = yes`, which makes `smbd` do a per-file/folder permission pre-check before including it in any directory listing — real overhead on a library this size, and no actual security benefit here since every file is `force user/group = root` with `0777` create/directory masks anyway (everything is readable by the one valid user regardless). Scoped to `[hdd-music]` only (not global) per user's choice, to avoid touching other shares' behavior. Validated with `testparm -s`, `systemctl restart smbd`, confirmed active.
 
