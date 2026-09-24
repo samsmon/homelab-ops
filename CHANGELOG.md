@@ -1,6 +1,14 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (128)
+- **Built a proper master-archive sync system (config-driven, curation-aware, non-destructive) and deployed Cronicle as its scheduler/dashboard.**
+  - New `scripts/sync-config.conf`: user-editable list of `MEDIA_TYPE|MASTER_PATH|TARGET_PATH` lines defining exactly which folders sync from `hdd-backup` (master) to which target drive — this is how curation works (e.g. only `Lossless/` syncs to `hdd-music`, not the whole music library) without editing any script.
+  - New `scripts/sync-from-master.sh`: generic engine reading that config, using `rsync --checksum --itemize-changes` so a run only touches files that are missing/misplaced/actually different — never a blind full re-copy, and never deletes anything unless `--prune` is explicitly passed. `--report-only` previews the diff without writing. Replaces yesterday's `sync-music.sh` (removed, same logic now config-driven).
+  - `scripts/sync-manga.sh` reworked: convert step unchanged, but the merge/sync direction is now `hdd-backup/manga-raw` (master) → `hdd-media/manga-raw`, since `manga-raw` fully relocated to `hdd-backup` earlier today and Komga still reads from `hdd-media` (via `manga-optimizer.py`'s separate watchdog daemon, which generates the WebP `manga-reader` library — discovered this daemon was running against a now-nonexistent `hdd-media/manga-raw` path, silently doing nothing since the move; this sync restores its expected input).
+  - **Deployed Cronicle** (`soulteary/cronicle` image) on `docker-host` as the cron manager + web dashboard the user asked for — supports both scheduled runs and on-demand "Run Now" triggering (e.g. right after adding new files, without waiting for the schedule). Mounts `/opt/scripts` read-only plus all three HDD roots. Created 3 jobs: Sync Music (14:00), Sync Manga (08:00), Sync Video (18:00).
+  - **Discovered mid-setup that Cronicle is already reachable publicly** at `cron.suryatmaja.dev` via an existing Cloudflare Tunnel route — not something this session configured. Warned the user twice about the default `admin`/`admin` login before they changed it, and again after they set it to a 2-character password, given this panel can execute arbitrary shell commands on the host with access to all three HDDs. User explicitly acknowledged the risk and declined to harden it further (e.g. restricting the Cloudflare route to trusted IPs). Documented as an open risk in `docs/services.md` — revisit if it becomes a real incident.
+
 ## 2026-09-24 (127)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`e55968a`→`b1e99eb`): fixes duplicate-filename collisions, adds HTTP 416 (Range Not Satisfiable) recovery, and freezes the table header on scroll. No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 

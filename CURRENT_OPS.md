@@ -6,7 +6,6 @@
 ## Active Task Registry
 
 - [Antigravity] [2026-09-24 14:29 WIB]: Ingesting and reorganizing THE IDOLM@STER SHINY COLORS discography archives into Option A hierarchy | Locks: /mnt/hdd-backup/music/Lossless/Anime/THE IDOLM@STER ~/シャイニーカラーズ/
-- [Claude-Code] [2026-09-24 14:45 WIB]: Building sync-config.conf + generic sync engine, updating sync-manga.sh (hdd-backup->hdd-media), deploying Cronicle for scheduling | Locks: scripts/sync-*.sh, configs/docker-compose/cronicle.yml
 
 
 

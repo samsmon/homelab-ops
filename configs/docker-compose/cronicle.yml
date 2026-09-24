@@ -1,0 +1,27 @@
+services:
+  cronicle:
+    image: soulteary/cronicle:latest
+    container_name: cronicle
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Jakarta
+      CRONICLE_secret_key: "homelab-cronicle-internal"  # internal use only, not internet-exposed
+    volumes:
+      - cronicle_data:/opt/cronicle/data
+      - cronicle_logs:/opt/cronicle/logs
+      - /opt/scripts:/opt/scripts:ro  # so job definitions can call the same sync-*.sh the user runs manually
+      - /mnt/hdd-backup:/mnt/hdd-backup
+      - /mnt/hdd-media:/mnt/hdd-media
+      - /mnt/hdd-music:/mnt/hdd-music
+    ports:
+      - "3012:3012"
+    networks:
+      - shared_net
+
+volumes:
+  cronicle_data:
+  cronicle_logs:
+
+networks:
+  shared_net:
+    external: true
