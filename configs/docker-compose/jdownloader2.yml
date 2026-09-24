@@ -6,6 +6,8 @@ services:
     volumes:
       - /mnt/hdd-media/jdownloader/config:/config
       - /mnt/hdd-media/jdownloader/downloads:/output
+      - /mnt/hdd-media:/mnt/hdd-media:rw
+      - /mnt/hdd-backup:/mnt/hdd-backup:rw
     ports:
       - "5800:5800"
     environment:
@@ -18,3 +20,4 @@ services:
 networks:
   shared_net:
     external: true
+
