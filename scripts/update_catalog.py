@@ -37,7 +37,7 @@ for root_dir in [LOSSLESS_ROOT, LOSSY_ROOT]:
         if not p.is_file():
             continue
         ext = p.suffix.lower()
-        if ext not in ['.flac', '.wav', '.mp3', '.m4a', '.aac', '.ogg', '.opus', '.ape', '.wv', '.tak']:
+        if ext not in ['.flac', '.wav', '.mp3', '.m4a', '.aac', '.ogg', '.opus', '.ape', '.wv', '.tak', '.aiff', '.aif', '.alac']:
             continue
             
         rel = str(p.relative_to(MUSIC_ROOT)).replace('\\', '/')

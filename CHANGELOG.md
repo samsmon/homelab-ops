@@ -1,6 +1,19 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+
+## 2026-09-24 (129)
+- **Implemented canonical Option A hierarchy for `THE IDOLM@STER SHINY COLORS` and ingested 55 discography archives (~35GB) from `download/`.**
+  - Established 5-tier canonical hierarchy under `/mnt/hdd-backup/music/Lossless/Anime/THE IDOLM@STER ~/シャイニーカラーズ/`:
+    1. `01. WING & Main Game Series/` with numbered cycles: `01. BRILLI@NT WING (2018)`, `02. FR@GMENT WING (2019)`, `03. GR@DATE WING (2020)`, `04. L@YERED WING (2021)`, `05. PANOR@MA WING (2022)`, `06. "CANVAS" (2023)`, `07. ECHOES (2024)`.
+    2. `02. Song for Prism Series/` (16 single releases from mobile game 2024–2026).
+    3. `03. Anime Series/` (Season 1 & 2 OP/ED, theme albums, Halloween).
+    4. `04. COLORFUL FE@THERS Series/` (Stella, Luna, Sol, SHHis, CoMETIK albums).
+    5. `05. Synthe-Side & Collaborations/` (Synthe-Side 01..03).
+  - Extracted 52 new unique release archives using `7z`, filtered redundant duplicate archives (`(2).zip`), and relocated existing `ECHOES` albums into the new WING folder.
+  - Sanitized all filenames for Windows SMB compatibility (full-width colons, slashes, asterisks) and flattened all album roots (zero nested folders, audio files at root, booklets in `BK/`).
+  - Audited full library: 66 albums, 367 total audio tracks, 0 anomalies. Re-indexed master SQLite catalog (`/mnt/hdd-backup/music/catalog.sqlite`) now tracking 18,658 total tracks. Permissions set to `100000:100000` (775/664).
+
 ## 2026-09-24 (128)
 - **Built a proper master-archive sync system (config-driven, curation-aware, non-destructive) and deployed Cronicle as its scheduler/dashboard.**
   - New `scripts/sync-config.conf`: user-editable list of `MEDIA_TYPE|MASTER_PATH|TARGET_PATH` lines defining exactly which folders sync from `hdd-backup` (master) to which target drive — this is how curation works (e.g. only `Lossless/` syncs to `hdd-music`, not the whole music library) without editing any script.
