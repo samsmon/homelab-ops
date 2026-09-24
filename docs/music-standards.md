@@ -101,7 +101,7 @@ Anime/THE IDOLM@STER ~/
 │   │   ├── 03. GR@DATE WING (2020)/                 (01..07 シャイノグラフィ, etc.)
 │   │   ├── 04. L@YERED WING (2021)/                 (01..08 Resonance⁺, etc.)
 │   │   ├── 05. PANOR@MA WING (2022)/                (01..08 虹の行方, etc.)
-│   │   ├── 06. "CANVAS" (2023)/                     (01..08)
+│   │   ├── 06. CANVAS (2023)/                       (01..08)
 │   │   └── 07. ECHOES (2024)/                       (01..09)
 │   ├── 02. Song for Prism Series/                   (Game Song for Prism / シャニソン singles 2024–2026)
 │   ├── 03. Anime Series/                            (TV Anime S1 & S2 OP/ED, Theme Album, Halloween)
