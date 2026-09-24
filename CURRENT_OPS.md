@@ -5,7 +5,6 @@
 
 ## Active Task Registry
 
-- [Antigravity] 2026-09-24 00:00 WIB: Synchronizing /mnt/hdd-music/music/Lossless with /mnt/hdd-backup/music/Lossless master | Locks: /mnt/hdd-music/music/Lossless
 
 
 

@@ -1,6 +1,18 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-09-24 (123)
+- **Synchronized `/mnt/hdd-music/music/Lossless` with master library from `/mnt/hdd-backup` — 100% parity achieved across all 699 GB.**
+  - Executed safe two-phase synchronization using `rsync --delete-before`: first purged 5,803 obsolete/un-reorganized files (~191 GB) to maintain healthy headroom, then transferred 7,713 newly organized files (317.85 GB) at 12.82 MB/s without I/O contention.
+  - Mirrored fully standardized franchises:
+    - `THE IDOLM@STER ~/`: Canonical 4-tier Gakumas (`01. Solo`, `02. Duo`, `03. Trio`, `04. All Stars & Units`), Shiny Colors (`Song for Prism`, `ECHOES`, `Anime`, `Unit Singles`), and `vα-liv`.
+    - `Uma Musume ~/`: Reorganized 5 subcategories (`01. WINNING LIVE`, `02. ANIMATION DERBY`, `03. STARTING GATE`, `04. Theatrical & Specials`, `05. Compilations`).
+    - `ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/`: Reorganized 3 subcategories, split FLAC tracks, sanitized artwork, zero CUE/WAV images.
+    - `＊Luna ~/`: Fixed Samba 8.3 mangled naming (`_FCR9Q~X` -> canonical UTF-8 fullwidth).
+    - Purged stray `No Group/` and loose root albums (`メメントモリ`).
+  - Verified 1:1 directory size parity across all categories (Anime 353G, J-Pop 200G, Vtuber 74G, Doujinshi 46G, Vocaloid 27G, Global 486M). Total target storage: 699G used, 171G free on `/mnt/hdd-music`.
+  - Enforced ownership `100000:100000` with permissions `775` (dirs) and `664` (files) across the entire target library.
+
 ## 2026-09-24 (122)
 - **Updated `gddl` (personal-hosts) to latest upstream again** (`dd29b3c`→`0b30c38`), 3 commits: multi-chunk parallel download (faster large-file transfers) + rclone token import + full English localization, smoother/higher-rate progress bar interpolation, and a fix preserving "completed" status when pause/start is triggered on an already-finished selection. No new required env vars, compose untouched. Same stash/pull/pop pattern, `docker compose up -d --build`, verified `HTTP 200`.
 
