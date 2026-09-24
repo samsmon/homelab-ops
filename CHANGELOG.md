@@ -13,8 +13,9 @@
     - Removed 245 advertisement files (`.url`, `Discord.txt`, `Readme.txt`).
     - Fixed folder naming: renamed `06. "CANVAS" (2023)` to `06. CANVAS (2023)` eliminating Samba 8.3 name mangling.
     - Verified bitstream health: 0 corrupt FLACs, 0 zero-byte audio files.
-  - **Independent Sync Daemon (`scripts/run_daemon_sync.sh`)**:
-    - Deployed detached background daemon on PVE hypervisor via `nohup` (`/tmp/run_daemon_sync.sh` logging to `/var/log/sync-music-final.log`) to mirror Uma Musume (~86 GB) and complete Lossless changes to `/mnt/hdd-music/music/Lossless/` without depending on client SSH session persistence.
+  - **Independent Sync Daemon & Cleanup**:
+    - Deployed detached background daemon on PVE hypervisor via `nohup` (`/tmp/run_daemon_sync.sh` logging to `/var/log/sync-music-final.log`) to mirror Uma Musume (~86 GB) and complete Lossless changes to `/mnt/hdd-music/music/Lossless/` achieving 100% 1:1 parity (778 GB both sides).
+    - Safely purged raw torrent source folder `/mnt/hdd-media/qbittorrent/watch-torrents/UmaMusu discography` (85 GB freed, disk usage dropped from 72% to 63% / 329 GB available).
 
 ## 2026-09-24 (131)
 - **Replaced and upgraded `Uma Musume ~` discography with complete 130-album torrent dataset (84.6 GB), preserving Astell&Kern Special CD.**
