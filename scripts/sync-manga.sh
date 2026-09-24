@@ -31,8 +31,8 @@ LOCKFILE="/var/run/sync-manga.lock"
 LOGFILE="/var/log/sync-manga.log"
 
 INBOX_DIR="/mnt/hdd-media/download"
-DEST_JP="/mnt/hdd-media/manga-raw/nsfw/JP"
-DEST_EN="/mnt/hdd-media/manga-raw/nsfw/Unofficial"
+DEST_JP="/mnt/hdd-backup/manga-raw/nsfw/JP"
+DEST_EN="/mnt/hdd-backup/manga-raw/nsfw/Unofficial"
 
 DO_CONVERT=1
 DO_MERGE=1

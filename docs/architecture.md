@@ -27,11 +27,11 @@ This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unc
    - Role: Proxmox VE host OS, swap, VM/LXC virtual disks, and database metadata.
 2. **HDD-Backup (2TB 3.5" Western Digital Green via LM 418 SATA Port)** — renamed 2026-09-21, was `HDD-Music`:
    - Drive: `WDC WD20EZRX-00DC0B0`, serial `WD-WCC1T0899623`.
-   - Role: Cold-backup target and Master Media Archive (`/mnt/hdd-backup/music`, `/mnt/hdd-backup/videos`). Stabilized 2026-09-22 following dedicated Molex-to-SATA power cable swap (zero errors over sustained 440GB sequential write on 2026-09-24, UDMA CRC errors stable at 21430).
+   - Role: Cold-backup target and Master Media Archive (`/mnt/hdd-backup/music`, `/mnt/hdd-backup/videos`, `/mnt/hdd-backup/manga-raw` since 2026-09-24). Stabilized 2026-09-22 following dedicated Molex-to-SATA power cable swap (zero errors over sustained 440GB sequential write on 2026-09-24, UDMA CRC errors stable at 21430).
    - Mounted at `/mnt/hdd-backup` when up.
 3. **HDD-Media (1TB 3.5" Seagate Barracuda 7200 RPM via LM 418 SATA Port)**:
    - Drive: `ST1000DM010-2EP102`, serial `W9AS0LSD` (`/dev/sdd2`, label `hdd-media`, 916GB usable).
-   - Role: High-throughput media storage — Videos (`videos/{anime,movies,tv}`), raw manga master (`manga-raw`), auto-optimized reader library (`manga-reader` for Komga), torrent downloads (`qbittorrent`), **plus Nextcloud + Syncthing data + misc personal folders** (absorbed from the old `hdd-cloud` on 2026-09-21).
+   - Role: High-throughput media storage — Videos (`videos/{anime,movies,tv}`), auto-optimized reader library (`manga-reader` for Komga), torrent downloads (`qbittorrent`), **plus Nextcloud + Syncthing data + misc personal folders** (absorbed from the old `hdd-cloud` on 2026-09-21). Raw manga master (`manga-raw`) moved to `hdd-backup` on 2026-09-24 to free space (135GB) — only `manga-reader` (the derived, optimized library `manga-optimizer.service` actually serves to Komga) stays here.
 4. **HDD-Music (1TB 2.5" Toshiba HDD 5400 RPM via LM 418 SATA Port)** — renamed 2026-09-21, was `HDD-Cloud`:
    - Drive: `TOSHIBA MQ04ABF100`, serial `Y9CSTR0WT` (`/dev/sdb2`, 916GB usable).
    - Role: **Pure music library only** (`music/`, scanned by Navidrome & Jellyfin). Nextcloud/Syncthing/LAN-drop data that used to live here moved to `hdd-media`. Mounted at `/mnt/hdd-music`.
@@ -200,7 +200,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 |---|---|---|---|---|---|
 | **OS SSD** | MidasForce SSD 256GB (via SATA-to-M.2 adapter) | M.2 SATA in 2.5" Bay (256GB) | `RE202410151200000921` | `/` (sda) | **Active.** Boot, PVE LVM-thin pool, LXC root disks. |
 | **HDD-Backup** (was `HDD-Music`, WD Green — **role in doubt**) | Western Digital Green (`WD20EZRX-00DC0B0`) | 3.5" SATA III (2TB) | `WD-WCC1T0899623` | `/mnt/hdd-backup` (device letter floats; renamed from `/mnt/hdd-music` 2026-09-21) | **⚠️ Up as of the 2026-09-21 rename, but reliability is unresolved.** Root cause remains the drive's own controller/firmware (confirmed not cable, not platters — see (56)/(59)). **2026-09-21: failed under a plain large-file sequential write** (copying video files) within ~2.5 minutes — the first time it failed on a workload type every prior test showed it tolerating (the read-based 717GB rescue ran 15hrs fine; this was a write of new data). EXT4 auto-remounted read-only, then the drive fully dropped from the kernel (`ata9.00: disable device`/`detaching`) — recovered via another physical power-cycle later the same session. **Revised conclusion: not reliably safe for bulk writes of any kind.** Renamed to `hdd-backup` anyway per user's explicit instruction (proceeding with the rename doesn't imply the reliability question is resolved — it isn't). **717GB of music from the original rescue is still physically present** (`music/` folder) — redundant with the canonical copy now on `hdd-music` (see below), kept as an incidental extra copy. **Do not write new data here without accepting real risk of another drop.** RMA sent to seller, no response — user has stopped waiting on it. |
-| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdd2) | **Active.** High-throughput Media: `videos/`, `manga-raw`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders** (absorbed from the old `hdd-cloud` 2026-09-21, ~112GB). Now at ~86% used, the fullest of the 3 active drives. |
+| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdd2) | **Active.** High-throughput Media: `videos/`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders** (absorbed from the old `hdd-cloud` 2026-09-21, ~112GB). `manga-raw` moved to `hdd-backup` 2026-09-24 to free ~135GB. |
 | **HDD-Music** (was `HDD-Cloud`, Toshiba — now pure music) | Toshiba 2.5" HDD (`MQ04ABF100`) | 2.5" SATA III 5400 RPM (1TB) | `Y9CSTR0WT` | `/mnt/hdd-music` (sdb2; renamed from `/mnt/hdd-cloud` 2026-09-21) | **Active, healthy, repurposed 2026-09-21.** Was Nextcloud/Syncthing/LAN shared + music; now contains **only** `music/` (717GB, what Navidrome/Jellyfin actually serve) + `lost+found`. Nextcloud/Syncthing/personal folders moved to `hdd-media`. Full rename executed: `/etc/fstab` (by UUID), LXC `mp` configs on `docker-host`/`media-hosts`, every compose file referencing the old path, and Samba (`smb.conf`, share renamed `[hdd-cloud]`→`[hdd-music]`) all updated and verified working. |
 
 ### Directory Hierarchy
@@ -212,8 +212,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 │   ├── anime/              # Anime series & movies
 │   ├── movies/             # General movies
 │   └── tv/                 # TV Shows
-├── manga-raw/              # Raw manga master archive
-├── manga-reader/           # Optimized WebP manga library (scanned by Komga)
+├── manga-reader/           # Optimized WebP manga library (scanned by Komga; source manga-raw moved to hdd-backup 2026-09-24)
 ├── qbittorrent/            # Staging download torrents
 ├── jdownloader/            # JDownloader2 config + downloads
 ├── nextcloud/              # Nextcloud data (moved here from hdd-cloud 2026-09-21)
@@ -237,7 +236,10 @@ Router ISP (Main Gateway: 192.168.18.1)
 #### HDD-Backup (`/mnt/hdd-backup/`) — renamed 2026-09-21, was `hdd-music` (WD Green, unstable)
 ```
 /mnt/hdd-backup/
-├── music/                  # 717GB, redundant extra copy from the original rescue
+├── music/                  # Master Lossless/videos archive (see sync-music.sh/sync-videos.sh, Alur A)
+├── videos/                 # Master video archive, synced with hdd-media/videos (sync-videos.sh)
+├── manga-raw/               # Raw manga master archive, moved from hdd-media 2026-09-24 (135GB) —
+│                            #   read by manga-optimizer.service, mirrors into hdd-media/manga-reader
 ├── backups/                # scripts/backup.sh target (when this drive is actually mounted)
 ├── download/                # legacy, mostly empty
 ├── qbittorrent/             # legacy, mostly empty
@@ -252,7 +254,7 @@ Router ISP (Main Gateway: 192.168.18.1)
   - `hdd-music` → `/mnt/hdd-music` (pure music library — renamed from `hdd-cloud`)
   - `hdd-media` → `/mnt/hdd-media`
   - `hdd-backup` → `/mnt/hdd-backup` (WD Green, unstable — renamed from `hdd-2tb`)
-  - `manga` → `/mnt/hdd-media/manga-raw` (Read/Write, ingest for manga optimizer)
+  - `manga` → `/mnt/hdd-backup/manga-raw` (Read/Write, ingest for manga optimizer — moved from `hdd-media` 2026-09-24)
   - `projects` → `/mnt/homelab_projects` (restricted to `dev-host`/`pve` IPs, for T3 Code)
   - `projects` → `/mnt/homelab_projects` (Read/Write, restricted to PVE and dev-host for T3 Code /workspace)
 - **WSDD (Web Services Dynamic Discovery):** Allows the homelab server to appear automatically under Windows Explorer "Network" without manual IP typing.
