@@ -2,7 +2,23 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
-## 2026-09-24 (133)
+## 2026-09-25 (134)
+- **Ingested 142 new lossless albums from `Torrent/done`, sanitized junk/piracy promos, updated master catalog to 20,582 tracks, and mirrored 1:1 to `hdd-music` (`Z:\`).**
+  - **Torrent Ingestion & Blueprint Organization**:
+    - Audited 276 items in `/mnt/hdd-backup/music/Torrent/done`. Filtered 15 duplicate folders and 3 loose tracks, and ingested 142 new releases directly into canonical categories in `/mnt/hdd-backup/music/Lossless/`:
+      - **Gakuen Idolmaster** (31 albums): Mapped solo releases to `01. Solo/[Character]/`, duos to `02. Duo/`, and student ensembles/anthems to `04. All Stars & Units/`.
+      - **Shiny Colors** (4 albums): Ingested *無自覚アプリオリ* into `CANVAS (2023)`, *ECHOES 02 & 04* into `ECHOES (2024)`, and split *HOPEFUL FE@THERS* (-Luna-, -Sol-, -Stella-) into `04. COLORFUL FE@THERS Series/`.
+      - **BanG Dream!** (61 albums): Integrated Ave Mujica, MyGO!!!!!, Pastel＊Palettes, Roselia, and 夢限大みゅーたいぷ.
+      - **Love Live!** (18 albums): Added Hasunosora, Nijigaku, Liella!, and Sunshine!! GKSS releases.
+      - **D4DJ** (9 albums): Integrated Merm4id & Rondo discographies into `Anime/D4DJ ~/`.
+      - **VTuber / Hololive** (11 albums): Placed into canonical folders for 鷹嶺ルイ, さくらみこ, 桃鈴ねね, miComet, and Midnight Grand Orchestra.
+      - **J-Pop & Other Anime** (8 albums): Ingested milet 2nd & 4th albums into `J-Pop/Milet ~/`, Tokyo 7th Sisters Side 2053, ポールプリンセス!!, and IDOLY PRIDE into `Anime/`.
+  - **Sanitization & Permissions**:
+    - Purged 805 tracker advertisements and junk promo text files (`Discord.txt`, `Music Download.txt`, `*.url`).
+    - Enforced POSIX ACLs & permissions (`100000:100000`, 775 directories, 664 files) for seamless SMB read/write.
+  - **Catalog & Storage Parity**:
+    - Refreshed master SQLite catalog (`/mnt/hdd-backup/music/catalog.sqlite`): indexed 20,582 total tracks.
+    - Executed internal 1:1 rsync mirror to `/mnt/hdd-music/music/Lossless/` (`Z:\`), bringing curated music drive to 804 GB (93% used).
 - **Enforced strict server-side execution rule in `CLAUDE.md` and launched background Master Library Healing & Migration daemon.**
   - **Rule Enforcement (`CLAUDE.md`)**:
     - Added Section 2 Rule 4: Mandatory server-side execution (`docker-host` / `pve`) for all analysis, audits, tagging, and heavy operations to eliminate local PC CPU/RAM and SMB network bottlenecks, allowing Antigravity sessions to be safely closed while jobs proceed uninterrupted.
