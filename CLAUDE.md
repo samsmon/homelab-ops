@@ -48,10 +48,10 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
    - **DO NOT read full `CHANGELOG.md`** (~65KB). Only read `head -n 30 CHANGELOG.md`.
    - Restrict log outputs (`docker logs --tail 30 ...`, `git log -n 5`, `docker ps --format ...`).
    - Keep conversational explanations direct, concise, and factual.
-4. **Strict Server-Side Execution for All Analysis & Scripts (Zero Local PC Load)**:
-   - **WAJIB** mengeksekusi semua script analisis, audit file, tagging, scanning, download, dan operasi filesystem berat **langsung di server (`docker-host` / `pve`)**, BUKAN di device/PC lokal user.
-   - PC user hanya bertindak sebagai client/terminal pemantau ringan. Jangan membebani CPU, RAM, atau koneksi share SMB lokal (seperti scanning SMB `Z:\` dari Windows).
-   - Seluruh operasi berdurasi panjang harus diluncurkan via server daemon/background task (`nohup python3 ... &` atau systemd) agar progress tetap berjalan non-stop meskipun sesi Antigravity atau PC user ditutup/dimatikan.
+4. **Strict Server-Side Background Execution for Long-Running Tasks (Zero Local Load & Non-Blocking AI Session)**:
+   - **WAJIB** mengeksekusi semua operasi yang memakan waktu lama (seperti audit menyeluruh ribuan file, rsync besar, scanning tagging, transcoding, dsb.) **langsung di server-side sebagai background process independen** (`nohup python3 /root/... > /root/task.log 2>&1 &` atau via systemd).
+   - **Non-blocking AI Session**: Sesi AI agent **TIDAK BOLEH** dibuat nge-hang atau menunggu berjam-jam di foreground. Begitu background task di server sudah berjalan (`nohup`), AI agent segera melaporkan bahwa task telah aktif di server, sehingga sesi interaksi AI bisa langsung lanjut mengerjakan task atau pertanyaan lain tanpa tertahan.
+   - Sesi PC user hanya sebagai client pemantau ringan (tanpa beban CPU/RAM/SMB lokal). Progress server tetap berjalan terus bahkan jika sesi AI atau PC dimatikan.
 5. **Strict No-Polling Rule (Prevent ACP RPC Deadlock & Cancel Failures)**:
    - **DILARANG KERAS** melakukan loop polling aktif di bash (`while ...; do sleep 2; done`, `sleep X && check`).
    - **DILARANG KERAS** memanggil tool secara berulang-ulang (`view_file` pada task log, loop `ps aux`, dll.) saat menunggu perintah panjang (`docker build`, `docker pull`, download besar).

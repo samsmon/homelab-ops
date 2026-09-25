@@ -3,9 +3,9 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 ## 2026-09-26 (135)
-- **Enforced mandatory "Analyze First, Confirm Before Execution" rule in `CLAUDE.md`.**
-  - Added strict policy under Section 0: Every user request must be thoroughly analyzed and presented with an action plan first.
-  - Execution of changes/mutations (file deletions, moves, service changes, container actions) strictly requires explicit user confirmation beforehand.
+- **Enforced mandatory "Analyze First, Confirm Before Execution" & Non-Blocking Server Background Execution rules in `CLAUDE.md`.**
+  - Added strict policy under Section 0: Every user request must be thoroughly analyzed and presented with an action plan first. Execution of changes/mutations strictly requires explicit user confirmation beforehand.
+  - Updated Section 2 Rule 4: Mandatory detached server-side background execution (`nohup` / systemd) for all heavy/long tasks (audits, syncs, transcoding) to keep AI agent interactive sessions free to immediately proceed with other work.
 
 ## 2026-09-25 (134)
 - **Ingested 142 new lossless albums from `Torrent/done`, sanitized junk/piracy promos, updated master catalog to 20,582 tracks, and mirrored 1:1 to `hdd-music` (`Z:\`).**
