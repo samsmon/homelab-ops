@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (138)
+- **Implemented Master M3U8 Playlist generation for instant MusicBee & Foobar2000 loading.**
+  - **Feature**: Extended [`scripts/update_catalog.py`](scripts/update_catalog.py) to automatically output relative-path playlists (`Lossless/Lossless.m3u8` with 18,388 tracks and `Lossy/Lossy.m3u8` with 2,194 tracks) during SQLite indexing.
+  - **Performance**: Eliminates slow SMB network crawling in desktop audio players. Dragging or opening `Lossless.m3u8` populates the library instantly.
+  - **Sync**: Mirrored `Lossless.m3u8` to `/mnt/hdd-music/music/Lossless/` (`Z:\music\Lossless`) with read/write permissions for SMB clients.
+
 ## 2026-09-26 (137)
 - **Executed server-side metadata-driven reorganization of `/mnt/hdd-backup/download/` (~132 GB, 870 albums).**
   - **Sanitization & Pure Album Standard**:

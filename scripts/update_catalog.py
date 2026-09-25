@@ -65,5 +65,52 @@ if batch:
     ''', batch)
     conn.commit()
 
-conn.close()
 print(f"Catalog indexed successfully: {count} total tracks.")
+
+# Generate Master M3U8 Playlists for Music Players (MusicBee, Foobar2000, etc.)
+print("Generating Master M3U8 Playlists...")
+
+def write_m3u8(playlist_path, target_root, is_lossless_val):
+    c.execute('''
+        SELECT relative_path FROM tracks 
+        WHERE is_lossless = ? 
+        ORDER BY relative_path ASC
+    ''', (is_lossless_val,))
+    rows = c.fetchall()
+    if not rows:
+        return 0
+    
+    # Path inside playlist should be relative to the playlist file location
+    prefix = f"{target_root.name}/"
+    lines = ["#EXTM3U\n"]
+    for (rel_path,) in rows:
+        if rel_path.startswith(prefix):
+            rel_entry = rel_path[len(prefix):]
+        else:
+            rel_entry = rel_path
+        lines.append(f"{rel_entry}\n")
+        
+    with open(playlist_path, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
+    
+    # Permissions for SMB access
+    try:
+        import os
+        os.chown(playlist_path, 100000, 100000)
+        os.chmod(playlist_path, 0o664)
+    except Exception:
+        pass
+        
+    return len(rows)
+
+lossless_m3u8 = LOSSLESS_ROOT / 'Lossless.m3u8'
+lossy_m3u8 = LOSSY_ROOT / 'Lossy.m3u8'
+
+lossless_cnt = write_m3u8(lossless_m3u8, LOSSLESS_ROOT, 1)
+print(f"  -> Generated {lossless_m3u8} ({lossless_cnt} tracks)")
+
+lossy_cnt = write_m3u8(lossy_m3u8, LOSSY_ROOT, 0)
+print(f"  -> Generated {lossy_m3u8} ({lossy_cnt} tracks)")
+
+conn.close()
+print("All catalog & playlist operations completed successfully.")
