@@ -5,7 +5,8 @@
 
 ## Active Task Registry
 
-(No active locks)
+- [Antigravity] [2026-09-26 02:28 WIB]: Reorganizing /mnt/hdd-backup/music/Lossless/ to Pure Album & Romaji Artist standards | Locks: /mnt/hdd-backup/music/Lossless, /mnt/hdd-music/music/Lossless
+
 
 
 
