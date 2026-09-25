@@ -2,6 +2,16 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (137)
+- **Executed server-side metadata-driven reorganization of `/mnt/hdd-backup/download/` (~132 GB, 870 albums).**
+  - **Sanitization & Pure Album Standard**:
+    - Converted all album directories to "Pure Album Name" (stripped release dates `[YYYY.MM.DD]`, years `(2025)`, format codes `[WEB-FLAC]`, and sample rates `[24bit/48kHz]`).
+    - Successfully moved **851 albums**, safely skipped 18 identical entries, and pruned **331 empty obsolete/corrupted directories** (including unpacker artifacts like `100 ~`, `1stBLAZEFLAC ~`, `LOVE ~`, and `_tmp_ext_*`).
+  - **Category & Artist Reclassification**:
+    - Migrated misfiled VTubers and Doujinshi artists out of `J-Pop/` into canonical `Vtuber/` folders (e.g. `Aitsuki Nakuru (藍月なくる) ~`, `HACHI ~`, `ReGLOSS ~`).
+    - Standardized Japanese artist names to canonical `Romaji (Kanji/Hira/Kana) ~` format.
+  - **Access & Permissions**: Enforced unprivileged container ownership `100000:100000` with permissions `775` (directories) and `664` (files) across all target folders for seamless Windows SMB reading.
+
 ## 2026-09-26 (136)
 - **Documented Universal Music Folder Reorganization Framework in `docs/music-standards.md` & `CLAUDE.md`.**
   - Formulated a standard 5-step SOP: `[Auditing & Vorbis Metadata Extraction]` ➔ `[Canonical Classification]` ➔ `[Pure Naming Sanitization]` ➔ `[Dry-Run Plan & Mandatory User Approval]` ➔ `[Server-Side Background Execution]`.
