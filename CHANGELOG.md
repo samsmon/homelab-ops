@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (140)
+- **Updated `portofolio` container on `personal-hosts` to latest upstream (`52c00d8`).**
+  - Pulled latest commits from `https://github.com/samsmon/portofolio.git` (`52c00d8: refactor(theme): rename design tokens and classes from yorha to tactical`).
+  - Rebuilt SvelteKit static site and refreshed production container `portofolio` on `personal-hosts` (LXC 103, port 3080).
+  - Maintained standalone network configuration (removed legacy `shared_net` external network dependency to match `personal-hosts` isolated topology).
+  - Verified live HTTP 200 response on port 3080 (`suryatmaja.dev`).
+
 ## 2026-09-26 (139)
 - **Defined 26 Canonical Franchise Umbrellas & Strict Romaji-First Anti-Split Policy in `docs/music-standards.md` & `CLAUDE.md`.**
   - Formulated full list of 26 canonical multimedia/anime franchise umbrellas under `Anime/` strictly adhering to `Romaji/Global (Japanese Text) ~` format (e.g. `THE IDOLM@STER (アイドルマスター) ~`, `Uma Musume (ウマ娘) ~`, `BanG Dream! (バンドリ！) ~`, `Bocchi the Rock! (結束バンド／ぼっち・ざ・ろっく！) ~`, `Girls Band Cry (ガールズバンドクライ) ~`, `Denonbu (電音部) ~`, `Arknights (アークナイツ／塞壬唱片-MSR) ~`).
