@@ -179,21 +179,44 @@ Kategori utama hanya boleh salah satu dari:
 - `J-Pop/`: Artis/band musik Jepang umum (komersial) di luar kategori anime/vtuber/vocaloid.
 - `Global/`: Artis non-Jepang (Western, K-Pop, dsb.).
 
-#### B. Artist Folder Naming (`[Artist Folder] ~`)
-- **Akhiran Wajib**: Folder artis/circle **WAJIB** berakhiran spasi tilde (` ~`).
-- **Artis Jepang (Nama Kanji / Hiragana / Katakana)**:
-  - Wajib mengikuti format: `Romaji (Kanji/Hira/Kana) ~`
-  - Contoh:
-    - `青木陽菜` ➔ `Aoki Hina (青木陽菜) ~`
-    - `ナツノセ` ➔ `Natsunose (ナツノセ) ~`
-    - `藍月なくる` ➔ `Aitsuki Nakuru (藍月なくる) ~`
-    - `星街すいせい` ➔ `Hoshimachi Suisei (星街すいせい) ~`
-    - `棗いつき` ➔ `Natsume Itsuki (棗いつき) ~`
-    - `ずっと真夜中でいいのに。` ➔ `ZUTOMAYO (ずっと真夜中でいいのに。) ~`
-- **Artis Alfabet / Western**:
-  - Pertahankan nama resmi tanpa kurung: `YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`.
-- **Karakter Terlarang Windows SMB**:
-  - Ganti `*` dengan `＊` (U+FF0A), `:` dengan `：` (U+FF1A), `?` dengan `？` (U+FF1F), `/` atau `\` dengan `-`.
+#### B. Artist & Franchise Folder Naming (`[Artist Folder] ~`)
+- **Akhiran Wajib**: Folder artis/circle/franchise **WAJIB** berakhiran spasi tilde (` ~`).
+- **Artis Reguler (Bukan Franchise)**:
+  - Artis Jepang: Wajib berpola `Romaji (Kanji/Hira/Kana) ~` (misal `Aoki Hina (青木陽菜) ~`, `Natsunose (ナツノセ) ~`, `Hoshimachi Suisei (星街すいせい) ~`, `ZUTOMAYO (ずっと真夜中でいいのに。) ~`).
+  - Artis Alfabet / Western: Nama resmi tanpa kurung (`YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`).
+  
+#### C. The Canonical Franchise Umbrellas (`Anime/[Franchise] ~/`)
+Semua sub-unit, character song, soundtrack, dan idol di bawah franchise multimedia/anime/game **DILARANG** menjadi folder artis lepasan di root `Anime/`. Seluruhnya **WAJIB** dinaungi di bawah **26 Canonical Franchise Folders**:
+
+1. `Anime/THE IDOLM@STER ~/` (Gakumas, Shiny Colors, Cinderella Girls, Million Live, vα-liv)
+2. `Anime/Uma Musume ~/` (WINNING LIVE, ANIMATION DERBY, SOLO VOCAL, dll.)
+3. `Anime/BanG Dream! ~/` (MyGO!!!!!, Ave Mujica, Roselia, Poppin'Party, Pastel＊Palettes, 夢限大みゅーたいぷ, dll.)
+4. `Anime/Love Live ~/` (Liella!, Aqours, Nijigaku, Hasunosora, Muse)
+5. `Anime/D4DJ ~/` (Happy Around!, Peaky P-key, Photon Maiden, Merm4id, Rondo, Lyrical Lily)
+6. `Anime/IDOLY PRIDE ~/` (Sunny Peace, Tsuki no Tempest, TRINITYAiLE, LizNoir)
+7. `Anime/結束バンド (Bocchi the Rock!) ~/` *(Wajib disatukan, dilarang split dengan `BOCCHI THE ROCK! ~`)*
+8. `Anime/ガールズバンドクライ (Girls Band Cry) ~/` (Togenashi Togeari, Diamond Dust) *(Wajib disatukan, dilarang split dengan `GIRLS BAND CRY ~`)*
+9. `Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/`
+10. `Anime/Tokyo 7th シスターズ ~/` (777☆SISTERS, Le☆S☆Ca, The QUEEN of PURPLE)
+11. `Anime/電音部 ~/` *(Wajib disatukan, dilarang split dengan `DENONBU ~`)*
+12. `Anime/ONGEKI (オンゲキ) ~/` *(Wajib disatukan, dilarang split dengan `ONGEKI ~`)*
+13. `Anime/プリンセスコネクト！ Re：Dive ~/` *(Wajib disatukan, dilarang split dengan `PRINCESS CONNECT! ~`)*
+14. `Anime/ブルーアーカイブ (Blue Archive) ~/`
+15. `Anime/プロジェクトセカイ (Project SEKAI) ~/` (Leo/need, MORE MORE JUMP!, Vivid BAD SQUAD, Wonderlands×Showtime, 25-ji)
+16. `Anime/アークナイツ (Arknights) ~/` (Monster Siren Records, character OST) *(Wajib disatukan, dilarang split dengan `Arknight ~`)*
+17. `Anime/ヘブンバーンズレッド (Heaven Burns Red) ~/` (She is Legend, Karafuru) *(Wajib disatukan, dilarang split dengan `Heaven Burns Red ~`)*
+18. `Anime/アズールレーン (Azur Lane) ~/`
+19. `Anime/鳴潮 (Wuthering Waves) ~/`
+20. `Anime/マクロスΔ (Macross Delta) ~/` (Walküre)
+21. `Anime/響け！ユーフォニアム ~/`
+22. `Anime/少女☆歌劇 レヴュースタァライト ~/` *(Wajib disatukan, dilarang split dengan `Shoujo☆Kageki Revue Starlight ~`)*
+23. `Anime/K-ON! ~/` (Ho-kago Tea Time)
+24. `Anime/Fate (Series) ~/`
+25. `Anime/五等分の花嫁 ~/`
+26. `Anime/ソードアート・オンライン (SAO) ~/`
+
+> [!IMPORTANT]
+> **Anti-Split Policy**: Jika ditemukan folder rilis yang memakai variasi nama bahasa Inggris atau terpisah (misal `Arknight ~` vs `アークナイツ (Arknights) ~`, `DENONBU ~` vs `電音部 ~`), seluruh AI Agent **WAJIB** menyatukan (*merge*) kontennya ke nama kanonik di atas, dan menghapus folder pecahannya.
 
 #### C. Album / Single Folder Naming (`[Album Folder]`)
 - **Pure Album Name Rule**:
