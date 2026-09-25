@@ -27,6 +27,9 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
 
 ### 🛑 0. SESSION SCOPE & USER APPROVAL RULE (STRICT)
 - **Homelab-Ops Session Boundary**: Sesi di repo ini murni untuk **admin, infrastruktur, ops, monitoring, dan maintenance homelab**. JANGAN membuat/scaffold aplikasi atau codebase baru dari nol di dalam repo/sesi ini. Pembuatan project/aplikasi baru harus dikerjakan di sesi/workspace terpisah oleh user.
+- **Mandatory "Analyze First, Confirm Before Execution" Rule**:
+  - Untuk setiap permintaan dari user (baik penghapusan file, modifikasi folder, perubahan konfigurasi, perpindahan data, restart service, dsb.): **AI WAJIB melakukan analisa terlebih dahulu dan menyajikan rencananya ke user**.
+  - **DILARANG KERAS** mengeksekusi aksi perubahan/penghapusan/mutasi filesystem atau container secara langsung tanpa **meminta konfirmasi dan persetujuan eksplisit dari user terlebih dahulu**.
 - **Mandatory User Confirmation Before Editing Code/Containers**: Jika ada kebutuhan untuk mengubah kode aplikasi, mengedit konfigurasi project yang sedang berjalan, memodifikasi environment container, atau merestart/menghapus container, **WAJIB konsultasi dan minta izin eksplisit kepada USER terlebih dahulu**. Jangan pernah bypass atau langsung coding/deploy sendiri tanpa persetujuan user.
 
 ### 🚨 1. TASK REGISTRY & LOCKING (`CURRENT_OPS.md`)
