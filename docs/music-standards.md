@@ -152,3 +152,86 @@ Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/
 2. **Split Whole-Disc Images**: Uncompressed single-file `.wav` or `.flac` disc images with `.cue` sheets must always be split into individual FLAC tracks (`shnsplit -o flac -f <cue> <audio>`) with proper vorbis tags embedded.
 3. **No Raw mora IDs**: Always rename raw store IDs (`1-0007...`, `10-0005...`) to clean numbered track titles (`01. [Title].flac`).
 4. **Zero Piracy/Tracker Junk**: Remove all `.url` shortcuts, forum promo `.txt` files (`Read.txt`, `Discord.txt`), and duplicate artwork.
+
+---
+
+## 5. Universal Music Folder Reorganization Framework (Standard Operating Procedure)
+
+Untuk memastikan konsistensi jangka panjang setiap kali merapikan folder musik (baik di `/mnt/hdd-backup/download/`, staging `Torrent/`, maupun master `Lossless/`), seluruh proses wajib mengikuti **Framework Baku 5-Langkah** berikut:
+
+```
+[Auditing & Metadata Extraction] ──> [Canonical Classification] ──> [Sanitization & Pure Naming] ──> [Dry-Run Plan & User Approval] ──> [Server-Side Execution]
+```
+
+### 1. Hierarchy & Folder Naming Rules (Strict)
+
+Setiap album atau single harus ditempatkan dengan skema:
+```
+[Category]/[Artist Folder] ~/[Album Folder]/
+```
+
+#### A. Category Selection (`[Category]`)
+Kategori utama hanya boleh salah satu dari:
+- `Anime/`: Musik soundtrack anime, character songs, atau franchise resmi (misal: `THE IDOLM@STER ~`, `Uma Musume ~`, `ご注文はうさぎですか？？ ~`).
+- `Vtuber/`: Rilis dari talent virtual / agensi vtuber (Hololive, Nijisanji, Kamitsubaki Studio, RK Music, VSPO, dsb.).
+- `Vocaloid/`: Rilis yang berbasis VOCALOID/CeVIO/Synthesizer V (Hatsune Miku, Kikuo, DECO*27, dsb.).
+- `Doujinshi/`: Artis indie/circle doujin non-komersial/M3 rilis (misal: `nayuta ~`, `Room97 ~`, `*Luna ~`).
+- `J-Pop/`: Artis/band musik Jepang umum (komersial) di luar kategori anime/vtuber/vocaloid.
+- `Global/`: Artis non-Jepang (Western, K-Pop, dsb.).
+
+#### B. Artist Folder Naming (`[Artist Folder] ~`)
+- **Akhiran Wajib**: Folder artis/circle **WAJIB** berakhiran spasi tilde (` ~`).
+- **Artis Jepang (Nama Kanji / Hiragana / Katakana)**:
+  - Wajib mengikuti format: `Romaji (Kanji/Hira/Kana) ~`
+  - Contoh:
+    - `青木陽菜` ➔ `Aoki Hina (青木陽菜) ~`
+    - `ナツノセ` ➔ `Natsunose (ナツノセ) ~`
+    - `藍月なくる` ➔ `Aitsuki Nakuru (藍月なくる) ~`
+    - `星街すいせい` ➔ `Hoshimachi Suisei (星街すいせい) ~`
+    - `棗いつき` ➔ `Natsume Itsuki (棗いつき) ~`
+    - `ずっと真夜中でいいのに。` ➔ `ZUTOMAYO (ずっと真夜中でいいのに。) ~`
+- **Artis Alfabet / Western**:
+  - Pertahankan nama resmi tanpa kurung: `YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`.
+- **Karakter Terlarang Windows SMB**:
+  - Ganti `*` dengan `＊` (U+FF0A), `:` dengan `：` (U+FF1A), `?` dengan `？` (U+FF1F), `/` atau `\` dengan `-`.
+
+#### C. Album / Single Folder Naming (`[Album Folder]`)
+- **Pure Album Name Rule**:
+  - **TIDAK BOLEH** ada tag tanggal rilis: hapus `[YYYY.MM.DD]`, `[YYYY-MM-DD]`, `[YYMMDD]`.
+  - **TIDAK BOLEH** ada tahun rilis dalam kurung: hapus `(2025)`, `(2026)`.
+  - **TIDAK BOLEH** ada format audio, resolusi, atau sumber: hapus `[FLAC]`, `[FLAC 24bit/48kHz]`, `[FLAC 96kHz／24bit]`, `[WEB-FLAC]`, `[Hi-Res]`, `[1st Single CD-FLAC]`, `[MP3 320k]`.
+  - **TIDAK BOLEH** ada prefix nama artis duplikat di nama album jika sudah di dalam folder artis (kecuali album berlabel self-titled).
+  - **Hasil**: Murni nama album/single yang bersih.
+    - *Contoh salah*: `[2026.05.13] 青木陽菜 1stミニアルバム「BLAZE」[WEB-FLAC 24bit/48kHz]`
+    - *Contoh benar*: `BLAZE` (atau `1stミニアルバム「BLAZE」` jika nama rilis resminya menyertakan judul mini album).
+    - *Contoh salah*: `(2024.11.20) 最強未来衝動 [FLAC]`
+    - *Contoh benar*: `最強未来衝動`
+
+---
+
+### 2. Standar Alur Eksekusi (Framework 5-Langkah)
+
+1. **Langkah 1: Ekstraksi Metadata Vorbis Tag Server-Side**:
+   - Jangan pernah percaya nama folder lama (karena sering kali hasil unrar/unpack otomatis yang rusak, seperti `100 ~`, `1stBLAZEFLAC ~`).
+   - Ekstrak tag `ARTIST`, `ALBUM`, `TITLE` langsung dari file audio (`.flac`) via script server-side (`mutagen`).
+
+2. **Langkah 2: Pemetaan Kategori & Nama Normalisasi**:
+   - Cocokkan nama artis dengan database alias dan `configs/music_grouping_rules.json`.
+   - Konversi artis Jepang ke format baku: `Romaji (Original) ~`.
+   - Bersihkan string nama album dari regex format/tanggal menjadi `Pure Album Name`.
+
+3. **Langkah 3: Pembuatan Rencana Dry-Run (`reorganize_plan.json`)**:
+   - Script menghasilkan JSON yang memetakan jalur asal (`source_dir`) ke jalur tujuan (`target_dir`).
+   - Script memvalidasi potensi konflik (jika ada 2 album bernama sama di satu artis).
+
+4. **Langkah 4: Konfirmasi Wajib User (Rule 0)**:
+   - Sajikan sampel pemetaan (Before ➔ After) ke user.
+   - Laporkan jumlah album yang akan dipindah dan re-kategorisasi (misal: VTuber yang keluar dari `J-Pop/`).
+   - **Tunggu persetujuan user sebelum melakukan `mv` atau perubahan fisik apapun.**
+
+5. **Langkah 5: Eksekusi Server-Side di Background (Rule 4)**:
+   - Jalankan proses pemindahan via script detached server-side (`nohup ... &`).
+   - Terapkan permission Linux yang benar: `chown -R 100000:100000` dan `chmod -R 775/664`.
+   - Hapus folder-folder kosong sisa.
+   - Update database SQLite `catalog.sqlite`.
+

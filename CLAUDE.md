@@ -157,4 +157,9 @@ Full specifications are recorded in [`docs/music-standards.md`](docs/music-stand
 9. **Ownership & Master Catalog**:
    - Apply `chown -R 100000:100000` and `chmod -R 775` (dirs) / `664` (files) on new additions so SMB users have immediate access.
    - Always run `python3 /mnt/hdd-backup/music/scripts/update_catalog.py` (or repository `scripts/update_catalog.py`) to refresh `catalog.sqlite`.
+10. **Universal Reorganization Framework (Pure Album & Romaji Artist)**:
+    - Follow [`docs/music-standards.md#5-universal-music-folder-reorganization-framework-standard-operating-procedure`](docs/music-standards.md#5-universal-music-folder-reorganization-framework-standard-operating-procedure) for every batch cleanup.
+    - **Artist Folder**: Japanese names must strictly follow `Romaji (Kanji/Hira/Kana) ~` (e.g. `Aoki Hina (青木陽菜) ~`).
+    - **Album Folder**: Must be pure album title without date tags (`[YYYY.MM.DD]`), without years `(2025)`, and without audio codecs/bitrates (`[FLAC 24bit/48kHz]`, `[WEB-FLAC]`).
+
 

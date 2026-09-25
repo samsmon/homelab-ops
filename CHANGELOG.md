@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (136)
+- **Documented Universal Music Folder Reorganization Framework in `docs/music-standards.md` & `CLAUDE.md`.**
+  - Formulated a standard 5-step SOP: `[Auditing & Vorbis Metadata Extraction]` ➔ `[Canonical Classification]` ➔ `[Pure Naming Sanitization]` ➔ `[Dry-Run Plan & Mandatory User Approval]` ➔ `[Server-Side Background Execution]`.
+  - Standardized Japanese artist naming format: strictly `Romaji (Kanji/Hira/Kana) ~` (e.g. `Aoki Hina (青木陽菜) ~`).
+  - Standardized album naming: strictly "Pure Album Name", eliminating release dates `[YYYY.MM.DD]`, years `(2025)`, and audio codecs/bitrates (`[FLAC 24bit/48kHz]`, `[WEB-FLAC]`).
+
 ## 2026-09-26 (135)
 - **Enforced mandatory "Analyze First, Confirm Before Execution" & Non-Blocking Server Background Execution rules in `CLAUDE.md`.**
   - Added strict policy under Section 0: Every user request must be thoroughly analyzed and presented with an action plan first. Execution of changes/mutations strictly requires explicit user confirmation beforehand.
