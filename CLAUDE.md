@@ -162,8 +162,9 @@ Full specifications are recorded in [`docs/music-standards.md`](docs/music-stand
     - **Artist Folder**: Japanese names must strictly follow `Romaji (Kanji/Hira/Kana) ~` (e.g. `Aoki Hina (青木陽菜) ~`).
     - **Album Folder**: Must be pure album title without date tags (`[YYYY.MM.DD]`), without years `(2025)`, and without audio codecs/bitrates (`[FLAC 24bit/48kHz]`, `[WEB-FLAC]`).
 11. **Canonical Franchise Umbrellas & Anti-Split Policy**:
-    - Multimedia/anime/game releases MUST reside inside their designated umbrella in `Anime/` (e.g. `THE IDOLM@STER ~`, `Uma Musume ~`, `BanG Dream! ~`, `結束バンド (Bocchi the Rock!) ~`, `ガールズバンドクライ (Girls Band Cry) ~`, `電音部 ~`, `アークナイツ (Arknights) ~`, dll.).
-    - Never allow fragmented split folders (e.g. `Arknight ~` vs `アークナイツ (Arknights) ~`, `DENONBU ~` vs `電音部 ~`). Always merge into the official canonical folder defined in [`docs/music-standards.md`](docs/music-standards.md).
+    - Multimedia/anime/game releases MUST reside inside their designated umbrella in `Anime/` using strictly `Romaji/Global (Japanese Text) ~` format (e.g. `THE IDOLM@STER (アイドルマスター) ~`, `Uma Musume (ウマ娘) ~`, `BanG Dream! (バンドリ！) ~`, `Bocchi the Rock! (結束バンド／ぼっち・ざ・ろっく！) ~`, `Girls Band Cry (ガールズバンドクライ) ~`, `Denonbu (電音部) ~`, `Arknights (アークナイツ／塞壬唱片-MSR) ~`, dll.).
+    - Never allow fragmented split folders (e.g. `Arknight ~` vs `アークナイツ ~`, `DENONBU ~` vs `電音部 ~`). Always merge into the canonical `Romaji (Japanese) ~` folder defined in [`docs/music-standards.md`](docs/music-standards.md).
+
 
 
 

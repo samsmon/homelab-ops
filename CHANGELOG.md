@@ -3,9 +3,10 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 ## 2026-09-26 (139)
-- **Defined 26 Canonical Franchise Umbrellas & Anti-Split Policy in `docs/music-standards.md` & `CLAUDE.md`.**
-  - Formulated full list of 26 canonical multimedia/anime franchise umbrellas under `Anime/` (IDOLM@STER, Uma Musume, BanG Dream!, Love Live, D4DJ, IDOLY PRIDE, Bocchi the Rock!, Girls Band Cry, GochiUsa, Tokyo 7th, Denonbu, ONGEKI, Priconne, Blue Archive, ProSeka, Arknights, Heaven Burns Red, Azur Lane, Wuthering Waves, Macross Delta, Euphonium, Revue Starlight, K-ON!, Fate, Gotoubun, SAO).
-  - Enforced strict Anti-Split rule requiring AI agents to merge fragmented English/Japanese alias folders (e.g. `Arknight ~` -> `アークナイツ (Arknights) ~`, `DENONBU ~` -> `電音部 ~`, `GIRLS BAND CRY ~` -> `ガールズバンドクライ (Girls Band Cry) ~`).
+- **Defined 26 Canonical Franchise Umbrellas & Strict Romaji-First Anti-Split Policy in `docs/music-standards.md` & `CLAUDE.md`.**
+  - Formulated full list of 26 canonical multimedia/anime franchise umbrellas under `Anime/` strictly adhering to `Romaji/Global (Japanese Text) ~` format (e.g. `THE IDOLM@STER (アイドルマスター) ~`, `Uma Musume (ウマ娘) ~`, `BanG Dream! (バンドリ！) ~`, `Bocchi the Rock! (結束バンド／ぼっち・ざ・ろっく！) ~`, `Girls Band Cry (ガールズバンドクライ) ~`, `Denonbu (電音部) ~`, `Arknights (アークナイツ／塞壬唱片-MSR) ~`).
+  - Enforced strict Anti-Split rule prohibiting Japanese-first root names and merging fragmented English/Japanese alias folders into the single canonical Romaji-first umbrella.
+
 
 ## 2026-09-26 (138)
 - **Implemented Master M3U8 Playlist generation for instant MusicBee & Foobar2000 loading.**

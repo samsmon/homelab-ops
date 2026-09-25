@@ -186,37 +186,40 @@ Kategori utama hanya boleh salah satu dari:
   - Artis Alfabet / Western: Nama resmi tanpa kurung (`YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`).
   
 #### C. The Canonical Franchise Umbrellas (`Anime/[Franchise] ~/`)
-Semua sub-unit, character song, soundtrack, dan idol di bawah franchise multimedia/anime/game **DILARANG** menjadi folder artis lepasan di root `Anime/`. Seluruhnya **WAJIB** dinaungi di bawah **26 Canonical Franchise Folders**:
+Semua sub-unit, character song, soundtrack, dan idol di bawah franchise multimedia/anime/game **DILARANG** menjadi folder artis lepasan di root `Anime/`. Seluruhnya **WAJIB** mengikuti format **Romaji / Global Text (Kanji/Hira/Kana) ~**:
 
-1. `Anime/THE IDOLM@STER ~/` (Gakumas, Shiny Colors, Cinderella Girls, Million Live, vα-liv)
-2. `Anime/Uma Musume ~/` (WINNING LIVE, ANIMATION DERBY, SOLO VOCAL, dll.)
-3. `Anime/BanG Dream! ~/` (MyGO!!!!!, Ave Mujica, Roselia, Poppin'Party, Pastel＊Palettes, 夢限大みゅーたいぷ, dll.)
-4. `Anime/Love Live ~/` (Liella!, Aqours, Nijigaku, Hasunosora, Muse)
+1. `Anime/THE IDOLM@STER (アイドルマスター) ~/` (Gakumas, Shiny Colors, Cinderella Girls, Million Live, vα-liv)
+2. `Anime/Uma Musume (ウマ娘) ~/` (WINNING LIVE, ANIMATION DERBY, SOLO VOCAL, dll.)
+3. `Anime/BanG Dream! (バンドリ！) ~/` (MyGO!!!!!, Ave Mujica, Roselia, Poppin'Party, Pastel＊Palettes, 夢限大みゅーたいぷ, dll.)
+4. `Anime/Love Live! (ラブライブ！) ~/` (Liella!, Aqours, Nijigaku, Hasunosora, Muse)
 5. `Anime/D4DJ ~/` (Happy Around!, Peaky P-key, Photon Maiden, Merm4id, Rondo, Lyrical Lily)
-6. `Anime/IDOLY PRIDE ~/` (Sunny Peace, Tsuki no Tempest, TRINITYAiLE, LizNoir)
-7. `Anime/結束バンド (Bocchi the Rock!) ~/` *(Wajib disatukan, dilarang split dengan `BOCCHI THE ROCK! ~`)*
-8. `Anime/ガールズバンドクライ (Girls Band Cry) ~/` (Togenashi Togeari, Diamond Dust) *(Wajib disatukan, dilarang split dengan `GIRLS BAND CRY ~`)*
-9. `Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/`
-10. `Anime/Tokyo 7th シスターズ ~/` (777☆SISTERS, Le☆S☆Ca, The QUEEN of PURPLE)
-11. `Anime/電音部 ~/` *(Wajib disatukan, dilarang split dengan `DENONBU ~`)*
-12. `Anime/ONGEKI (オンゲキ) ~/` *(Wajib disatukan, dilarang split dengan `ONGEKI ~`)*
-13. `Anime/プリンセスコネクト！ Re：Dive ~/` *(Wajib disatukan, dilarang split dengan `PRINCESS CONNECT! ~`)*
-14. `Anime/ブルーアーカイブ (Blue Archive) ~/`
-15. `Anime/プロジェクトセカイ (Project SEKAI) ~/` (Leo/need, MORE MORE JUMP!, Vivid BAD SQUAD, Wonderlands×Showtime, 25-ji)
-16. `Anime/アークナイツ (Arknights) ~/` (Monster Siren Records, character OST) *(Wajib disatukan, dilarang split dengan `Arknight ~`)*
-17. `Anime/ヘブンバーンズレッド (Heaven Burns Red) ~/` (She is Legend, Karafuru) *(Wajib disatukan, dilarang split dengan `Heaven Burns Red ~`)*
-18. `Anime/アズールレーン (Azur Lane) ~/`
-19. `Anime/鳴潮 (Wuthering Waves) ~/`
-20. `Anime/マクロスΔ (Macross Delta) ~/` (Walküre)
-21. `Anime/響け！ユーフォニアム ~/`
-22. `Anime/少女☆歌劇 レヴュースタァライト ~/` *(Wajib disatukan, dilarang split dengan `Shoujo☆Kageki Revue Starlight ~`)*
-23. `Anime/K-ON! ~/` (Ho-kago Tea Time)
-24. `Anime/Fate (Series) ~/`
-25. `Anime/五等分の花嫁 ~/`
-26. `Anime/ソードアート・オンライン (SAO) ~/`
+6. `Anime/IDOLY PRIDE (アイドリープライド) ~/` (Sunny Peace, Tsuki no Tempest, TRINITYAiLE, LizNoir)
+7. `Anime/Bocchi the Rock! (結束バンド／ぼっち・ざ・ろっく！) ~/`
+8. `Anime/Girls Band Cry (ガールズバンドクライ) ~/` (Togenashi Togeari, Diamond Dust)
+9. `Anime/Gochuumon wa Usagi Desu ka (ご注文はうさぎですか？？) ~/`
+10. `Anime/Tokyo 7th Sisters (Tokyo 7th シスターズ) ~/` (777☆SISTERS, Le☆S☆Ca, The QUEEN of PURPLE)
+11. `Anime/Denonbu (電音部) ~/`
+12. `Anime/Ongeki (ONGEKI／オンゲキ) ~/`
+13. `Anime/Princess Connect! Re：Dive (プリンセスコネクト！ Re：Dive) ~/`
+14. `Anime/Blue Archive (ブルーアーカイブ) ~/`
+15. `Anime/Project SEKAI (プロジェクトセカイ) ~/` (Leo/need, MORE MORE JUMP!, Vivid BAD SQUAD, Wonderlands×Showtime, 25-ji)
+16. `Anime/Arknights (アークナイツ／塞壬唱片-MSR) ~/`
+17. `Anime/Heaven Burns Red (ヘブンバーンズレッド) ~/` (She is Legend, Karafuru)
+18. `Anime/Azur Lane (アズールレーン) ~/`
+19. `Anime/Wuthering Waves (鳴潮) ~/`
+20. `Anime/Macross Delta (マクロスΔ) ~/` (Walküre)
+21. `Anime/Sound! Euphonium (響け！ユーフォニアム) ~/`
+22. `Anime/Revue Starlight (少女☆歌劇 レヴュースタァライト) ~/`
+23. `Anime/K-ON! (けいおん！) ~/` (Ho-kago Tea Time)
+24. `Anime/Fate Series (Fateシリーズ) ~/`
+25. `Anime/The Quintessential Quintuplets (五等分の花嫁) ~/`
+26. `Anime/Sword Art Online (ソードアート・オンライン) ~/`
 
 > [!IMPORTANT]
-> **Anti-Split Policy**: Jika ditemukan folder rilis yang memakai variasi nama bahasa Inggris atau terpisah (misal `Arknight ~` vs `アークナイツ (Arknights) ~`, `DENONBU ~` vs `電音部 ~`), seluruh AI Agent **WAJIB** menyatukan (*merge*) kontennya ke nama kanonik di atas, dan menghapus folder pecahannya.
+> **Strict Naming Standard & Anti-Split Policy**:
+> 1. Pola nama folder di root **WAJIB KONSISTEN**: `Romaji/Global (Teks Asli Jepang) ~`. DILARANG membalik menjadi teks Jepang dulu baru Romaji.
+> 2. Seluruh variasi nama lama (misal `Arknight ~` vs `アークナイツ ~`, `DENONBU ~` vs `電音部 ~`, `GIRLS BAND CRY ~` vs `ガールズバンドクライ ~`) **WAJIB di-merge** ke nama kanonik di atas, dan folder lama yang menyimpang harus dibersihkan.
+
 
 #### C. Album / Single Folder Naming (`[Album Folder]`)
 - **Pure Album Name Rule**:
