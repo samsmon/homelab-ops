@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (141)
+- **Completed Full Homelab Music Centralization & Reorganization (4,794 albums, ~1.05 TB).**
+  - **Single Source of Truth**: Centralized all music without exception into `/mnt/hdd-backup/music/Lossless/` across all 4 homelab storage origins (`hdd-backup/download/`, `hdd-media/downloads/`, `hdd-media/qbittorrent/`, and PC local `E:\Download\`).
+  - **43 CUE Disc Images Split**: Split all monolithic WAV/FLAC disc images into standalone FLAC tracks via `shnsplit` & `cuetools`. Redundant whole-disc images purged.
+  - **False Quarantine & Nested Containers Rescued**: Rescued healthy Tensura & ZUTOMAYO albums from quarantine; dismantled 21-album dumping ground in `清水美依紗 ~/Reunion/`; extracted 404 singles in `General Anime Singles & OST` into proper commercial J-Pop artist folders.
+  - **Taxonomy & Pure Naming Standard**: Consolidated 26 canonical anime franchise umbrellas, 6 VTuber agency umbrellas, and normalized all artist folders to `Romaji (Japanese) ~` and album folders to Pure Album Titles.
+  - **Lossy & Video Segregation**: Segregated 2,670 non-FLAC lossy tracks to `/mnt/hdd-backup/music/Lossy/` and 12 GB Blu-ray concert video to `Video/`.
+  - **Permissions & Master Catalog Rebuilt**: Applied `chmod -R 775/664`. Generated SQLite catalog index (`26,207 tracks`) and updated master playlist `Lossless/Lossless.m3u8` (`23,537 lossless tracks`). Verified 105 GB remaining free space on `hdd-backup`.
+
 ## 2026-09-26 (140)
 - **Updated `portofolio` container on `personal-hosts` to latest upstream (`52c00d8`).**
   - Pulled latest commits from `https://github.com/samsmon/portofolio.git` (`52c00d8: refactor(theme): rename design tokens and classes from yorha to tactical`).
