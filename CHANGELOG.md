@@ -2,6 +2,28 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (144)
+- **Comprehensive Gakumas Structuring, `Game/` Category Creation, and Universal Cross-Category Realignment.**
+  - **Gakumas Perfection**: Achieved 100% clean structure in `Anime/THE IDOLM@STER (アイドルマスター) ~/Gakuen Idolmaster (学園アイドルマスター) ~/`. Exactly 13 character subfolders in `01. Solo/` (0 loose albums, 0 unnumbered duplicate folders). Rescued `金の斧、銀の斧、エメラルドの斧` to Ume and `Choo Choo Choo` to Sena. Flattened `GOLD RUSH 3` and eliminated cross-tier duplicate copies (`SUGAR FLAVOR`, `「ねえ、言っちゃうよ。」`, `わかし・さわがし・スカパンク`).
+  - **Dedicated `Lossless/Game/` Category**: Activated official `Game/` category and evacuated 13 game franchises from `Anime/` (`BLUE PROTOCOL`, `HoYoverse`, `Wuthering Waves`, `SEGA & Arcade Games`, `O.N.G.E.K.I.`, `WHITE ALBUM2`, `Blue Archive`, `Azur Lane`, `Heaven Burns Red`, `Battle Girl High School`, `Towatsugai`, `MementoMori`, and `Project SEKAI`).
+  - **Arknights Restoration**: Sanitized mutilated folder `Arknights ( Akunaitsu ~` into clean `Game/Arknights ~` and flattened all 31 albums directly at the root.
+  - **Vocaloid Producer Rescue**: Re-homed `Tetris` to `Vocaloid/Hiiragi Magnetite (柊マグネタイト) ~`. Consolidated `Harumaki Gohan (はるまきごはん) ~`, `MIMI ~` (12 albums unified from Vtuber & J-Pop), and `TAK ~` into `Vocaloid/`.
+  - **Commercial J-Pop Consolidation**: Reunified 3 fragmented folders of `Yui Ogura (小倉唯) ~` (5 albums). Moved `Ikkyu Nakajima` out of `Anime/`. Consolidated `Atarayo (あたらよ) ~`. Dismantled multi-level torrent ERA containers in `JUNNA ~` into 18 flat albums. Re-homed `Ten ~` and `Hakoniwa Lily ~`.
+  - **VTuber & Anime Unification**: Unified `HIMEHINA ~` (3 albums) and `La Prière ~` (11 albums) in `Vtuber/`. Unified `100 Kanojo` and `Oshi no Ko (【推しの子】) ~` (with B Komachi). Consolidated scattered character songs into `Anime/Utahime Dream (ウタヒメドリーム) ~`, `MILGRAM ~`, `iMarine Project ~`, and `HoneyWorks (mona) ~`.
+  - **Catalog & Permissions**: Enforced permissions `775/664`. Master SQLite catalog indexed `26,101` tracks; `Lossless.m3u8` generated with `23,431` tracks; Samba reloaded. Freed up duplicate space to **111 GB free** on `hdd-backup`.
+
+## 2026-09-26 (143)
+- **Enforced 100% Strict Romaji-First & Comprehensive VTuber/Agency Realignment.**
+  - **Zero Non-ASCII First Folders**: Inverted all remaining `Japanese (Romaji) ~` folders to `Romaji (Japanese) ~` and romanized all pure Japanese names via dictionary and `kakasi` (Hepburn). Non-ASCII first folders across all categories (`Anime`, `J-Pop`, `Vtuber`, `Doujinshi`, `Vocaloid`) reduced from 200+ to **0**.
+  - **Seiyuu Franchise Contamination Rescued**: Rescued `THE IDOLM@STER SHINY COLORS シャイニーPRオファー Vol.3` from `Tanaka Yuki (田中有紀) ~` into canonical `Anime/THE IDOLM@STER (アイドルマスター) ~/Shiny Colors (シャイニーカラーズ) ~/05. Synthe-Side & Collaborations/`. Removed empty artist directory in `Anime/` and unified `Yuki Tanaka (田中有紀) ~` in `J-Pop/`.
+  - **Complete VTuber Relocation**: Migrated 25+ VTubers out of `J-Pop/` into their canonical `Vtuber/` umbrellas:
+    - **Hololive**: Shiranui Flare, Natsuiro Matsuri, Oozora Subaru, Houshou Marine, Tokoyami Towa, Yukihana Lamy, Kazama Iroha, Juufuutei Raden, Todoroki Hajime, Otonose Kanade, Ichijou Ririka, Takane Lui, Usada Pekora, HoloWitches.
+    - **Nijisanji**: Kenmochi Toya, Yumeoi Kakeru, Kuzuha.
+    - **VSPO (ぶいすぽっ！)**: Tachibana Hinano, Kaminari Qpi, Asumi Sena, Nekota Tsuna, Tosaki Mimi, Kurumi Noah.
+    - **RK Music / RIOT / Indie**: Setono Toto, Mikage, ASU, HIMEHINA (Tanaka Hime rescued from J-Pop), Ui Shigure, Aitsuki Nakuru, Nanami Urara, Peanuts-kun.
+  - **Anime Franchise Umbrella Unification**: Reunified `Princess Session Orchestra (プリンセッション・オーケストラ) ~` and `World Dai Star (ワールドダイスター) ~` from scattered long seiyuu names in J-Pop.
+  - **Regenerated Catalog & M3U8**: Index updated to `26,133` tracks; refreshed `Lossless.m3u8` (`23,463` tracks) and `Lossy.m3u8` (`2,670` tracks). Applied permissions `775/664` and reloaded Samba.
+
 ## 2026-09-26 (142)
 - **Executed Full Structural Audit & Perfection across `/mnt/hdd-backup/music/Lossless/` (0 format tags, 0 date tags, 0 loose albums).**
   - **Eliminated All Franchise Splinters & Loose Items**:
