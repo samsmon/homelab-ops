@@ -2,7 +2,26 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (146)
+- **Deep Refinement, Complete `Tv Anime` Legacy Dissolution, and Duplicate Container Un-nesting.**
+  - **Complete Dissolution of `Anime/Tv Anime (TVアニメ) ~`**: Re-homed all 45 unsorted torrent releases to their canonical umbrellas and deleted the legacy dump container:
+    - Rescued 3 Arknights anime songs (`BE ME`, `Alive`, `R.I.P.`) to `Game/Arknights ~`.
+    - Rescued Azur Lane 5th Anniversary single `wavy flow` to `Game/Azur Lane (アズールレーン) ~`.
+    - Rescued Girls Band Cry missing CD 3 (`トゲナシトゲアリ オリジナルソングCD 3「渇く、憂う」`) into `Anime/Girls Band Cry (ガールズバンドクライ) ~`.
+    - Re-homed Utahime Dream (`AMBITION`, `ノーギフテッド`), Makeine (4 releases), Narenare (3 releases), Spice and Wolf, Yuru Camp, Megami no Cafe Terrace, and Just Because! (`behind`).
+    - Rescued VTuber Higuchi Kaede's `Baddest` into `Vtuber/Nijisanji (にじさんじ) ~/Higuchi Kaede (樋口楓) ~/`.
+    - Established canonical umbrellas for new anime franchises: `Re Zero (Re：ゼロから始める異世界生活) ~`, `Onimai (お兄ちゃんはおしまい！) ~`, `Mato Seihei no Slave (魔都精兵のスレイブ) ~`, `2.5 Jigen no Ririsa (2.5次元の誘惑) ~`, `Nige Jouzu no Wakagimi (逃げ上手の若君) ~`, `NieR Automata (ニーア オートマタ) ~`, `Tensura (転生したらスライムだった件) ~`, `Ayakashi Triangle (あやかしトライアングル) ~`, etc.
+  - **Game Franchise Relocation**: Migrated `Princess Connect! Re Dive` (18 albums) and `Kancolle (艦隊これくしょん -艦これ-)` (9 albums) from `Anime/` into `Game/`, expanding `Game/` to 16 official franchises.
+  - **Un-nested 43 Duplicate Nested Containers**:
+    - Flattened all 18 albums in `Anime/Vivy -Fluorite Eye's Song- ~` directly to root.
+    - Flattened all 12 albums in `Doujinshi/TOHO BOSSA NOVA ~` and 3 albums in `Doujinshi/Room97 ~`.
+    - Un-nested `Vocaloid/DECO_27 ~`, `J-Pop/MAISONdes ~`, `J-Pop/maimie ~`, `Doujinshi/Eufolie ~`, `J-Pop/TRUE ~` singles, and other identical `Artist/Artist` or `Album/Album` redundancies.
+  - **Zero Junk & Zero Corrupt Files**: Purged 3 residual extraction `.zip` archives (`lzc2059.zip`, `lacm14781.zip`, `FELT032_START_SpecialContents.zip`) and 25 zero-byte corrupt files (`cover.jpg`, `.lrc`, damaged scans).
+  - **Album Title & Tag Normalization**: Flattened `TUYU (ツユ) ~` and normalized catalog/date tags in `TUYU`, `nonoc`, `Yuno Sakura`, `Shishiro Botan`, and `Shirogane Noel`. Renamed `New Game ~` to canonical `NEW GAME! (ニューゲーム!) ~`.
+  - **Catalog & Space Gains**: Gained +5 GB free space (**116 GB free** on `hdd-backup`). Catalog refreshed to `26,017` tracks; `Lossless.m3u8` generated with `23,347` tracks; permissions `775/664` applied; Samba reloaded.
+
 ## 2026-09-26 (145)
+
 - **Master Sweep Reorganization & Total Zero-Defect Library Alignment across `/mnt/hdd-backup/music/Lossless/`.**
   - **Decontaminated `J-Pop/tuki. ~`**: Rescued 4 major foreign discographies trapped inside `tuki. ~`:
     - Moved and dismantled full 22-album TrySail discography (5 ERA folders) into canonical flat releases inside `J-Pop/TrySail (トライセイル) ~`.
