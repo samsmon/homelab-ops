@@ -2,7 +2,29 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (145)
+- **Master Sweep Reorganization & Total Zero-Defect Library Alignment across `/mnt/hdd-backup/music/Lossless/`.**
+  - **Decontaminated `J-Pop/tuki. ~`**: Rescued 4 major foreign discographies trapped inside `tuki. ~`:
+    - Moved and dismantled full 22-album TrySail discography (5 ERA folders) into canonical flat releases inside `J-Pop/TrySail (トライセイル) ~`.
+    - Rescued D4DJ unit RONDO's `メモリアルアルバム「-未来-」` into `Anime/D4DJ (ディーフォーディージェー) ~/RONDO (燐舞曲) ~/`.
+    - Rescued Akari Kito's `Journey` into `J-Pop/Akari Kito (鬼頭明里) ~/`.
+    - Rescued Riria.'s `軌跡` into `J-Pop/Riria . (りりあ。) ~/`.
+  - **Zero Loose Tracks**: Wrapped all 14 loose `.flac` digital singles in `J-Pop/Hibana (ヒバナ) ~` into canonical single/album folders (`01. [Title].flac`).
+  - **Game & Character Song Realignment**:
+    - Moved `White Album2` out of `Anime/` to `Game/WHITE ALBUM2 (ホワイトアルバム2) ~`.
+    - Rescued `西浦そら(CV.相川奈央) - 陽だまり計画書` from `J-Pop/` to `Anime/Maebashi Witches (前橋ウィッチーズ) ~/`.
+    - Rescued `ユラ(CV.大西沙織) - 蒼海の揺らめき` from `J-Pop/` to `Game/Towatsugai (トワツガイ) ~/`.
+  - **Folder Name Sanitization & Windows Forbidden Characters**:
+    - Normalized deformed kakasi folder `T Shou Yama Nao ...` into clean `J-Pop/Touyama Nao (東山奈央) ~`, flattening 11 albums directly.
+    - Sanitized `Sakurarium (サクラリウム) ~`, `Nohana Koyori (乃花こより) ~`, `Kozue Kisaragi (如月梢) ~`, and `Doujinshi/Lampcat ~`.
+    - Replaced Windows forbidden characters (`*`, `:`, `?`) in artist names (`＊Luna ~`), album names (`Re：Volt`), and track titles across Tokyo 7th Sisters, Love Live!, and Endorfin.
+  - **ERA Torrent Flattening & Cross-Category Consolidation**:
+    - Flattened all 23 albums in `J-Pop/ReoNa ~` and 22 releases in `Anime/Bocchi the Rock! (結束バンド／ぼっち・ざ・ろっく！) ~`.
+    - Unified 17 split artists across categories: Endorfin., nayuta, Hanatan, lapix, Islet, Tsukino, Ruru, Dadaizu, Hagali, Imy, Isle & Notes, ubique, Vivid Lila into `Doujinshi/`; TUYU and Lucia into `J-Pop/`; FloweRiЯy into `Vocaloid/`; NEUN into `Vtuber/`.
+  - **Verification & Service Refresh**: Total library sweep verified: 0 empty dirs, 0 loose tracks, 0 suspicious nested containers, 0 deformed artist folders, 0 forbidden characters. Applied `775/664` permissions, refreshed master SQLite catalog (`26,101` tracks) and `Lossless.m3u8` (`23,431` tracks), and reloaded Samba.
+
 ## 2026-09-26 (144)
+
 - **Comprehensive Gakumas Structuring, `Game/` Category Creation, and Universal Cross-Category Realignment.**
   - **Gakumas Perfection**: Achieved 100% clean structure in `Anime/THE IDOLM@STER (アイドルマスター) ~/Gakuen Idolmaster (学園アイドルマスター) ~/`. Exactly 13 character subfolders in `01. Solo/` (0 loose albums, 0 unnumbered duplicate folders). Rescued `金の斧、銀の斧、エメラルドの斧` to Ume and `Choo Choo Choo` to Sena. Flattened `GOLD RUSH 3` and eliminated cross-tier duplicate copies (`SUGAR FLAVOR`, `「ねえ、言っちゃうよ。」`, `わかし・さわがし・スカパンク`).
   - **Dedicated `Lossless/Game/` Category**: Activated official `Game/` category and evacuated 13 game franchises from `Anime/` (`BLUE PROTOCOL`, `HoYoverse`, `Wuthering Waves`, `SEGA & Arcade Games`, `O.N.G.E.K.I.`, `WHITE ALBUM2`, `Blue Archive`, `Azur Lane`, `Heaven Burns Red`, `Battle Girl High School`, `Towatsugai`, `MementoMori`, and `Project SEKAI`).
