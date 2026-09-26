@@ -2,6 +2,20 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (142)
+- **Executed Full Structural Audit & Perfection across `/mnt/hdd-backup/music/Lossless/` (0 format tags, 0 date tags, 0 loose albums).**
+  - **Eliminated All Franchise Splinters & Loose Items**:
+    - **THE IDOLM@STER**: Rescued mojibake folder `_YK3YV~S` (`?????????`). Unwrapped nested `-28 colors- COLLECTION` and `01 Borderline.flac`. Consolidated all 15 loose sub-units from `Anime/` (`アルストロメリア`, `アンティーカ`, `イルミネーションスターズ`, `コメティック`, `シーズ`, `ストレイライト`, `ノクチル`, `放課後クライマックスガールズ`, `L'Antica`, etc.) and all 11 Gakuen Idolmaster character singles into their canonical subfranchise containers (`Shiny Colors` and `Gakuen Idolmaster`).
+    - **Bocchi the Rock!**: Unified all physical, digital, and special disc releases into canonical containers (`[2022-2023] PHYSICAL RELEASES`, `[2022-2023] SPECIAL DISCS`, `[2022-2022] DIGITAL SINGLES`) with 0 loose items.
+    - **BanG Dream!**: Sorted all 80+ loose albums and singles into 14 canonical unit folders (`MyGO!!!!!`, `Ave Mujica`, `Poppin'Party`, `Roselia`, `Afterglow`, `Pastel＊Palettes`, `Hello, Happy World!`, `Morfonica`, `RAISE A SUILEN`, `Mugendai Mewtype`, `millsage`, `Compilations`, `Ikka Dumb Rock`, `Parallel`).
+    - **Love Live!**: Merged legacy `Nijigaku` folder (34 albums) and all loose singles into canonical generations (`Nijigasaki`, `Aqours`, `Hasunosora`, `Bluebird`, `Liella!`, `School Idol Musical`).
+    - **Uma Musume, Girls Band Cry, D4DJ**: Merged loose character singles and units into canonical umbrellas.
+  - **Comprehensive Agency & VTuber Consolidation**:
+    - Rescued all 6 Hololive English talents accidentally placed in `Vocaloid/`. Merged 30+ loose Hololive talents from `Vtuber/` into `Hololive (ホロライブ) ~` and sorted 54 loose singles into talent subfolders.
+    - Consolidated loose talents into `Nijisanji (にじさんじ) ~`, `KAMITSUBAKI STUDIO (神椿スタジオ) ~`, `RK Music ~`, and `RIOT MUSIC ~`.
+  - **100% Pure Album Titles**: Stripped all format/bitrate tags (`[FLAC]`, `[CD]`, `[24bit/48kHz]`, `[Hi-Res]`) and date prefixes across all 23,465 lossless tracks. Format tags: 0, Date tags: 0.
+  - **Permissions & Master Index**: Enforced permissions `775` (dirs) and `664` (files). Master database indexed `26,135` tracks; updated `Lossless.m3u8` (`23,465` tracks) and `Lossy.m3u8` (`2,670` tracks). Verified 108 GB free space on `hdd-backup`.
+
 ## 2026-09-26 (141)
 - **Completed Full Homelab Music Centralization & Reorganization (4,794 albums, ~1.05 TB).**
   - **Single Source of Truth**: Centralized all music without exception into `/mnt/hdd-backup/music/Lossless/` across all 4 homelab storage origins (`hdd-backup/download/`, `hdd-media/downloads/`, `hdd-media/qbittorrent/`, and PC local `E:\Download\`).

@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-(No active locks. All tasks completed.)
+<!-- No active locks. All tasks completed. -->
 
 
 
