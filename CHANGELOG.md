@@ -2,6 +2,32 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (149)
+- **Gakuen Idolmaster Perfection, Library-wide Quality Upgrades (BanG Dream! & TUYU 24-bit Hi-Res), Format Tag Noise Elimination, and Zero `_alt`/`_dup` Audit.**
+  - **Gakuen Idolmaster (学園アイドルマスター) Deep Perfection**:
+    - Normalized decomposed Unicode NFD dakuten (`は` + `\u3099`) in `01. Solo/02. 月村手毬 (Temari Tsukimura)/叶えたい、ことばかり` to NFC `叶えたい、ことばかり`.
+    - Stripped format noise `[1st Single CD-FLAC]` to `[1st Single]` on `Fighting My Way [1st Single]`, `Luna say maybe [1st Single]`, and `世界一可愛い私 [1st Single]`.
+    - Rescued booklet `BK/` from 16-bit `かちドキ [GOLD RUSH CD-FLAC]` into 24-bit Hi-Res master `かちドキ`, purging the 16-bit redundant folder.
+    - Relocated Kotone's solo cover album `GOLD RUSH 第3巻 特装版「GO MY WAY!!」` with scans from `04. All Stars & Units` into `01. Solo/03. 藤田ことね (Kotone Fujita)/`.
+    - Purged all 16-bit `_alt.flac` duplicates across Gakumas (`ガラクタロード`, `かちドキ`, `MY STAGE`, `三分半の創世`, `真っ白いページと水彩の主人公`, `VEIL`, `Superlative`).
+  - **Global `_alt.flac` & `_dup.flac` Audit & Quality Upgrades**:
+    - BanG Dream!: Upgraded all 10 tracks of MyGO!!!!! 3rd Album `致並跡` from 16-bit to 24-bit / 96kHz Hi-Res masters (renamed `_alt` to base, purged 16-bit).
+    - BanG Dream!: Upgraded Mugendai Mewtype 4th Single `超惑星Xへの旅` to 24-bit / 96kHz Hi-Res masters.
+    - TUYU: Upgraded all 12 tracks of `アンダーメンタリティ` from 16-bit to 24-bit / 48kHz Hi-Res masters and replaced low-res cover with 2.7MB Hi-Res cover art.
+    - Purged redundant 16-bit and byte-for-byte duplicate `_alt.flac`, `_dup.flac`, and `*_dup.jpg` across the entire library (Liella! `Hyper Glowing!`, Shiny Colors `Over the prism`, Utahime Dream `AMBITION` and `アンノウンミー`, `先輩はおとこのこ`, `菜なれ花なれ`, Hanabie., PassCode, Kaya, 雪花繚乱, 田中有紀 `I need`, りりあ。 `軌跡`, 前島亜美 `Determination`, 七海うらら, 大神ミオ, さくらみこ, 鷹嶺ルイ, 白上フブキ, アイドリープライド, 狼と香辛料, レヴュースタァライト).
+    - Flattened nested album folder in `J-Pop/Maejima Ami (前島亜美) ~/`.
+    - Achieved exactly **0 `_alt` / `_dup` files** library-wide.
+  - **Shiny Colors Format Noise Elimination**:
+    - Stripped ` [AIFF 96kHz／32bit]` from all 28 album folders across `01. BRILLI@NT WING`, `02. FR@GMENT WING`, `03. GR@DATE WING`, `04. L@YERED WING`, and `04. COLORFUL FE@THERS Series`, achieving **0 format tags** in folder names across the entire library.
+  - **Root Cleanup & Quarantine Purge**:
+    - Purged empty `_corrupted_quarantine` directory tree from Lossless root, leaving exactly the 7 canonical music categories (`Anime`, `Doujinshi`, `Game`, `Global`, `J-Pop`, `Vocaloid`, `Vtuber`).
+    - Purged residual empty leaf folders `J-Pop/YUI ~/FROM ME TO YOU/Scans` and `Doujinshi/Eufolie ~`.
+  - **System Metrics & Final State**:
+    - Available space expanded to **123 GB free** (+12 GB net gain since start).
+    - Master SQLite catalog refreshed: `25,867` total tracks.
+    - Master playlist `Lossless.m3u8` regenerated: `23,197` tracks.
+    - Strict permissions (`775` dirs, `664` files) reapplied and Samba reloaded.
+
 ## 2026-09-26 (148)
 - **Zero-Redundancy Duplicate Purge, Bit-Perfect CUE Splitting, J-Pop Artist Consolidation, and Shiny Colors Master Re-alignment.**
   - **Bit-Perfect CUE Splitting & Zero Residual CUEs**:
