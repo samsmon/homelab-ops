@@ -2,6 +2,31 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (148)
+- **Zero-Redundancy Duplicate Purge, Bit-Perfect CUE Splitting, J-Pop Artist Consolidation, and Shiny Colors Master Re-alignment.**
+  - **Bit-Perfect CUE Splitting & Zero Residual CUEs**:
+    - Split 11 Love Live! SPCD discs (`SPCD 01-05`, `Original Song CD 01-06`) and 3 Mamyukka disc images (`サハラムシカ`, `テアトルエトワール`, `THE 13th PANCER`) using `shnsplit` into standalone individual FLAC tracks (`01. [Title].flac`, `02. [Title] (Off Vocal).flac`), purging all original whole-disc flac images and CUE sheets.
+    - Verified single-track releases and removed redundant CUE sheets across the entire library (`Mori Calliope DISASTERPIECE`, `TUYU アンダーキッズ`, `ZAQ カーストルーム`, `Shinra-bansho toge`, `Azuma Seren KEEP OUT`, `PROTOCOLLON J-HYPER NATION`, `Mamyukka Trick Or Mamyukka`), achieving exactly **0 CUE sheets** and **0 unsplit disc images** across `/mnt/hdd-backup/music/Lossless/`.
+  - **Zero Redundancy Duplicate Purging & Quality Optimization**:
+    - Purged exact duplicate folders: Towatsugai bracket-less copy, Rokudenashi duplicate Eureka folder (rescued missing track 3 and scans into clean `ユリイカ`), Magical Mirai 2024 duplicate romaji copy, Watch Me 1-track digital single, Cute Cutting Club 16-bit copy & empty container, Mamyukka 6 redundant WAV files.
+    - Purged Shirakami Fubuki defective unbracketed duplicate `... EPヤマトファンタジア」`.
+    - Purged PROTOCOLLON redundant 16-bit duplicates (`*_dup.flac`, `cover_dup.jpg`) in favor of 24-bit 48kHz hi-res masters.
+    - Purged redundant single folders completely subsumed by full/deluxe releases: Nishino Kana Feat. NiziU `LOVE BEAT (Single Edition)` (vs `Full Release`), Nogizaka46 `是非に及ばず` (vs `Special Edition`), and H／／PE Princess `17.7` (vs `Japan Deluxe Edition`).
+  - **J-Pop Split Artists Consolidation (Zero Case Collisions)**:
+    - Unified 19 split artist folders differing only in casing or kana/kanji variations: `96 Neko (96猫)` -> `96Neko (96猫)`, `9lana` -> `9Lana`, `Ado` -> `Ado (アド)`, `Boku Ga Mita Katta Aozora` -> `Boku ga Mitakatta Aozora`, `Cö Shu Nie` -> `Cö shu Nie`, `Haku .` -> `Haku.`, `Kotonohouse` -> `KOTONOHOUSE`, `Miminari` -> `MIMiNARI`, `Milet` -> `milet`, `Murasaki Ima (紫今)` -> `Murasaki Ima (紫 今)`, `Nomelon Nolemon` -> `NOMELON NOLEMON`, `No Hana Koyori` -> `Nohana Koyori`, `Sa Na (紗奈)` -> `Sana (鎖那)`, `SawanoHiroyuki` -> `Sawano Hiroyuki (澤野弘之)`, `Takane Nonadeshiko` -> `Takane no Nadeshiko`, `Tsukuyomi` -> `Tsukuyomi (月詠み)`, `Washio Rei Na` -> `Washio Reina`, `YU-KA` -> `Yu-ka`, `otsumami feat.mikan` -> `otsumami feat. mikan`.
+    - Normalized `Su Mi Ka (す み か) ~` to `Sumika (す み か) ~` (preserving distinction from rock band `sumika ~`).
+    - Achieved **0 case collisions** across ext4 / SMB for Windows clients.
+  - **THE IDOLM@STER Shiny Colors Complete Restructuring**:
+    - `01. WING Series/06. CANVAS`: Migrated artwork from empty `_CANVAS_ 01..08` folders into `''CANVAS'' 01..08` and purged the 8 empty folders.
+    - `02. Song for Prism Series`: Merged artwork from 12 empty folders named with `_` into counterpart folders with `／`, purging the empty containers.
+    - Flattened `神様は死んだ、って` from nested subdirectories directly to album root.
+    - Purged 16-bit duplicates in `Tokyo自由系＊ガール／My time` and `ボーダーレス・ノンストレス／Oh Yeah!!`, retaining 24-bit 96kHz masters.
+    - Purged duplicate tracks in `SUPER DUPER DREAMER／BEAST MODE` and `散花-sanka-／紅花-benibana-`.
+    - Merged spaced and non-spaced duplicate folders in `C'mon! Join Us`.
+  - **System Metrics & Storage Gains**:
+    - Disk free space increased from 111 GB to **121 GB free** (+10 GB net gain).
+    - Permissions set to `775` (dirs) and `664` (files); Samba reloaded.
+
 ## 2026-09-26 (147)
 - **Comprehensive Franchise Perfection, VTuber Unification, and Mobile Game Re-alignment.**
   - **Hololive Unification**:
