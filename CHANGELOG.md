@@ -2,6 +2,26 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (150)
+- **Zero WAV Files (100% FLAC Bit-Perfect Library), Mojibake Correction, HoneyWorks/nayuta Re-homing, and Global Format Noise Purge.**
+  - **Zero WAV Files & Bit-Perfect FLAC Conversion**:
+    - Converted all 48 uncompressed WAV audio files library-wide to bit-perfect `.flac` with full tags:
+      - `Doujinshi/Imy ~/Beyond the despair`: Repaired corrupted mojibake filename `06 îÄÄ₧ëJ.wav` into canonical `06. 月時雨.flac` and converted all 6 tracks.
+      - `Doujinshi/Login Records ~/Never Forget Vacation 8`: Converted all 15 tracks to `.flac`.
+      - `Doujinshi/nayuta ~/想い出を綴った歌を君へ。`: Rescued 5th anniversary best album from misattributed dump folder `J-Pop/7uta ~` into canonical `Doujinshi/nayuta ~`, converted all 15 tracks to `.flac`, and purged empty container.
+      - `Game/Kancolle (艦隊これくしょん -艦これ-) ~`: Converted 12 tracks to 24-bit / 48kHz `.flac`, normalized folder title to `「艦隊これくしょん -艦これ-」キャラクターソング “艦娘乃歌” Vol.1` (stripping format noise and repairing opening quotation).
+      - `Vtuber/KAMITSUBAKI STUDIO ~/Koko (幸祜) ~/Prayer/mcard-bonustracks`: Converted 2 bonus tracks to `.flac`.
+    - Achieved exactly **0 WAV files** across `/mnt/hdd-backup/music/Lossless/`.
+  - **Global Format Tag Noise & Suffix Stripping**:
+    - Purged redundant duplicate folder `Light Years HI-RES` in `Game/Heaven Burns Red ~`.
+    - Stripped `HI-RES` / `hi-res` / `FLAC` suffixes across 20 album folders in Heaven Burns Red, Azur Lane, Azuma Seren, Princess Letter(s)!, GEMS COMPANY, YuNi, Mone Kamishiraishi, NOMELON NOLEMON, and Hanatan.
+    - Normalized `Doujinshi/Vivid Lila ~/WEB FLAC` to official release title `Air of Celeste`.
+    - Re-homed HoneyWorks' `告白実行委員会 -FLYING SONGS- 恋してる` from deformed artist folder into canonical `J-Pop/HoneyWorks ~`.
+  - **Storage & System Verification**:
+    - Disk free space reached **124 GB free** (+13 GB net gain since start).
+    - Catalog refreshed: `25,866` total tracks; `Lossless.m3u8` regenerated: `23,196` tracks.
+    - Permissions `775/664` applied and Samba reloaded.
+
 ## 2026-09-26 (149)
 - **Gakuen Idolmaster Perfection, Library-wide Quality Upgrades (BanG Dream! & TUYU 24-bit Hi-Res), Format Tag Noise Elimination, and Zero `_alt`/`_dup` Audit.**
   - **Gakuen Idolmaster (学園アイドルマスター) Deep Perfection**:
