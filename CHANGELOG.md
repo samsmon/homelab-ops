@@ -2,7 +2,28 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-26 (147)
+- **Comprehensive Franchise Perfection, VTuber Unification, and Mobile Game Re-alignment.**
+  - **Hololive Unification**:
+    - Rescued Mori Calliope's `DISASTERPIECE` from `J-Pop/Mori Calliope ~` into canonical `Vtuber/Hololive (ホロライブ) ~/Mori Calliope ~/`.
+    - Relocated Kobo Kanaeru's `初恋` from loose root `Vtuber/Kobo Kanaeru ~` into `Vtuber/Hololive (ホロライブ) ~/Kobo Kanaeru ~/` alongside all Hololive ID generation members.
+  - **VTuber Duplication Consolidation**:
+    - Re-unified `Shigure Ui (しぐれうい) ~` and `Ui Shigure (しぐれうい) ~` into `Vtuber/Ui Shigure (しぐれうい) ~` (5 albums).
+    - Merged deformed kakasi folder `Ryuu Saki Rin (龍ヶ崎リン) ~` into `Vtuber/Ryugasaki Rene (龍ヶ崎リン) ~` (3 albums).
+  - **Vocaloid Re-homing**: Rescued 3 non-Vocaloid heavy metal and idol bands mistakenly dumped in `Vocaloid/` (`FATE GEAR ~`, `KOIAI ~`, and `OCHA NORMA ~`) to `J-Pop/`.
+  - **Music Unit Unification**: Consolidated `Anime/(K)NoW_NAME：NIKIIE ~` and `J-Pop/NoW_NAME ~` into single canonical `J-Pop/(K)NoW_NAME ~`.
+  - **Mobile Idol/Rhythm Games Migration**: Moved 6 mobile rhythm & idol game franchises from `Anime/` to `Game/`:
+    - `Tokyo 7th Sisters (Tokyo 7th シスターズ) ~` (27 albums)
+    - `Idoly Pride (アイドリープライド) ~` (68 albums)
+    - `IDOLiSH7 (アイドリッシュセブン) ~`
+    - `CUE! ~` (15 albums)
+    - `Lapis ReLiGHTs ~`
+    - `LiveRevolt ~`
+    - Expanding `Game/` to **22 official game franchises** and streamlining `Anime/` to **73 pure anime umbrellas**.
+  - **Final Audit & Permissions**: Zero folders without tildes, zero loose audio, zero date/codec tags in album names, zero zero-byte corrupt files, zero residual junk. Applied permissions `775/664`, refreshed SQLite master catalog (`26,017` tracks) and `Lossless.m3u8` (`23,347` tracks), and reloaded Samba.
+
 ## 2026-09-26 (146)
+
 - **Deep Refinement, Complete `Tv Anime` Legacy Dissolution, and Duplicate Container Un-nesting.**
   - **Complete Dissolution of `Anime/Tv Anime (TVアニメ) ~`**: Re-homed all 45 unsorted torrent releases to their canonical umbrellas and deleted the legacy dump container:
     - Rescued 3 Arknights anime songs (`BE ME`, `Alive`, `R.I.P.`) to `Game/Arknights ~`.
