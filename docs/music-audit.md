@@ -12,14 +12,14 @@
 MASTER ZERO-DEFECT AUDIT (LIVE SYSTEM SCORECARD)
 Target Host : docker-host (192.168.18.225)
 Storage Root: /mnt/hdd-backup/music/
-Timestamp   : 2026-09-27 12:24:53
+Timestamp   : 2026-09-27 13:59:13
 ======================================================================
-Disk Usage  : 170G free (91% used)
+Disk Usage  : 171G free (91% used)
 
 --- 1. LOSSLESS LIBRARY AUDIT (/mnt/hdd-backup/music/Lossless) ---
-Total Directories         : 6,612
-Total Files               : 28,697
-Bit-Perfect FLAC Tracks   : 22,781  (100% FLAC)
+Total Directories         : 6,592
+Total Files               : 28,602
+Bit-Perfect FLAC Tracks   : 22,759  (100% FLAC)
 Non-FLAC Audio Files      : 0       (0 WAV, 0 AIFF, 0 WV, 0 MP3, 0 M4A, 0 AAC)
 CUE Sheets (.cue)         : 0       (100% Standalone split tracks)
 Clutter Files (.log/.url) : 0       (100% Clean from logs/ads)
@@ -40,8 +40,8 @@ Empty Dirs in Lossy       : 0       (0 Empty folders)
 Case Collisions in Lossy  : 0       (100% Safe for Windows clients)
 
 --- 3. MASTER CATALOG & PLAYLISTS ---
-catalog.sqlite Tracks     : 25,145  (Lossless: 22,781 | Lossy: 2,364)
-Lossless.m3u8 Tracks      : 22,781  (100% FLAC Bit-Perfect)
+catalog.sqlite Tracks     : 25,123  (Lossless: 22,759 | Lossy: 2,364)
+Lossless.m3u8 Tracks      : 22,759  (100% FLAC Bit-Perfect)
 Lossy.m3u8 Tracks         : 2,364
 Samba Daemon Status       : Active & Serving LAN
 Permissions Standard      : 775 (Directories) / 664 (Files) root:root
