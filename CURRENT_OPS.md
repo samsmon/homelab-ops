@@ -5,7 +5,7 @@
 
 ## Active Task Registry
 
-<!-- None currently active -->
+*(No active operations locked)*
 
 
 
