@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (161)
+- **Executed Deep Zero-Defect Audit & Complete Remediation on `Lossless/Anime` (`/mnt/hdd-backup/music/Lossless/Anime`).**
+  - **100% ReplayGain 2.0 / EBU R128 Completion**: Added missing EBU R128 track and album gain/peak Vorbis tags (`REPLAYGAIN_TRACK_GAIN`, `REPLAYGAIN_ALBUM_GAIN`) to the remaining 2 multi-channel/instrumental tracks (`piece of youth (BD 5.1 ver.)` and `ヴィヴィアン (Instrumental)`), reaching `8,406 / 8,406` (`100.00%`) across `Lossless/Anime`.
+  - **Vorbis Metadata & Track Filename Standardization**: Populated all missing `ARTIST` (99), `ALBUM` (72), `TRACKNUMBER` (67), and `ALBUMARTIST` (3,467) tags across 3,474 FLAC tracks (`0` missing core tags remaining) and normalized 124 non-standard track filenames (`[Album]_01_[Title].flac` and raw store IDs) into canonical `01. [Title].flac`.
+  - **Folder Flattening, Deduplication & SMB-Safe Naming**: Removed 36 duplicate FLAC files (`Yuru Camp ~/はるのとなり/Hi-Res`, `World Dai Star ~/ワールドダイスター`, `Original Soundtrack ｢Twinkle of the Superstar｣`), flattened nested wrapper folders (`Revue Starlight Music Collection v3`, `MACROSS DELTA (2016-2024)`, `Aqours/Aqours`, `Liella!/Liella!`), renamed `LACA-9851..9914` to `Disc 1..3`, stripped `HI-RES`/date suffixes, replaced SMB-unsafe trailing dots `...` with `…`, and standardized 16 franchise root directories to `Romaji (Kanji) ~`.
+  - **Canonical `Cover.jpg` Extraction**: Standardized 496 lowercase `cover.jpg`, converted 136 non-standard cover files (`folder.jpg`, `Cover.png`, etc.), extracted embedded FLAC cover art into `Cover.jpg` for 531 album folders, and refreshed `catalog.sqlite`, `Lossless.m3u8`, and `AUDIT_SCORECARD.md`.
+
 ## 2026-09-27 (160)
 - **Deployed Blog Reader Lightbox & Zoom Feature for Diagrams and Images.**
   - Added interactive image lightbox and pan/zoom SVG diagram viewer (`DiagramLightbox.svelte` and `ImageLightbox.svelte`) to blog post reader in `portofolio` (`2cc6891`).
