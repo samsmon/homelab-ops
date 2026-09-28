@@ -12,14 +12,14 @@
 MASTER ZERO-DEFECT AUDIT (LIVE SYSTEM SCORECARD)
 Target Host : docker-host (192.168.18.225)
 Storage Root: /mnt/hdd-backup/music/
-Timestamp   : 2026-09-28 10:03:16
+Timestamp   : 2026-09-28 12:00:36
 ======================================================================
-Disk Usage  : 175G free (90% used)
+Disk Usage  : 174G free (91% used)
 
 --- 1. LOSSLESS LIBRARY AUDIT (/mnt/hdd-backup/music/Lossless) ---
-Total Directories         : 6,454
-Total Files               : 28,004
-Bit-Perfect FLAC Tracks   : 22,773  (100% FLAC)
+Total Directories         : 6,409
+Total Files               : 27,643
+Bit-Perfect FLAC Tracks   : 22,699  (100% FLAC)
 Non-FLAC Audio Files      : 0       (0 WAV, 0 AIFF, 0 WV, 0 MP3, 0 M4A, 0 AAC)
 CUE Sheets (.cue)         : 0       (100% Standalone split tracks)
 Clutter Files (.log/.url) : 0       (100% Clean from logs/ads)
@@ -40,8 +40,8 @@ Empty Dirs in Lossy       : 0       (0 Empty folders)
 Case Collisions in Lossy  : 0       (100% Safe for Windows clients)
 
 --- 3. MASTER CATALOG & PLAYLISTS ---
-catalog.sqlite Tracks     : 25,137  (Lossless: 22,773 | Lossy: 2,364)
-Lossless.m3u8 Tracks      : 22,773  (100% FLAC Bit-Perfect)
+catalog.sqlite Tracks     : 25,063  (Lossless: 22,699 | Lossy: 2,364)
+Lossless.m3u8 Tracks      : 22,699  (100% FLAC Bit-Perfect)
 Lossy.m3u8 Tracks         : 2,364
 Samba Daemon Status       : Active & Serving LAN
 Permissions Standard      : 775 (Directories) / 664 (Files) root:root
@@ -89,4 +89,4 @@ All parameters below enforce a strict **Zero-Defect Tolerance (Defects = 0)**:
    python3 /mnt/hdd-backup/music/scripts/generate_music_scorecard.py --all
    ```
 
-*Last Updated: 2026-09-28 17:03:16*
+*Last Updated: 2026-09-28 19:00:36*
