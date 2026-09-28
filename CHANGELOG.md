@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-28 (165)
+- **Sanitized Trailing Dot SMB Defect in `Lossless/Doujinshi/Vivid Lila ~/un@ngelic` (Prevented Samba 8.3 Mangling `UPD42I~K`).**
+  - Renamed directory `un@ngelic.` to `un@ngelic` on `docker-host` to comply with Windows NTFS/SMB trailing dot prohibition.
+  - Eliminated Windows Samba 8.3 DOS name mangling (`UPD42I~K` -> `un@ngelic`), verified `Test-Path` and directory listing over SMB UNC path `\\192.168.18.225\homelab\hdd-backup\music\Lossless\Doujinshi\Vivid Lila ~\un@ngelic`.
+  - Re-verified comprehensive 10-point stress test across all 65 circles, 301 albums, and 2,151 FLAC tracks: 0 errors, 0 corrupt covers, 0 missing ReplayGain, 0 SMB illegal paths.
+  - Re-indexed master SQLite catalog (`25,137` total tracks) and regenerated master M3U8 playlists (`Lossless.m3u8` and `Lossy.m3u8`).
+
 ## 2026-09-28 (164)
 - **Updated `portofolio` container on `personal-hosts` to latest upstream (`6534bc6`).**
   - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `6534bc6` (`feat(blog): post kuliah TKMTI dan MDE, fix label mermaid kehilangan <br/>`).
