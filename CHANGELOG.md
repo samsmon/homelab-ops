@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-28 (163)
+- **Enhanced Homelab Dashboard: Multi-LXC Usage Tracking & Fleet Performance Graph Fallback.**
+  - Updated `proxmox.service.ts` in `samsmon/homelab-dashboard` to dynamically extract live CPU %, RAM %, and storage allocations for all Proxmox LXCs (100, 101, 102, 103, 104) from `/nodes/pve/lxc` with zero additional polling overhead.
+  - Updated `ContainerGridSection.tsx` so host cards (`docker-host`, `yado-hosts`, `personal-hosts`, `dev-host`, `media-hosts`) read their live CPU/RAM usage directly from Proxmox LXC telemetry instead of showing 0%.
+  - Added fallback in `MetricHistoryContext.tsx` to keep Fleet graphs moving smoothly even when individual container monitoring streams are idle.
+  - Rebuilt and deployed `homelab-dashboard` (`d9a2459e18f0`) on `docker-host`. Verified HTTP 200 live status.
+
 ## 2026-09-28 (162)
 - **Standardized Homelab Cockpit container and service name to `homelab-dashboard`.**
   - Updated `docker-compose.yml` in `samsmon/homelab-dashboard` to rename service and container from `homelab-cockpit` to `homelab-dashboard`, synced storage volume mounts from `/mnt/hdd-cloud` to `/mnt/hdd-backup`.
