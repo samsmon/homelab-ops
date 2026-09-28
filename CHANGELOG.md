@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-28 (167)
+- **Deployed `tabsync` on `personal-hosts` (LXC 103, Port 8097).**
+  - Cloned `https://github.com/samsmon/tabsync` into `/opt/projects/tabsync`.
+  - Configured `compose.yml` with port mapping `8097:8080`, 64MB memory limit, and SQLite persistence in named volume `tabsync_tabsync-data`.
+  - Configured server authentication with high-entropy 256-bit bearer token `TABSYNC_TOKEN` in `.env` (chmod 600).
+  - Built and started container `tabsync`, verified HTTP 200 on `/healthz` and verified `/v1/meta` uninitialized state ready for initial client PBKDF2 passphrase pairing.
+  - Added compose template to `configs/docker-compose/tabsync.yml` and registered service in `docs/services.md`.
+
 ## 2026-09-28 (166)
 - **Executed Deep Forensic Audit & Complete 3-Stage Zero-Defect Remediation on `Lossless/Game` (`/mnt/hdd-backup/music/Lossless/Game`, `4,050+` Defects -> `0` Defects).**
   - **Deduplication & Multi-Disc Restructuring**: Removed 4 duplicate bit-perfect disc folders in `Tokyo 7th Sisters ~/Are You Ready 7th-TYPES？？` (`1.6 GB` freed), deduplicated 16-bit vs 24-bit audio in `Idoly Pride ~/IDOLY PRIDE Collection Album [Chronicle]` and `Gemstones`, purged bit-perfect clone `01. EVERYDAY! SUNNYDAY!_1.flac`, separated lumped `Disc 1 2` and `Disc 3 4` into canonical `Disc 1..4` in `Tokyo 7th Sisters ~/IT'S A PERFECT BLUE`, split mixed `Arknights ~/アークナイツ 黎明前奏` into `Alive` and `BE ME`, and sanitized 33 folder names in `ONGEKI` by stripping `{...}` catalog codes (`+3 GB` storage freed).
