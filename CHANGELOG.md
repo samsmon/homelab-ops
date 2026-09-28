@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-28 (164)
+- **Updated `portofolio` container on `personal-hosts` to latest upstream (`6534bc6`).**
+  - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `6534bc6` (`feat(blog): post kuliah TKMTI dan MDE, fix label mermaid kehilangan <br/>`).
+  - Executed one-shot server-side build with `docker compose up -d --build` on `personal-hosts`.
+  - Rebuilt static SvelteKit bundle and exported to image `portfolio-portfolio:latest`.
+  - Recreated container `portofolio` (`026f0da6d7a8`) on `0.0.0.0:3080->80/tcp` and verified live HTTP 200 response with all new blog posts rendered.
+  - Mirrored latest git bundle objects to `/mnt/homelab_projects/portofolio` on `docker-host` (LXC 100).
+
 ## 2026-09-28 (163)
 - **Enhanced Homelab Dashboard: Multi-LXC Usage Tracking & Fleet Performance Graph Fallback.**
   - Updated `proxmox.service.ts` in `samsmon/homelab-dashboard` to dynamically extract live CPU %, RAM %, and storage allocations for all Proxmox LXCs (100, 101, 102, 103, 104) from `/nodes/pve/lxc` with zero additional polling overhead.
