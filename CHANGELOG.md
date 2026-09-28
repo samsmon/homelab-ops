@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-28 (162)
+- **Standardized Homelab Cockpit container and service name to `homelab-dashboard`.**
+  - Updated `docker-compose.yml` in `samsmon/homelab-dashboard` to rename service and container from `homelab-cockpit` to `homelab-dashboard`, synced storage volume mounts from `/mnt/hdd-cloud` to `/mnt/hdd-backup`.
+  - Rebuilt and recreated container on `docker-host` (port 8050) as `homelab-dashboard`. Cleaned up old `homelab-cockpit` container. Verified live HTTP 200 status.
+  - Updated service documentation in `docs/services.md`.
+
 ## 2026-09-27 (161)
 - **Executed Deep Zero-Defect Audit & Complete 14-Stage Remediation on `Lossless/Anime` (`/mnt/hdd-backup/music/Lossless/Anime`).**
   - **100% ReplayGain 2.0 / EBU R128 Completion**: Added missing EBU R128 track and album gain/peak Vorbis tags (`REPLAYGAIN_TRACK_GAIN`, `REPLAYGAIN_ALBUM_GAIN`) to the remaining 2 multi-channel/instrumental tracks (`piece of youth (BD 5.1 ver.)` and `ヴィヴィアン (Instrumental)`), reaching `100.00%` across `Lossless/Anime`.
