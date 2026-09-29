@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (173)
+- **Downloaded Rokudenashi (ロクデナシ) - 六花 via gamdl with the `jp` storefront; documented library pre-check feature and disk health findings.**
+  - **Download**: `https://music.apple.com/jp/album/frozen-flower/1851922484` -> `/mnt/hdd-backup/music/_gamdl-incoming/ロクデナシ/六花/`, 17/17 tracks, 0 errors, 123MB, AAC `.m4a` + `.lrc` + `Cover.jpg`, Japanese filenames. The earlier English-titled copy `_gamdl-incoming/Rokudenashi/Frozen Flower/` (same album, `id` storefront) was intentionally kept for now; duplicate, pending user decision to delete. Both are still in staging (not yet filed into `Lossy/`, folder names need the `Romaji (Kanji) ~` standard).
+  - **Docs**: `docs/handoff-gamdl-dashboard.md` gained the "already in library?" pre-check spec (fuzzy match against read-only `metadata.csv`/`catalog.sqlite`); synced to the `gamdl-dashboard` repo's `BRIEF.md`.
+  - **Finding (read-only SMART, not fixed)**: `hdd-music` = Toshiba MQ04ABF100 (`/dev/sdb`): ATA error count 739 (UNC read errors at LBA 14410816 / 14423472, ~14565 power-on hours), Reallocated_Sector_Ct = 3, only short self-tests ever run, and the disk is 95% full (824G/916G; `docs/architecture.md` still says 78%). Recommendation: don't keep sole copies there; verify `hdd-music/music` has a full copy on `hdd-backup`, run a long SMART test, plan a replacement. No action taken yet.
+
 ## 2026-09-30 (172)
 - **Archived 88 tracked one-off scripts into `scripts/archive/` (`git mv`, history preserved) and surveyed what actually runs on the servers.**
   - **Moved**: tracked scripts in `scripts/` not referenced by docs/configs and not on the keep list (`inspect_*`, `audit_*`, `execute_*`, `check_*`, `deep_*`, `find_*`, `fix_*`, `verify_*`, ...). 86 `.py`, 1 `.ps1`, 1 `.bat`. Nothing deleted. 166 untracked files in `scripts/` were NOT touched (repo is public; review before deciding).
