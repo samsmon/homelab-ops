@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-29 (170)
+- **Configured gamdl on `media-hosts` and verified a real download.**
+  - **DNS fixed permanently**: `tailscale set --accept-dns=false`; `/etc/resolv.conf` -> `192.168.18.1`, `1.1.1.1` (MagicDNS wasn't answering). Original saved at `/root/resolv.conf.orig-ts`. Side effect: MagicDNS names don't resolve on this host (IPs fine).
+  - **Config** `/root/.gamdl/config.ini`: output -> `/mnt/hdd-backup/music/_gamdl-incoming` (staging, not the library root), `use_wrapper=false`, `overwrite=false`, lyrics enabled. gamdl auto-wrote bad defaults (`synced_lyrics_only=true`, `overwrite=true`) that had to be fixed.
+  - **Cookies** installed, filtered to apple.com only (103 lines), mode 600. Full-browser export was shredded from the server; the original `Downloads` file on the PC still holds all sites' cookies (user should delete).
+  - **`gamdl-safe` wrapper** added (delays + single-instance lock) since gamdl has no native rate limiting.
+  - **Test**: Rokudenashi - Frozen Flower, 17 tracks, 0 errors, 123MB (AAC m4a + lrc). `/mnt/hdd-backup` was 94% full at the time.
+  - Dashboard brief written in `docs/handoff-gamdl-dashboard.md` (to be built in a separate workspace, port 8110).
+
 ## 2026-09-29 (169)
 - **Installed gamdl 3.9.1 (Apple Music downloader) on `media-hosts` (LXC 104).** `pipx install gamdl` (`PIPX_HOME=/opt/pipx`, bin `/usr/local/bin`) + apt `pipx ffmpeg python3-venv`.
   - **DNS issue found**: `/etc/resolv.conf` is Tailscale-managed (`100.100.100.100` only) and MagicDNS does not answer, so apt/getent cannot resolve. Worked around by temporarily swapping resolv.conf to `1.1.1.1`/`192.168.18.1` during install, then restored the original (backup at `/root/resolv.conf.orig-ts`). Runtime `resolvectl dns eth0` fallback also set (non-persistent). Root cause not fixed yet (user chose temporary option).
