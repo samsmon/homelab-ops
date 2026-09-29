@@ -10,12 +10,15 @@ AppleMusicDownloader in-process, then runs the normal gamdl CLI. All gamdl args 
 Delays (seconds, "min-max", random uniform), override via env:
   GAMDL_TRACK_DELAY   default 8-20     after each downloaded track
   GAMDL_ALBUM_DELAY   default 60-180   before each URL (album/playlist/artist) after the first
+  GAMDL_STOREFRONT    default jp       rewrite URL storefront (id/us/...) so titles are in original language
+                                       (jp gives e.g. "01 心の奥.m4a" where id gave "Deep Down"); set empty to disable
 Single instance only (flock on /tmp/gamdl-safe.lock).
 """
 import asyncio
 import fcntl
 import os
 import random
+import re
 import sys
 
 
@@ -26,6 +29,7 @@ def _rng(name, default):
 
 TRACK = _rng("GAMDL_TRACK_DELAY", "8-20")
 ALBUM = _rng("GAMDL_ALBUM_DELAY", "60-180")
+STOREFRONT = os.environ.get("GAMDL_STOREFRONT", "jp").strip().lower()  # "" disables rewriting
 
 lock = open("/tmp/gamdl-safe.lock", "w")
 try:
@@ -44,7 +48,21 @@ _orig_download = AppleMusicDownloader.download
 _state = {"first": True}
 
 
+def _storefront(url):
+    """Rewrite music.apple.com/<storefront>/ to the configured one (default jp) so titles come back in original language."""
+    if not STOREFRONT:
+        return url
+    return re.sub(r"(https?://(?:classical\.)?music\.apple\.com/)[a-z]{2}/", rf"\g<1>{STOREFRONT}/", url, count=1)
+
+
 async def _get(self, *args, **kwargs):
+    if args and isinstance(args[0], str):
+        new = _storefront(args[0])
+        if new != args[0]:
+            print(f"[gamdl-safe] storefront -> {STOREFRONT}: {new}", flush=True)
+        args = (new, *args[1:])
+    elif isinstance(kwargs.get("url"), str):
+        kwargs["url"] = _storefront(kwargs["url"])
     if not _state["first"]:
         d = random.uniform(*ALBUM)
         print(f"[gamdl-safe] album delay {d:.0f}s", flush=True)
