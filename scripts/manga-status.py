@@ -1,9 +1,9 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 import os
 import json
 import time
 
-SRC_DIR = "/mnt/hdd-media/manga-raw"
+SRC_DIR = "/mnt/hdd-backup/manga-raw"
 DST_DIR = "/mnt/hdd-media/manga-reader"
 STATE_FILE = "/tmp/manga_optimizer_state.json"
 

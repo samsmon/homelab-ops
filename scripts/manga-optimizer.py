@@ -22,12 +22,13 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from PIL import Image
 
-SRC_DIR = "/mnt/hdd-media/manga-raw"
+SRC_DIR = "/mnt/hdd-backup/manga-raw"
 DST_DIR = "/mnt/hdd-media/manga-reader"
 LOG_FILE = "/var/log/manga-optimizer.log"
 MAX_WORKERS = 2
 MAX_IMAGE_WIDTH = 2048
 WEBP_QUALITY = 85
+MIN_VALID_ARCHIVE_SIZE = 100 * 1024  # Archives < 100KB are corrupt/HTML stubs
 
 # Setup logging
 logging.basicConfig(
@@ -67,6 +68,8 @@ def is_archive_already_optimized(src_path):
     """Check if an archive is small enough and already uses WebP."""
     try:
         size = os.path.getsize(src_path)
+        if size < MIN_VALID_ARCHIVE_SIZE:
+            return False
         if size > 45 * 1024 * 1024:  # > 45MB needs inspection/conversion
             return False
         with zipfile.ZipFile(src_path, 'r') as z:
@@ -155,11 +158,15 @@ def optimize_archive(src_path, dst_path):
                     z_out.write(file_path, arcname)
                         
         # Adu ukuran: kalo di manga-reader udah ada & ukurannya lebih kecil, keep yg lama
+        # HANYA jika file tujuan valid (>= MIN_VALID_ARCHIVE_SIZE). Jika < 100KB, itu anomali/HTML stub dan WAJIB ditimpa!
         tmp_size = os.path.getsize(tmp_path)
-        if os.path.exists(dst_path) and os.path.getsize(dst_path) <= tmp_size:
+        if os.path.exists(dst_path):
             dst_size = os.path.getsize(dst_path)
-            logging.info(f"Existing file is smaller/equal ({dst_size/1024/1024:.1f}MB vs {tmp_size/1024/1024:.1f}MB). Keeping existing.")
-            os.remove(tmp_path)
+            if dst_size >= MIN_VALID_ARCHIVE_SIZE and dst_size <= tmp_size:
+                logging.info(f"Existing file is valid and smaller/equal ({dst_size/1024/1024:.1f}MB vs {tmp_size/1024/1024:.1f}MB). Keeping existing.")
+                os.remove(tmp_path)
+            else:
+                os.replace(tmp_path, dst_path)
         else:
             os.replace(tmp_path, dst_path)
             
@@ -187,6 +194,10 @@ def optimize_archive(src_path, dst_path):
                 pass
         
         # Fallback if even 7z fails (e.g. completely corrupted file)
+        # Jangan fallback jika src_path sendiri merupakan anomali (< MIN_VALID_ARCHIVE_SIZE)
+        if orig_size < MIN_VALID_ARCHIVE_SIZE:
+            logging.error(f"Source file {src_path} is abnormally small ({orig_size} bytes < 100KB). Skipping fallback copy.")
+            return False
         try:
             if os.path.exists(dst_path):
                 os.remove(dst_path)
@@ -241,11 +252,20 @@ def process_file_if_needed(src_path):
         except OSError:
             return
     
+        # Check if source itself is an anomaly (< 100KB)
+        src_sz = os.path.getsize(src_path)
+        if src_sz < MIN_VALID_ARCHIVE_SIZE:
+            logging.error(f"Source file {src_path} is abnormally small ({src_sz} bytes < 100KB). Skipping.")
+            return
+
         dst_path = get_dst_path(src_path)
         if os.path.exists(dst_path):
             try:
-                if os.path.getmtime(dst_path) >= os.path.getmtime(src_path) and os.path.getsize(dst_path) > 0:
-                    return  # Up to date
+                dst_sz = os.path.getsize(dst_path)
+                if os.path.getmtime(dst_path) >= os.path.getmtime(src_path) and dst_sz >= MIN_VALID_ARCHIVE_SIZE:
+                    return  # Up to date and valid
+                elif dst_sz < MIN_VALID_ARCHIVE_SIZE:
+                    logging.warning(f"Anomaly detected in destination ({dst_sz} bytes < 100KB): {dst_path}. Re-optimizing from source.")
             except OSError:
                 pass
                 

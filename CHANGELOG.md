@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-29 (168)
+- **Remediated Manga Optimizer Corrupt Stub (<100KB) Anomaly and Patched Auto-Optimizer Daemon Pipeline.**
+  - **Identified Root Cause**: Discovered 655 `.cbz` archives in `/mnt/hdd-media/manga-reader` that were ~11KB-18KB corrupt Cloudflare challenge HTML error pages from legacy downloads, while all corresponding 655 files in `/mnt/hdd-backup/manga-raw` were healthy valid archives.
+  - **Fixed Daemon Logic Flaws in `scripts/manga-optimizer.py`**:
+    - Defined `MIN_VALID_ARCHIVE_SIZE = 100 * 1024` (100KB threshold).
+    - Fixed up-to-date check in `process_file_if_needed`: destination files smaller than 100KB are flagged as anomalies and forced to re-optimize rather than skipped.
+    - Fixed size-comparison logic in `optimize_archive`: existing files are only kept if they are valid archives (`>= 100KB`) and smaller than the new WebP file. Corrupt stubs (<100KB) are never kept over valid converted archives.
+    - Updated `SRC_DIR` to `/mnt/hdd-backup/manga-raw` in `scripts/manga-optimizer.py` and `scripts/manga-status.py`.
+  - **Deployed & Verified**:
+    - Synced patched scripts to `docker-host:/root/homelab-ops/scripts/`.
+    - Restarted `manga-optimizer.service`; verified initial sync detected anomalous files and automatically began background re-optimization into `/mnt/hdd-media/manga-reader`.
+
 ## 2026-09-28 (167)
 - **Deployed `tabsync` on `personal-hosts` (LXC 103, Port 8097).**
   - Cloned `https://github.com/samsmon/tabsync` into `/opt/projects/tabsync`.
