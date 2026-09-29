@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-29 (171)
+- **Documented gamdl `.m4a` classification policy in `docs/music-standards.md`.** No AAC->FLAC transcoding; AAC goes to `Lossy/` (`[AAC 256k]`), ALAC `.m4a` (incl. existing Apple Music WEB-DL ones in `Lossless/`) stays valid for `Lossless/`. Decide by `ffprobe` codec, not extension. Mirrored in `docs/handoff-gamdl-dashboard.md`.
+
 ## 2026-09-29 (170)
 - **Configured gamdl on `media-hosts` and verified a real download.**
   - **DNS fixed permanently**: `tailscale set --accept-dns=false`; `/etc/resolv.conf` -> `192.168.18.1`, `1.1.1.1` (MagicDNS wasn't answering). Original saved at `/root/resolv.conf.orig-ts`. Side effect: MagicDNS names don't resolve on this host (IPs fine).

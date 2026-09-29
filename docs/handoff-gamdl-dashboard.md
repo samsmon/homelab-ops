@@ -32,6 +32,11 @@ IDM: queue table, per-album + per-track progress bars, speed, status, pause/resu
 - Output layout: `<output>/<Artist>/<Album>/NN Title.m4a` + `.lrc` + `Cover.jpg`. Staging only; files are
   moved into `Lossless/`/`Lossy/` manually per `docs/music-standards.md` (artist `Romaji (Kanji) ~` etc).
 
+## Post-download classification (decision 2026-09-29)
+No AAC->FLAC conversion. AAC `.m4a` goes to `Lossy/` tagged `[AAC 256k]`; `alac` `.m4a` is valid for `Lossless/`
+(decide via `ffprobe` codec, not extension). See `docs/music-standards.md` ("Apple Music (`gamdl`) Ingestion").
+Optional dashboard feature: show detected codec per finished album and a "move to Lossy/" helper that follows the naming standard.
+
 ## Log format to parse (from a real run, ANSI colors stripped)
 ```
 [INFO     19:03:47] [Track   1/17 ] Downloading "The City Where Whales Fall"

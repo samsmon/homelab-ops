@@ -52,6 +52,14 @@
       - To eliminate volume discrepancies between modern loudness-war masters (-6 LUFS) and acoustic/streaming masters (-15 LUFS) without mutating raw audio, write non-destructive ReplayGain Vorbis metadata tags (`REPLAYGAIN_TRACK_GAIN`, `REPLAYGAIN_ALBUM_GAIN`) via `metaflac --add-replay-gain`.
       - Raw PCM audio streams MUST remain 100% pure and bit-perfect (verified MD5 matching). Never apply destructive volume scaling or re-encoding.
 
+### Apple Music (`gamdl`) Ingestion & `.m4a` Classification
+- **Staging**: gamdl on `media-hosts` writes to `/mnt/hdd-backup/music/_gamdl-incoming/` (`Artist/Album/NN Title.m4a` + `.lrc` + `Cover.jpg`). Files are reorganized into `Lossless/` or `Lossy/` per the rules above; never left in staging.
+- **Decide by codec, not by extension.** `.m4a` is only a container. Check with `ffprobe -v error -select_streams a:0 -show_entries stream=codec_name -of csv=p=0 <file>`:
+  - `aac` (gamdl default `aac-web`, lossy) -> **`Lossy/`**, format tag `[AAC 256k]` (use the real bitrate; `[AAC WEB]` if unknown).
+  - `alac` (Apple Lossless) -> `Lossless/` is valid, format tag `[ALAC]` (add `96kHz／24bit` etc. if Hi-Res). Some existing `.m4a` files under `Lossless/` are legitimate Apple Music WEB-DL ALAC rips: do NOT treat them as misplaced or convert them.
+- **Never transcode AAC -> FLAC/ALAC** to pass it off as lossless. It adds no quality, bloats size 3-5x, and falsifies the library's quality tiers (violates Zero-Defect intent). Keep AAC as-is in `Lossy/`.
+- Audit hint: any `aac` stream found under `Lossless/` (or `alac`/`flac` under `Lossy/`) is a misclassification to flag.
+
 ---
 
 ## 2. Uma Musume (`Anime/Uma Musume ~`) Standard
