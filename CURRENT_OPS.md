@@ -5,7 +5,6 @@
 
 ## Active Task Registry
 
-- [Claude Code] [2026-09-29]: Installing gamdl (pipx) on media-hosts | Locks: none (no compose/container)
 
 - [Antigravity] [2026-09-28 20:11]: Forensic Audit & Remediation on Lossless/Vocaloid & Lossless/Global | Locks: /mnt/hdd-backup/music/Lossless/Vocaloid, /mnt/hdd-backup/music/Lossless/Global
 

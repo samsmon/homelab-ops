@@ -2,6 +2,10 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-29 (169)
+- **Installed gamdl 3.9.1 (Apple Music downloader) on `media-hosts` (LXC 104).** `pipx install gamdl` (`PIPX_HOME=/opt/pipx`, bin `/usr/local/bin`) + apt `pipx ffmpeg python3-venv`.
+  - **DNS issue found**: `/etc/resolv.conf` is Tailscale-managed (`100.100.100.100` only) and MagicDNS does not answer, so apt/getent cannot resolve. Worked around by temporarily swapping resolv.conf to `1.1.1.1`/`192.168.18.1` during install, then restored the original (backup at `/root/resolv.conf.orig-ts`). Runtime `resolvectl dns eth0` fallback also set (non-persistent). Root cause not fixed yet (user chose temporary option).
+
 ## 2026-09-29 (168)
 - **Remediated Manga Optimizer Corrupt Stub (<100KB) Anomaly and Patched Auto-Optimizer Daemon Pipeline.**
   - **Identified Root Cause**: Discovered 655 `.cbz` archives in `/mnt/hdd-media/manga-reader` that were ~11KB-18KB corrupt Cloudflare challenge HTML error pages from legacy downloads, while all corresponding 655 files in `/mnt/hdd-backup/manga-raw` were healthy valid archives.
