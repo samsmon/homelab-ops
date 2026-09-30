@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (174)
+- **Updated `portofolio` container on `personal-hosts` to latest upstream (`0f6f09a`).**
+  - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `0f6f09a` (`feat(site): add credentials section for AWS re/Start Graduate badge` & `chore(deploy): hapus workflow GitHub Pages`).
+  - Executed server-side static site build and container rebuild via `docker compose up -d --build`.
+  - Recreated container `portofolio` (`a192b0091f72`) on `0.0.0.0:3080->80/tcp`. Verified live HTTP 200 responses for index and `/certifications/aws-restart-graduate.png`.
+  - Mirrored latest commits to `/mnt/homelab_projects/portofolio` on `docker-host` (LXC 100).
+
 ## 2026-09-30 (173)
 - **Downloaded Rokudenashi (ロクデナシ) - 六花 via gamdl with the `jp` storefront; documented library pre-check feature and disk health findings.**
   - **Download**: `https://music.apple.com/jp/album/frozen-flower/1851922484` -> `/mnt/hdd-backup/music/_gamdl-incoming/ロクデナシ/六花/`, 17/17 tracks, 0 errors, 123MB, AAC `.m4a` + `.lrc` + `Cover.jpg`, Japanese filenames. The earlier English-titled copy `_gamdl-incoming/Rokudenashi/Frozen Flower/` (same album, `id` storefront) was intentionally kept for now; duplicate, pending user decision to delete. Both are still in staging (not yet filed into `Lossy/`, folder names need the `Romaji (Kanji) ~` standard).
