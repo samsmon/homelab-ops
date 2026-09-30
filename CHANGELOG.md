@@ -6,6 +6,7 @@
 - **Installed `gamdl-dashboard` on `media-hosts` (LXC 104) as a systemd service, port 8110.**
   - Verified `gamdl`/`gamdl-safe` live on `media-hosts` (not on `personal-hosts`/`docker-host`). Cloned `samsmon/gamdl-dashboard` (`267878f`) to `/opt/gamdl-dashboard`, venv + `pip install -e .`, unit from `deploy/gamdl-dashboard.service` plus `GAMDL_DASH_AUTOSTART=0`.
   - Verified `active`, HTTP 200 on `:8110`, clean journal. `ufw` is inactive on media-hosts and the bind is `0.0.0.0` with no app auth (LAN/Tailscale only).
+  - **Fix same day:** `GAMDL_DASH_AUTOSTART=0` (my initial choice) prevents `run_forever()` from being created (`app/api.py:76`), so the queue never ran; removed it from the unit and restarted. Then `gamdl-safe` failed with `"media-user-token" cookie not found`: cookie row must be on domain `.music.apple.com` (gamdl `apple_music.py:231`), not `.apple.com`; fixed in `/root/.gamdl/cookies.txt` (old file kept as `cookies.txt.bak-20260930`, mode 600).
   - Known gap: dashboard rejects `music.apple.com/library/albums/l.xxx` URLs (`missing storefront`); catalog URLs only.
 
 ## 2026-09-30 (176)
