@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (178)
+- **Reworked and redeployed `gamdl-dashboard` on `media-hosts`; first real test downloads succeeded.**
+  - Test: queued `No.8 - Single` (1849048424, false-positive `similar` -> forced) and `公転周期 - Single` (1764465390) through the dashboard: both `done`, 2/2 tracks each, 0 errors, 26MB in `_gamdl-incoming/上水流宇宙/`. Needed only a `media-user-token` cookie on `.music.apple.com`.
+  - Code changes pushed to `samsmon/gamdl-dashboard` main (`2c27b33`, `a562dac`, `8196b12`, user-authorized for this session): gamdl-safe wrapper bundled as `app/gamdl_safe.py` (gamdl is a dependency), `AUTOSTART=0` no longer disables the runner loop, cookie validation (`has_token`/`problem` + UI banner), `deploy/install.sh` one-command install, default bind `127.0.0.1`. 198 tests pass.
+  - Deploy: `git pull` + `deploy/install.sh --host 0.0.0.0 --staging /mnt/hdd-backup/music/_gamdl-incoming --cookies /root/.gamdl/cookies.txt`; unit now uses `/etc/gamdl-dashboard.env`, queue DB preserved. Verified `active`, `:8110` listening, cookies `has_token: True`, bundled wrapper `--help` OK. Old unit backed up at `/root/gamdl-dashboard.service.bak-20260930`; old cookies at `/root/.gamdl/cookies.txt.bak-20260930`.
+  - Root causes fixed this session: `AUTOSTART=0` (my config) meant queue never ran; cookie row on `.apple.com` instead of `.music.apple.com` -> `"media-user-token" cookie not found`.
+  - Open: `library/albums/l.xxx` URLs unsupported; dashboard API has no auth; `metadata.csv` used by the pre-check is stale (Aug 2024).
+
 ## 2026-09-30 (177)
 - **Installed `gamdl-dashboard` on `media-hosts` (LXC 104) as a systemd service, port 8110.**
   - Verified `gamdl`/`gamdl-safe` live on `media-hosts` (not on `personal-hosts`/`docker-host`). Cloned `samsmon/gamdl-dashboard` (`267878f`) to `/opt/gamdl-dashboard`, venv + `pip install -e .`, unit from `deploy/gamdl-dashboard.service` plus `GAMDL_DASH_AUTOSTART=0`.
