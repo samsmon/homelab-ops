@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (179)
+- **`gamdl-dashboard` on `media-hosts`: new UI, library check moved to after download, similarity fix.**
+  - Pushed to `samsmon/gamdl-dashboard` main (`8c11f12`, `317bd5b`, user-authorized) and deployed (`git pull`, `pip install -e .`, restart). Verified `active`, HTTP 200, `library_note` column migrated in place, existing queue/history intact. DB backup: `/root/dashboard.sqlite.bak-20260930`.
+  - Similarity fix: with only a title from the Apple page a fuzzy match (`DIAMONDS` ~ `star diamond`, `YA DIG?` ~ `you i`) reached `similar`; title-only evidence below 0.90 without an artist match is now halved.
+  - Add-URLs no longer previews or looks anything up (was minutes for ~180 URLs). After a download finishes, folder/track names, count and ffprobe durations are matched against `metadata.csv` and stored as `library_note` (informational, never blocks a download).
+  - UI rewritten with the layout of `samsmon/nhdl` (toolbar + priority controls, status sidebar, searchable multi-select table, General/Tracks/Log detail panel, status bar, context menu) but the dashboard's own monochrome theme. Still no build step. Tested in browser with the fake wrapper; not tested on phones.
+  - Also enabled setting `auto_resume_after_cap` earlier today (persisted in the dashboard DB).
+
 ## 2026-09-30 (178)
 - **Reworked and redeployed `gamdl-dashboard` on `media-hosts`; first real test downloads succeeded.**
   - Test: queued `No.8 - Single` (1849048424, false-positive `similar` -> forced) and `公転周期 - Single` (1764465390) through the dashboard: both `done`, 2/2 tracks each, 0 errors, 26MB in `_gamdl-incoming/上水流宇宙/`. Needed only a `media-user-token` cookie on `.music.apple.com`.
