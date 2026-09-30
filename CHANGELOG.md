@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (181)
+- **Enabled ALAC (Apple Lossless / Hi-Res) downloads via `wrapper-v2` on `media-hosts`.**
+  - Apple Music FairPlay DRM limits ALAC streams on standard Widevine web APIs (error `-1002`). Built and deployed `glomatico/wrapper-v2:latest` (0.0.2) via Docker Compose (`/opt/wrapper-v2/compose.yaml`) with staged Android/Apple libraries, listening on port 80 (HTTP supervisor) and 10020 (TCP batch decryption).
+  - Authenticated user Apple ID session; verified download and decryption of 24-bit/44.1kHz ALAC `.m4a` track with 0 errors.
+  - Set `use_wrapper = true` and `song_codec_piority = alac,aac-web` in `/root/.gamdl/config.ini`.
+  - Updated `/etc/gamdl-dashboard.env` with `--use-wrapper` and `--song-codec-priority alac,aac-web` flags and restarted `gamdl-dashboard.service`.
+  - Exported 221 queue URLs to `/opt/gamdl-dashboard/static/urls.txt` (accessible at `http://192.168.18.229:8110/urls.txt`).
+
 ## 2026-09-30 (180)
 - **Test-deployed `gamdl-dashboard` branch `feat/follow-artists` on `media-hosts` (not merged to main).**
   - New: follow artists (link/ID, or 'follow' on a finished download) and get their new releases in an inbox (New/Older/Added/Dismissed, bulk Add/Dismiss, optional per-artist label filter on the copyright text), checked every `release_check_hours` (default 6) via Apple's public iTunes lookup API (no account/cookies). First check of a follow only baselines the back catalogue as 'older'. Plus a simple favicon.
