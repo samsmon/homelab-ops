@@ -5,6 +5,7 @@
 
 ## Active Task Registry
 
+- [Claude-Code] [2026-09-30]: Installing gamdl-dashboard on media-hosts | Locks: /opt/gamdl-dashboard, gamdl-dashboard.service, docs/services.md
 
 
 
