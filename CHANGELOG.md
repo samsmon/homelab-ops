@@ -8,7 +8,9 @@
   - Authenticated user Apple ID session; verified download and decryption of 24-bit/44.1kHz ALAC `.m4a` track with 0 errors.
   - Set `use_wrapper = true` and `song_codec_piority = alac,aac-web` in `/root/.gamdl/config.ini`.
   - Updated `/etc/gamdl-dashboard.env` with `--use-wrapper` and `--song-codec-priority alac,aac-web` flags and restarted `gamdl-dashboard.service`.
-  - Exported 221 queue URLs to `/opt/gamdl-dashboard/static/urls.txt` (accessible at `http://192.168.18.229:8110/urls.txt`).
+  - Rebuilt `gamdl-dashboard` to latest commit `2526db8` (`feat/follow-artists`) via pip editable install.
+  - Reset existing download queue and cleared old AAC downloads from `/mnt/hdd-backup/music/_gamdl-incoming/` so albums can be cleanly re-downloaded in ALAC format.
+  - Verified account safety protections remain active: 8-20s track delay, 60-180s album delay, and 150 tracks/24h cap.
 
 ## 2026-09-30 (180)
 - **Test-deployed `gamdl-dashboard` branch `feat/follow-artists` on `media-hosts` (not merged to main).**
