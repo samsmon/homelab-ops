@@ -5,6 +5,8 @@
 
 ## Active Task Registry
 
+- [Claude-Code] [2026-09-30]: Deploying gamdl-dashboard UI/fun-fact update on media-hosts | Locks: /opt/gamdl-dashboard, gamdl-dashboard.service, docs/services.md
+
 
 
 
