@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (176)
+- **Updated `portofolio` container on `personal-hosts` to latest upstream (`df0e123`).**
+  - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `df0e123` (`fix(contact): nomor section jadi SEC // 06, dobel sama Credentials`).
+  - Executed server-side static site build and container rebuild via `docker compose up -d --build`.
+  - Recreated container `portofolio` (`d8eca1aa75c1`) on `0.0.0.0:3080->80/tcp`. Verified live HTTP 200 response and correct `SEC // 06` section numbering.
+  - Mirrored latest commits to `/mnt/homelab_projects/portofolio` on `docker-host` (LXC 100).
+
 ## 2026-09-30 (175)
 - **Updated `portofolio` container on `personal-hosts` to latest upstream (`e601f98`).**
   - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `e601f98` (`feat(site): responsive layout untuk card credentials (solo wide card vs multi grid)`).
