@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (180)
+- **Test-deployed `gamdl-dashboard` branch `feat/follow-artists` on `media-hosts` (not merged to main).**
+  - New: follow artists (link/ID, or 'follow' on a finished download) and get their new releases in an inbox (New/Older/Added/Dismissed, bulk Add/Dismiss, optional per-artist label filter on the copyright text), checked every `release_check_hours` (default 6) via Apple's public iTunes lookup API (no account/cookies). First check of a follow only baselines the back catalogue as 'older'. Plus a simple favicon.
+  - 214 tests pass; the new UI was **not** exercised in a browser before deploy (the browser test was interrupted). Server checked: `active`, `/` and `/favicon.svg` 200, `/api/follows` empty, iTunes reachable from the server, existing queue/history intact. DB backup `/root/dashboard.sqlite.bak-followtest-20260930`.
+  - The server checkout is now on the feature branch; merge to `main` after testing.
+
 ## 2026-09-30 (179)
 - **`gamdl-dashboard` on `media-hosts`: new UI, library check moved to after download, similarity fix.**
   - Pushed to `samsmon/gamdl-dashboard` main (`8c11f12`, `317bd5b`, user-authorized) and deployed (`git pull`, `pip install -e .`, restart). Verified `active`, HTTP 200, `library_note` column migrated in place, existing queue/history intact. DB backup: `/root/dashboard.sqlite.bak-20260930`.

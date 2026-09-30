@@ -5,7 +5,6 @@
 
 ## Active Task Registry
 
-- [Claude-Code] [2026-09-30]: Test-deploying gamdl-dashboard branch feat/follow-artists on media-hosts | Locks: /opt/gamdl-dashboard, gamdl-dashboard.service, docs/services.md
 
 
 
