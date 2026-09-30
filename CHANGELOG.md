@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-30 (177)
+- **Installed `gamdl-dashboard` on `media-hosts` (LXC 104) as a systemd service, port 8110.**
+  - Verified `gamdl`/`gamdl-safe` live on `media-hosts` (not on `personal-hosts`/`docker-host`). Cloned `samsmon/gamdl-dashboard` (`267878f`) to `/opt/gamdl-dashboard`, venv + `pip install -e .`, unit from `deploy/gamdl-dashboard.service` plus `GAMDL_DASH_AUTOSTART=0`.
+  - Verified `active`, HTTP 200 on `:8110`, clean journal. `ufw` is inactive on media-hosts and the bind is `0.0.0.0` with no app auth (LAN/Tailscale only).
+  - Known gap: dashboard rejects `music.apple.com/library/albums/l.xxx` URLs (`missing storefront`); catalog URLs only.
+
 ## 2026-09-30 (176)
 - **Updated `portofolio` container on `personal-hosts` to latest upstream (`df0e123`).**
   - Synced git repository on `personal-hosts` (LXC 103, `/opt/projects/portfolio`) from local and remote `samsmon/portofolio` up to commit `df0e123` (`fix(contact): nomor section jadi SEC // 06, dobel sama Credentials`).
