@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-01 (183)
+- **gamdl-dashboard: metadata now really uses the `jp` storefront.** gamdl 3.9.1 ignores the URL storefront and uses the Apple ID account storefront (`id`), whose catalog is romaji (e.g. `Tokyo den nou & DENONBU` vs `東京電脳 & 電音部`). `app/gamdl_safe.py` now forces `AppleMusicApi.storefront` to `GAMDL_STOREFRONT` (default `jp`); commit `fix: force metadata storefront` on `feat/follow-artists`. Existing romaji folders in `_gamdl-incoming/` are NOT re-tagged (need re-download, pending decision). Download/decrypt via wrapper-v2 unchanged; cross-storefront download of jp-only albums still to be verified once the cap clears.
+
 ## 2026-10-01 (182)
 - **gamdl-dashboard: cap cooldown timer + auto-start.** On `cap_reached` the banner now shows a live countdown ("queue auto-starts in Xh Ym Zs") instead of "press Start queue".
   - Edited live in `/opt/gamdl-dashboard` (branch `feat/follow-artists`, uncommitted there): `store.cap_free_at()`, `/api/state` `cap.resume_at`, runner resumes when >= `cap_resume_slots` (new setting, default 20) slots are free + 60 s buffer, banner tick in `static/app.js`.
