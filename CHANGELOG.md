@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-01 (182)
+- **gamdl-dashboard: cap cooldown timer + auto-start.** On `cap_reached` the banner now shows a live countdown ("queue auto-starts in Xh Ym Zs") instead of "press Start queue".
+  - Edited live in `/opt/gamdl-dashboard` (branch `feat/follow-artists`, uncommitted there): `store.cap_free_at()`, `/api/state` `cap.resume_at`, runner resumes when >= `cap_resume_slots` (new setting, default 20) slots are free + 60 s buffer, banner tick in `static/app.js`.
+  - `auto_resume_after_cap` default flipped to `true`. Only `cap_reached` auto-resumes; cookies/disk/error halts stay manual. Service restarted, verified `resume_at` served.
+
 ## 2026-09-30 (181)
 - **Enabled ALAC (Apple Lossless / Hi-Res) downloads via `wrapper-v2` on `media-hosts`.**
   - Apple Music FairPlay DRM limits ALAC streams on standard Widevine web APIs (error `-1002`). Built and deployed `glomatico/wrapper-v2:latest` (0.0.2) via Docker Compose (`/opt/wrapper-v2/compose.yaml`) with staged Android/Apple libraries, listening on port 80 (HTTP supervisor) and 10020 (TCP batch decryption).
