@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-03 (184)
+- **Applied `genai-agentic-ops` v1 ruleset to `CLAUDE.md`** (pinned `e6061fe`; upstream: github.com/samsmon/genai-agentic-ops).
+  - Appended the marker-wrapped rules block at the end of `CLAUDE.md`. `AGENTS.md` and `.cursorrules` are symlinks to `CLAUDE.md`, so they pick it up automatically (they were left untouched).
+  - Kept `CURRENT_OPS.md` at repo root (list format); homelab rules stay stricter and win on conflict.
+  - Replaced the blind `git pull` rule with a sync check (fetch + status, `--ff-only` only when behind and clean) in 4 places.
+
 ## 2026-10-01 (183)
 - **gamdl-dashboard: metadata now really uses the `jp` storefront.** gamdl 3.9.1 ignores the URL storefront and uses the Apple ID account storefront (`id`), whose catalog is romaji (e.g. `Tokyo den nou & DENONBU` vs `東京電脳 & 電音部`). `app/gamdl_safe.py` now forces `AppleMusicApi.storefront` to `GAMDL_STOREFRONT` (default `jp`); commit `fix: force metadata storefront` on `feat/follow-artists`. Existing romaji folders in `_gamdl-incoming/` are NOT re-tagged (need re-download, pending decision). Download/decrypt via wrapper-v2 unchanged; cross-storefront download of jp-only albums still to be verified once the cap clears.
 
