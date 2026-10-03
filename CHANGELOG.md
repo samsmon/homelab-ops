@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-03 (185)
+- **portofolio redeployed to `b29ae3a`** (`feat(cv): plain ATS-friendly CV in ID and EN...`) on `personal-hosts` (`/opt/projects/portfolio`). Server can't authenticate to GitHub (no creds), so the repo was updated by `git bundle` → scp → `git fetch` + `merge --ff-only`; then `docker compose up -d --build`. Verified HTTP 200 on `/`, `/cv-suryatmaja-en.pdf`, `/cv-suryatmaja-id.pdf`. Old `cv-suryatmaja.pdf` was removed upstream (likely still returns 200 via SPA fallback, not the real file).
+
 ## 2026-10-03 (184)
 - **Applied `genai-agentic-ops` v1 ruleset to `CLAUDE.md`** (pinned `e6061fe`; upstream: github.com/samsmon/genai-agentic-ops).
   - Appended the marker-wrapped rules block at the end of `CLAUDE.md`. `AGENTS.md` and `.cursorrules` are symlinks to `CLAUDE.md`, so they pick it up automatically (they were left untouched).
