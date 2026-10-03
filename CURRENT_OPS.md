@@ -5,7 +5,6 @@
 
 ## Active Task Registry
 
-- [Claude-Code] [2026-10-03] running: repair class-video transcription (pin av, relaunch whisper job) | Locks: docker-host /root/transcripts, /root/whisper-env
 
 
 

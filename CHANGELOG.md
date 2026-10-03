@@ -29,6 +29,12 @@
   - Reset existing download queue and cleared old AAC downloads from `/mnt/hdd-backup/music/_gamdl-incoming/` so albums can be cleanly re-downloaded in ALAC format.
   - Verified account safety protections remain active: 8-20s track delay, 60-180s album delay, and 150 tracks/24h cap.
 
+## 2026-10-03 (181)
+- **Repaired and relaunched the class-video transcription on `docker-host` (`/root/transcripts`).**
+  - Found: the 2026-09-30 job never produced output. It died in the first second with `TypeError: open() got an unexpected keyword argument 'metadata_errors'` (`av` 19.0.0 is incompatible with `faster-whisper` 1.2.1). It was reported as running without being checked; it had been dead for 3 days.
+  - Fix: pinned `av` to 16.1.0 in `/root/whisper-env` (`av>=16,<17`); verified `decode_audio` reads the first WAV (120.5 min, matches the video). Old log kept as `task.log.failed-20260930`.
+  - Relaunched `transcribe.py` (large-v3 int8, language id, beam 5, VAD) as a background `nohup` process, PID 3836541, for the 3 videos in `/root/transcripts/kelas2/` (~6 h of audio, estimated 12-24 h on 4 CPU cores). Outputs `.txt` and `.srt` per video; progress in `task.log`. Result not yet verified; to be copied into `transcripts/kelas2/` in this repo (untracked) when done.
+
 ## 2026-09-30 (180)
 - **Test-deployed `gamdl-dashboard` branch `feat/follow-artists` on `media-hosts` (not merged to main).**
   - New: follow artists (link/ID, or 'follow' on a finished download) and get their new releases in an inbox (New/Older/Added/Dismissed, bulk Add/Dismiss, optional per-artist label filter on the copyright text), checked every `release_check_hours` (default 6) via Apple's public iTunes lookup API (no account/cookies). First check of a follow only baselines the back catalogue as 'older'. Plus a simple favicon.
