@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (187)
+- **portofolio redeployed to `a527e15`** (EC2 + EBS lab posts, pronoun cleanup) on `personal-hosts`. Same git-bundle → `merge --ff-only` → `docker compose up -d --build` flow as entry 186. Verified HTTP 200 on `/`, `/blog/`, `/projects/`.
+
 ## 2026-10-04 (186)
 - **portofolio redeployed to `9b7c241`** (blog search + pagination in category/tag views; AIF-C01 study-plan post) on `personal-hosts` (`/opt/projects/portfolio`). Updated via `git bundle` (b29ae3a..9b7c241) → scp → `fetch` + `merge --ff-only`, then `docker compose up -d --build`. Verified HTTP 200 on `/`, `/blog/`, `/projects/`, `/cv-suryatmaja-en.pdf`. Upstream was already at `f0483bd` by then, so the server is 1+ commit behind. Stale `portofolio` container still on `docker-host` (untouched).
 
