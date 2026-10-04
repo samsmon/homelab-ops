@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (186)
+- **portofolio redeployed to `9b7c241`** (blog search + pagination in category/tag views; AIF-C01 study-plan post) on `personal-hosts` (`/opt/projects/portfolio`). Updated via `git bundle` (b29ae3a..9b7c241) → scp → `fetch` + `merge --ff-only`, then `docker compose up -d --build`. Verified HTTP 200 on `/`, `/blog/`, `/projects/`, `/cv-suryatmaja-en.pdf`. Upstream was already at `f0483bd` by then, so the server is 1+ commit behind. Stale `portofolio` container still on `docker-host` (untouched).
+
 ## 2026-10-03 (185)
 - **portofolio redeployed to `b29ae3a`** (`feat(cv): plain ATS-friendly CV in ID and EN...`) on `personal-hosts` (`/opt/projects/portfolio`). Server can't authenticate to GitHub (no creds), so the repo was updated by `git bundle` → scp → `git fetch` + `merge --ff-only`; then `docker compose up -d --build`. Verified HTTP 200 on `/`, `/cv-suryatmaja-en.pdf`, `/cv-suryatmaja-id.pdf`. Old `cv-suryatmaja.pdf` was removed upstream (likely still returns 200 via SPA fallback, not the real file).
 
