@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (191)
+- **n8n auto-deploy: SSH access + private-repo fetch working (still dry-run)**: added `scripts/n8n-ssh-gate.sh` (forced command, installed at `/opt/scripts/` on `personal-hosts` + `yado-hosts`; only allows `n8n-deploy-check <project> [--apply]`, tolerates the `cd <dir> ;` prefix the n8n SSH node always adds, rejects everything else incl. injection attempts). n8n key (user-generated on PC, fingerprint `tXi/3DU8...`) installed by the user in `authorized_keys` with `restrict,command=` on both hosts; private key only in n8n credentials. GitHub read-only deploy keys for `portofolio` + `situlah` created on `personal-hosts` (user did the `~/.ssh/config` aliases + SSH remotes); fetch OK. `tabsync` (port override in `compose.yml`) and `situlah` (local seeder edit) remain `skip-dirty` until resolved in their own repos. gamdl-dashboard excluded.
+
 ## 2026-10-04 (190)
 - **n8n auto-deploy, step 3 (dry-run only)**: added `scripts/n8n-deploy-check.sh <project> [--apply]` (default dry-run, one JSON line per project; deploys only when on `main`, no tracked local changes, ff-only, and gddl/nhdl show no active download). Installed at `/opt/scripts/` on `personal-hosts` + `yado-hosts`; nothing pulled or built. gamdl-dashboard excluded (on `feat/follow-artists`). Findings: `portofolio` + `situlah` fetch fails on `personal-hosts` (private repos, no git credentials there); `tabsync` is 2 behind but dirty so it would be skipped. n8n workflow not created yet.
 
