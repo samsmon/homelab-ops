@@ -5,6 +5,7 @@
 
 ## Active Task Registry
 
+- [Claude-Code] 2026-10-04: Redeploying portofolio to 9b7c241 | Locks: personal-hosts /opt/projects/portfolio, container portofolio
 
 
 
