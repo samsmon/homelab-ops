@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (190)
+- **n8n auto-deploy, step 3 (dry-run only)**: added `scripts/n8n-deploy-check.sh <project> [--apply]` (default dry-run, one JSON line per project; deploys only when on `main`, no tracked local changes, ff-only, and gddl/nhdl show no active download). Installed at `/opt/scripts/` on `personal-hosts` + `yado-hosts`; nothing pulled or built. gamdl-dashboard excluded (on `feat/follow-artists`). Findings: `portofolio` + `situlah` fetch fails on `personal-hosts` (private repos, no git credentials there); `tabsync` is 2 behind but dirty so it would be skipped. n8n workflow not created yet.
+
 ## 2026-10-04 (189)
 - **Removed old portofolio image + checkout from `docker-host`**: `docker rmi portofolio-portfolio:latest` (426MB) and `rm -rf /mnt/homelab_projects/portofolio` (445MB, was clean, `1f7b147` already in upstream). Nothing referenced it (no containers, cron, or systemd).
 

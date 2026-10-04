@@ -5,6 +5,7 @@
 
 ## Active Task Registry
 - [Claude-Code] 2026-10-04: running | homelab-dashboard: add SERVICE_PROBES (gamdl-dashboard) + server-side metric history; then rebuild | Locks: container homelab-dashboard, docker-host:/mnt/homelab_projects/homelab-dashboard, repo homelab-dashboard
+- [Claude-Code] 2026-10-04: done | n8n auto-deploy: dry-run script install (no pull/build yet) | Locks: scripts/n8n-deploy-check.sh, /opt/scripts/n8n-deploy-check.sh on personal-hosts + yado-hosts
 
 
 
