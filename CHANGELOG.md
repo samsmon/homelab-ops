@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (188)
+- **Removed stale `portofolio` container from `docker-host`** (was running old `1f7b147`, left over from the 2026-09-21 migration to `personal-hosts`; no volumes). Image and `/mnt/homelab_projects/portofolio` checkout kept. `https://suryatmaja.dev/` still returns 200 (served from `personal-hosts`).
+
 ## 2026-10-04 (187)
 - **portofolio redeployed to `a527e15`** (EC2 + EBS lab posts, pronoun cleanup) on `personal-hosts`. Same git-bundle → `merge --ff-only` → `docker compose up -d --build` flow as entry 186. Verified HTTP 200 on `/`, `/blog/`, `/projects/`.
 
