@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (189)
+- **Removed old portofolio image + checkout from `docker-host`**: `docker rmi portofolio-portfolio:latest` (426MB) and `rm -rf /mnt/homelab_projects/portofolio` (445MB, was clean, `1f7b147` already in upstream). Nothing referenced it (no containers, cron, or systemd).
+
 ## 2026-10-04 (188)
 - **Removed stale `portofolio` container from `docker-host`** (was running old `1f7b147`, left over from the 2026-09-21 migration to `personal-hosts`; no volumes). Image and `/mnt/homelab_projects/portofolio` checkout kept. `https://suryatmaja.dev/` still returns 200 (served from `personal-hosts`).
 
