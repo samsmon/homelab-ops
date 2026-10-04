@@ -57,6 +57,10 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
    - **STRICTLY FORBIDDEN** to make repetitive tool calls (`view_file` on task logs, loop `ps aux`, etc.) while waiting for long-running commands (`docker build`, `docker pull`, large downloads).
    - Once a command transitions to an asynchronous background task, **THE AI MUST IMMEDIATELY STOP CALLING TOOLS**. Let the reactive wakeup event automatically resume execution upon completion.
    - Violating this rule floods the ACP JSON-RPC harness queue, causing freezes and failing to respond to user cancellation signals (`ACP transport operation call-rpc failed for method session/cancel`).
+6. **Duration Reporting for Time-Consuming Tasks (MANDATORY)**:
+   - For any task that takes noticeable time (rebuild/redeploy, `docker build`/`pull`, large rsync/downloads, scans, transcoding, migrations, backups, etc.), record the start time (`date +%s` / timestamp) before starting and the end time when it finishes.
+   - The final report MUST include the elapsed duration (e.g. `Durasi: 4m 32s`) plus start → end timestamps. For background tasks, take the times from the server log/process (`ps -o etime`, log timestamps) when the completion event arrives. Do NOT poll to obtain them (see rule 5).
+   - If the duration is unknown or could not be measured, say so explicitly. Never guess or fabricate a number.
 
 ### 🛡️ 3. ANTI-HALLUCINATION & LIVE VERIFICATION
 1. **Never Hallucinate / Guess Server State**:
@@ -217,6 +221,7 @@ Without explicit confirmation, NEVER:
 - Before committing: `git diff --stat` to make sure nothing was accidentally deleted/truncated.
 - Concise commit messages with a clear type (`feat/fix/chore/docs/ops: ...`). Push only if permitted.
 - End with a short report: what changed, verification result, remaining work.
+- For rebuilds or any time-consuming task, the report MUST also state the elapsed duration (start → end, total). See homelab rule 2.6.
 - Before risky config changes or destructive steps, make a backup (e.g. `cp file file.bak`) or state the undo command in the plan.
 
 ### 6. Trust boundary (prompt injection)
