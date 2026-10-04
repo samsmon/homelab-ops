@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-04 (192)
+- **n8n auto-deploy workflow built + published (dry-run, every 5 min)**: user built `auto-deploy` in n8n (Schedule -> project list -> Switch per host -> SSH `n8n-deploy-check <project>` -> Merge -> parse JSON); output verified for all 10 projects (7 uptodate, `portofolio` would-deploy 3 behind, `tabsync`/`situlah` skip-dirty). Monitored read-only via sshd logs + n8n Postgres (`shared-postgres`, db `n8n`); first `mode = trigger` run not yet confirmed at session end. No `--apply`, no pull/build/restart on any host. Full session log (17 steps), server-change audit table, gotchas and open items: `docs/n8n-auto-deploy.md`. Paused until after 2026-10-08.
+
 ## 2026-10-04 (191)
 - **n8n auto-deploy: SSH access + private-repo fetch working (still dry-run)**: added `scripts/n8n-ssh-gate.sh` (forced command, installed at `/opt/scripts/` on `personal-hosts` + `yado-hosts`; only allows `n8n-deploy-check <project> [--apply]`, tolerates the `cd <dir> ;` prefix the n8n SSH node always adds, rejects everything else incl. injection attempts). n8n key (user-generated on PC, fingerprint `tXi/3DU8...`) installed by the user in `authorized_keys` with `restrict,command=` on both hosts; private key only in n8n credentials. GitHub read-only deploy keys for `portofolio` + `situlah` created on `personal-hosts` (user did the `~/.ssh/config` aliases + SSH remotes); fetch OK. `tabsync` (port override in `compose.yml`) and `situlah` (local seeder edit) remain `skip-dirty` until resolved in their own repos. gamdl-dashboard excluded.
 

@@ -1,7 +1,8 @@
 # n8n Auto-Deploy (git polling) — what, why, how
 
-> Status (2026-10-04): **infrastructure ready, workflow being built by the user in n8n, dry-run only.**
-> Nothing is pulled or built automatically yet. Decision log entry: `docs/decisions.md` (2026-10-04).
+> Status (2026-10-04, end of session): **infrastructure ready; n8n workflow `auto-deploy` built and PUBLISHED by the user (every 5 min), dry-run only.**
+> First scheduled execution (`mode = trigger`) not yet confirmed. Nothing is pulled or built automatically yet (`--apply` not used anywhere).
+> Resume here: section 9 (open items), starting with confirming scheduled runs. Decision log entry: `docs/decisions.md` (2026-10-04).
 > Changelog: entries 190, 191.
 
 ## 1. Goal
@@ -80,6 +81,13 @@ of `portofolio`, deliberately not listed.)
   (no "Allow write access"). Don't reuse the n8n SSH key as a deploy key.
 - n8n SSH node sends `cd / ; <command>` even with an empty Working Directory -> the gate accepts that exact prefix.
 - n8n credential Private Key = the whole `n8n_deploy` file incl. `BEGIN/END` lines (not the `.pub`).
+- n8n SSH node Command must be in **Expression** mode (`n8n-deploy-check {{ $json.project }}`); in Fixed mode the literal `{{ ... }}` is sent and the gate answers `command not allowed`.
+- Per node Settings: **On Error = Continue** (n8n 2.x name for "Continue On Fail") + **Always Output Data**, otherwise one failing project stops the others.
+- n8n 2.x has no Active toggle: **Publish** activates the workflow (Unpublish stops it). A trigger node shows an orange triangle while unpublished/misconfigured.
+- Monitoring without logging in: sshd log (`journalctl -u ssh | grep Accepted | grep tXi/3DU8`, a full run = 6 logins on personal + 4 on yado in the same minute) or
+  `docker exec shared-postgres psql -U admin -d n8n -c 'select id,status,mode,"startedAt" from execution_entity order by id desc limit 8;'` on `docker-host`.
+  Manual runs have `mode = manual`; scheduled ones `mode = trigger`. Server clock is UTC (WIB = UTC+7).
+- Harness rules observed: the AI never enters passwords (n8n login) and key creation / `~/.ssh` edits on servers were blocked, so those are user steps.
 
 ## 8. Undo / rollback
 - Disable: deactivate the n8n workflow (nothing else runs on a schedule).
@@ -126,7 +134,19 @@ Legend: **[AI]** done by Claude Code, **[User]** done by the user, **[Blocked]**
 12. **[User]** Created n8n SSH credentials and a test node. First runs returned `command not allowed`. **[AI]** added a temporary debug line to the gate (with approval),
     which showed n8n sends `cd / ; n8n-deploy-check <project>`. Gate pattern widened to accept only that prefix, debug removed (backup + log deleted),
     tests re-run; user confirmed the node works on both hosts. Commit `314d8b8` (changelog 191).
-13. **[AI]** Wrote this runbook + decision entry (commit `2ab97c3`). **[User]** is building the workflow in n8n (section 6).
+13. **[AI]** Wrote this runbook + decision entry (commit `2ab97c3`), then added this log and a `services.md` row (commit `09748e9`).
+14. **[User] Built the workflow `auto-deploy` in n8n**, stage by stage (section 6): Schedule Trigger -> Code (10 items) -> Switch (6 personal / 4 yado)
+    -> `SSH Personal` + `SSH Yado` -> Merge (append) -> Code1 (parse JSON, 10 items). First SSH run on personal worked (6 items). The yado branch returned
+    `command not allowed` for all 4: server-side gate re-tested fine (`cd / ; n8n-deploy-check malas` accepted), cause was the Command field not being in
+    **Expression** mode (literal `{{ $json.project }}` sent). User fixed it; final output had all 10 projects parsed (7 uptodate, portofolio would-deploy 3 behind,
+    situlah + tabsync skip-dirty). No debug on yado was needed.
+15. **[User]** Asked the AI to log in to n8n (credentials shared in chat). **[AI]** declined (policy: no password entry), instead monitored the system
+    **read-only**: server SSH auth logs (fingerprint `tXi/3DU8`) and the n8n Postgres DB (`docker exec shared-postgres psql -U admin -d n8n`, tables
+    `execution_entity`, `workflow_entity`). n8n stores data in the shared Postgres, not SQLite. User confirmed read-only DB monitoring is OK for this session.
+16. **[User] Published the workflow** (n8n 2.x "Publish" = activate). DB check: `auto-deploy` `active = t`, `test-ssh` inactive; executions so far all `success` but
+    `mode = manual` (12 runs, ~12 s each, last 16:10:12 UTC). First scheduled (`mode = trigger`) run **not yet confirmed** when the session ended.
+17. **[AI]** Saved a project memory note (`n8n-auto-deploy-in-progress`) so a new session resumes from this runbook. Remaining plan: section 9.
+    User paused until after their exam on 2026-10-08.
 
 ## Appendix B — State changes made on servers this session (for audit/rollback)
 | Where | What | Who |
@@ -137,5 +157,6 @@ Legend: **[AI]** done by Claude Code, **[User]** done by the user, **[Blocked]**
 | `personal-hosts` | `/opt/projects/portofolio` and `/opt/projects/situlah` remote URL -> SSH alias | User |
 | `/tmp` on both hosts | temp debug log + `.bak` created then deleted | AI |
 | GitHub | deploy keys on `samsmon/portofolio`, `samsmon/situlah` (read/write currently) | User |
-| n8n | SSH credentials `personal-hosts`, `yado-hosts`; workflow `test-ssh` / `auto-deploy` (in progress) | User |
+| n8n | SSH credentials `personal-hosts`, `yado-hosts`; workflow `test-ssh` (inactive) and `auto-deploy` (**published**, dry-run, every 5 min) | User |
+| AI memory | `n8n-auto-deploy-in-progress` project note (resume pointer) | AI |
 | Containers / services | **No container, compose file or service was restarted, rebuilt or pulled.** | — |
