@@ -3,6 +3,13 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-10-04 — Project auto-deploy via n8n polling (not systemd timer, not webhook)
+
+- **Status: DECIDED, infrastructure ready, workflow in progress (dry-run only).** Full detail, steps and open items: [`docs/n8n-auto-deploy.md`](n8n-auto-deploy.md).
+- n8n (already on `docker-host`) polls every 5 min and SSHes to `personal-hosts`/`yado-hosts` to run `n8n-deploy-check.sh`; webhook rejected for now (no public n8n URL), standalone `git-auto-deploy.sh` timer not used (user wants to learn n8n).
+- `gddl`/`nhdl` update only when idle (per-app busy check, unknown = busy); `gamdl-dashboard` excluded (systemd service on a feature branch). Dirty repos are skipped, never touched.
+- n8n gets a dedicated SSH key restricted by a forced command; private GitHub repos use read-only per-repo deploy keys.
+
 ## 2026-09-24 — Adopted Master-Playback Architecture for Video Library (Alur A: Master on `hdd-backup`, Playback on `hdd-media`)
 
 - **Status: DECIDED & EXECUTED.** User requested adopting the same master-playback pattern used for music for the video library: `/mnt/hdd-backup/videos` acts as the primary master storage (cold archive), while `/mnt/hdd-media/videos` acts as the active serving library for Jellyfin (playback clone).
