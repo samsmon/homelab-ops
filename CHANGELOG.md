@@ -3,6 +3,9 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 
+## 2026-10-06 (195)
+- **media-hosts: gamdl failures were a DNS stall, not the Apple token**: `itunes.apple.com` lookups took 5.0s (httpx default timeout 5s -> `Error fetching MusicKit content` / `account info`). Added `options single-request-reopen no-aaaa timeout:1 attempts:3` to `/etc/resolv.conf` (backup `/etc/resolv.conf.bak-20261006`; undo: `cp -p` it back). DNS now ~2ms; httpx still shows ~5% intermittent ConnectTimeout (2/40, raw sockets 0/30 fail) - cause not found, gamdl-safe retries absorb it. Queue reset (failed items back to queued, attempts 0), resumed; item 338 downloading. Note: if the LXC rewrites resolv.conf on reboot, the fix is lost - check `/var/log/gamdl-monitor.log`.
+
 ## 2026-10-06 (194)
 - **gamdl-dashboard: server-side monitor + auto-resume fix pending**: diagnosed `auto_resume_after_cap` never firing when the 24h window is empty (`cap_free_at()` returns `now`, check was `now >= now+60`); queue idle since 2026-10-05 03:13 WIB. Patched `app/runner.py` + `app/api.py` on `media-hosts` (backups `*.bak`) but compile-checked, service restarted 2026-10-06 ~23:21 WIB and resumed on its own (paused=False, 1 item waiting); pytest not run (denied), regression test not added. Added report-only `scripts/gamdl-monitor.sh` (systemd `gamdl-monitor.timer`, every 5 min on `media-hosts`): status in `/var/log/gamdl-monitor.log`, alerts in `/var/log/gamdl-monitor-alerts.log`.
 
