@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+
+## 2026-10-06 (193)
+- **nhdl updated on `personal-hosts`**: `git pull --ff-only` fe72600 -> 8d272ca (42 upstream commits), `docker compose up -d --build`. Engine was IDLE; local `docker-compose.yml` edit (DOWNLOAD_DIR + hdd-backup mount) kept, backup at `docker-compose.yml.bak`. Verified: container up, `/api/status` OK (254 items kept), DOWNLOAD_DIR intact. Duration: 72s (23:08:21 -> 23:09:33).
 ## 2026-10-04 (192)
 - **n8n auto-deploy workflow built + published (dry-run, every 5 min)**: user built `auto-deploy` in n8n (Schedule -> project list -> Switch per host -> SSH `n8n-deploy-check <project>` -> Merge -> parse JSON); output verified for all 10 projects (7 uptodate, `portofolio` would-deploy 3 behind, `tabsync`/`situlah` skip-dirty). Monitored read-only via sshd logs + n8n Postgres (`shared-postgres`, db `n8n`); first `mode = trigger` run not yet confirmed at session end. No `--apply`, no pull/build/restart on any host. Full session log (17 steps), server-change audit table, gotchas and open items: `docs/n8n-auto-deploy.md`. Paused until after 2026-10-08.
 
