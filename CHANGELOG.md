@@ -3,6 +3,9 @@
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
 
+## 2026-10-06 (194)
+- **gamdl-dashboard: server-side monitor + auto-resume fix pending**: diagnosed `auto_resume_after_cap` never firing when the 24h window is empty (`cap_free_at()` returns `now`, check was `now >= now+60`); queue idle since 2026-10-05 03:13 WIB. Patched `app/runner.py` + `app/api.py` on `media-hosts` (backups `*.bak`) but NOT yet tested/restarted (test run was denied) -> service still runs old code. Added report-only `scripts/gamdl-monitor.sh` (systemd `gamdl-monitor.timer`, every 5 min on `media-hosts`): status in `/var/log/gamdl-monitor.log`, alerts in `/var/log/gamdl-monitor-alerts.log`.
+
 ## 2026-10-06 (193)
 - **nhdl updated on `personal-hosts`**: `git pull --ff-only` fe72600 -> 8d272ca (42 upstream commits), `docker compose up -d --build`. Engine was IDLE; local `docker-compose.yml` edit (DOWNLOAD_DIR + hdd-backup mount) kept, backup at `docker-compose.yml.bak`. Verified: container up, `/api/status` OK (254 items kept), DOWNLOAD_DIR intact. Duration: 72s (23:08:21 -> 23:09:33).
 ## 2026-10-04 (192)
