@@ -95,6 +95,9 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         `checklist.suryatmaja.dev` updated to point here — **now runs its own bundled Postgres**
         (`group-checklist-db` container + named volume) instead of the cross-LXC `shared-postgres` on
         `docker-host`, deliberately isolated rather than exposing `shared-postgres` across LXC boundaries).
+        **UPDATE 2026-10-07**: `personal-hosts` now has its own LXC-local `shared-postgres` (`/opt/projects/shared-postgres`, network `shared_net`,
+        no host port) and `group-checklist` uses it (DB `group_checklist`, role `group_checklist_app`); the bundled `group-checklist-db` is stopped,
+        volume kept for rollback. Daily backup via `pg-backup.timer`. See `docs/decisions.md` (2026-10-07).
         `portfolio` (migrated 2026-09-21, after confirming a stale lock in `CURRENT_OPS.md` from an
         earlier session's Yado rename work was actually done — clean git tree, no in-progress
         cherry-pick/merge — before proceeding; port 3080, NPM's `port.suryatmaja.dev` proxy host
@@ -257,4 +260,4 @@ Router ISP (Main Gateway: 192.168.18.1)
   - `manga` → `/mnt/hdd-backup/manga-raw` (Read/Write, ingest for manga optimizer — moved from `hdd-media` 2026-09-24)
   - `projects` → `/mnt/homelab_projects` (restricted to `dev-host`/`pve` IPs, for T3 Code)
   - `projects` → `/mnt/homelab_projects` (Read/Write, restricted to PVE and dev-host for T3 Code /workspace)
-- **WSDD (Web Services Dynamic Discovery):** Allows the homelab server to appear automatically under Windows Explorer "Network" without manual IP typing.
+- **WSDD (Web Services Dynamic Discovery):** Allows the homelab server to appear automatically under Windows Explorer "Network" without manual IP typing.

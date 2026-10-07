@@ -13,6 +13,11 @@ TARGETS=(
   "sso-yado-postgres-1:postgres"
 )
 
+# Optional per-host override: /opt/scripts/pg-backup.targets, one "container:superuser" per line.
+if [ -f /opt/scripts/pg-backup.targets ]; then
+  mapfile -t TARGETS < <(grep -vE '^\s*(#|$)' /opt/scripts/pg-backup.targets)
+fi
+
 ts=$(date +%Y%m%d-%H%M%S)
 fail=0
 umask 077
