@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-07 (199)
+- **nhdl: fixed all downloads failing (ISP DNS hijack)**: the ISP rewrites plain *UDP* DNS for nhentai/nhentai.com/nhentai.xxx/hentairox (+ CDNs `cdn.nhentai.com`, `m11.hentairox.com`, ...) to its block-page IP `202.169.44.80` (unreachable), so every fetch died (94 `ERROR` + 16 `curl (7)`). TCP DNS is untouched. Fix on `personal-hosts` `/opt/projects/nhdl/docker-compose.yml` (server-local edit, not committed upstream): added `nhdl-dns` CoreDNS sidecar (`172.19.0.53`, `forward . 1.1.1.1 8.8.8.8 { force_tcp }`, `./Corefile`) and `dns: [172.19.0.53]` on `nhdl`; pinned `nhdl_default` subnet to `172.19.0.0/16`. Briefly tried `extra_hosts` pins, replaced because CDN shard hosts like `m11.` are unbounded. Backup `docker-compose.yml.bak`. Verified: all hosts resolve to real Cloudflare/CDN IPs; retried via `POST /api/retry`: `com` (258 pages) and `xxx` (56 pages) completed, user confirmed it is downloading. Remaining requeued items process in the background.
+
 ## 2026-10-07 (198)
 - **portofolio force-rebuilt on `personal-hosts` (no code change)**: requested rebuild at `504962c` (already == origin/main), `docker compose build --pull --no-cache && docker compose up -d`. Verified container Up and HTTP 200 on `http://127.0.0.1:3080/`. Duration: 69s (epoch 1791369051 -> 1791369120, server clock).
 
