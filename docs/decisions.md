@@ -3,6 +3,13 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-10-07 — New deployments use the centralized `shared-postgres` (yado-hosts), not bundled per-app Postgres
+
+- **Status: DECIDED by the user (chat, 2026-10-07), applies to anything deployed from now on.** Existing `malas` and `sso-yado` still run their own bundled Postgres 16 and are **not** migrated by this decision; moving them needs a separate plan + approval.
+- **Context**: live check showed the "shared" Postgres on `yado-hosts` (`shared-postgres`, `127.0.0.1:5432`) is empty and unused, because each app's repo compose ships its own DB container. Result: 2 data-bearing instances + 1 empty one (see `docs/yado-hosts.md` section 3.1).
+- **Rule**: a new app that needs Postgres gets a database + dedicated user/password on `shared-postgres` and points its `.env` at it; no new bundled Postgres container. If an app's compose bundles one, strip it via the server-local `docker-compose.override.yml` (same pattern as sso-yado) or ask before deviating.
+- **Open point to settle at first use**: `shared-postgres` binds `127.0.0.1` only, so containers on other Docker networks can't reach it by name; first adopter must pick the attach method (join a shared Docker network, or publish on the LAN/Tailscale IP) and record it here. Also decide backups at that time.
+
 ## 2026-10-04 — Project auto-deploy via n8n polling (not systemd timer, not webhook)
 
 - **Status: DECIDED, infrastructure ready, workflow in progress (dry-run only).** Full detail, steps and open items: [`docs/n8n-auto-deploy.md`](n8n-auto-deploy.md).

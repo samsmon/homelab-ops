@@ -103,6 +103,29 @@ Semua container memakai `restart: unless-stopped` (diverifikasi 2026-10-07).
 Kode di server: `/opt/projects/{yado,sso.yado,malas,pore-js,porejs-demo,cloudflared,shared-postgres}`.
 Skrip otomasi: `/opt/scripts/{n8n-deploy-check.sh,n8n-ssh-gate.sh}`.
 
+### 3.1 Database: bukan shared, masing-masing app membawa Postgres sendiri
+
+Diverifikasi live 2026-10-07 (`psql`, hitung baris eksak). Ada **tiga** instance Postgres 16, tapi hanya dua yang berisi data.
+
+| Instance | Dipakai app | Database | Ukuran DB | Tabel / baris | Volume (ukuran Docker) |
+|---|---|---|---|---|---|
+| `malas-db-1` | malas | `malas` (role `admin`) | 10 MB | 35 tabel, ±1.4 rb baris | `malas_db-data` 68 MB |
+| `sso-yado-postgres-1` | sso-yado | `db_sso` (role `postgres`, auth `trust`) | 9 MB | 18 tabel, ±250 baris | `sso-yado_sso_postgres_data` 66 MB |
+| `shared-postgres` | **tidak ada** | `malas`, `db_sso`, `admin`, `postgres` | ±7.4 MB tiap DB (hanya katalog sistem) | **0 tabel user, 0 baris di keempat DB** | `shared-postgres_pgdata` 80 MB |
+
+Isi data yang nyata:
+- **malas**: `series` 245, `volumes` 773, `collections` 39, `collection_volumes` 164, `activity_logs` 118, `menus` 26, `wishlist_items` 11, `users` 2, `roles` 3, `migrations` 47, sisanya kecil. File cover ada di volume `malas_storage` (60 MB), bukan di DB.
+- **sso-yado**: `audit_logs` 58, `sessions` 47, `oauth_auth_codes` 23, `oauth_access_tokens` 21, `oauth_refresh_tokens` 21, `users` 3, `oauth_clients` 2 (yado dan malas), `roles` 2, `settings` 5, `migrations` 18.
+
+**Kebijakan (keputusan user 2026-10-07):** deployment baru ke depan **wajib memakai `shared-postgres` ini** (database + user sendiri), bukan Postgres bundled per-app. `malas` dan `sso-yado` yang sudah ada belum dimigrasi. Detail dan hal yang harus diputuskan saat pemakaian pertama: `docs/decisions.md`.
+
+Implikasi:
+- `shared-postgres` terbukti **kosong dan tidak dipakai**; menghapusnya (beserta volume 80 MB) tidak menghilangkan data.
+- Bila nanti dua DB bundled digabung ke satu instance (mis. satu RDS dengan dua database `malas` dan `db_sso`), itu **konsolidasi dua Postgres terpisah, bukan salinan dari `shared-postgres`**. Total data yang dipindahkan sekitar 19 MB logis.
+- Perhatikan: `db_sso` memakai auth `trust` tanpa password. Di instance gabungan harus dibuat user dan password per database, lalu `.env` kedua app disesuaikan.
+- `oauth_clients` (2 baris) dan `APP_KEY` malas harus ikut terbawa agar login SSO dan setting terenkripsi tidak putus.
+- Perlu dicatat: statistik `pg_stat_user_tables.n_live_tup` pada DB bundled ternyata jauh di bawah jumlah baris sebenarnya (malas menunjukkan 17 vs ±1.4 rb), jadi jangan pakai angka itu untuk estimasi; pakai `count(*)`.
+
 ---
 
 ## 4. Microservice Yado
@@ -212,7 +235,7 @@ Backup: **belum ada backup terjadwal** untuk volume Postgres (`malas_db-data`, `
 ## 9. Masalah terbuka
 
 1. `cloudflared` sesekali: `lookup region1.v2.argotunnel.com: i/o timeout`. Tunnel tetap tersambung, tapi mirip pola ISP DNS hijack yang diperbaiki di nhdl; resolver LXC `1.1.1.1` + `192.168.18.1`.
-2. `shared-postgres` berisi DB kosong tak terpakai; bisa dipangkas.
+2. `shared-postgres` terverifikasi kosong (0 tabel user di semua DB) dan tidak dipakai app mana pun; bisa dihapus bersama volumenya (lihat 3.1).
 3. Network `t3code_default` tak terpakai.
 4. Docker API `:2375` tanpa auth.
 5. Belum ada backup terjadwal untuk data Postgres.
