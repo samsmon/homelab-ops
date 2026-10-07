@@ -13,7 +13,7 @@
 - [Claude-Code] 2026-10-07: done | nhdl: bypass ISP DNS hijack via CoreDNS TCP sidecar + recreate | Locks: container nhdl, personal-hosts:/opt/projects/nhdl/docker-compose.yml
 - [Claude-Code] 2026-10-07: done | sso-yado: start containers + add restart policy via local override | Locks: yado-hosts:/opt/projects/sso.yado/docker-compose.override.yml, containers sso-yado-*
 - [Claude-Code] 2026-10-07: done | yado-hosts DB centralization: malas + sso-yado migrated to shared-postgres (bundled DBs stopped, volumes kept; cleanup + group-checklist pending user): backup script+timer, roles/db on shared-postgres, migrate sso-yado then malas to shared-postgres | Locks: yado-hosts:/opt/projects/{shared-postgres,sso.yado,malas}, containers shared-postgres, sso-yado-*, malas-*, scripts/pg-backup.sh
-- [Claude-Code] 2026-10-07: running | personal-hosts: new shared-postgres + migrate group-checklist DB onto it (bundled DB stopped, volume kept) + pg-backup timer | Locks: personal-hosts:/opt/projects/shared-postgres, personal-hosts:/opt/projects/group-checklist/{docker-compose.yml,.env}, containers group-checklist*, scripts/pg-backup.sh
+- [Claude-Code] 2026-10-07: done | personal-hosts: new shared-postgres + migrate group-checklist DB onto it (bundled DB stopped, volume kept) + pg-backup timer | Locks: personal-hosts:/opt/projects/shared-postgres, personal-hosts:/opt/projects/group-checklist/{docker-compose.yml,.env}, containers group-checklist*, scripts/pg-backup.sh
 
 
 

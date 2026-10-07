@@ -238,7 +238,7 @@ Backup: `pg-backup.timer` (harian 03:30 UTC) menjalankan `/opt/scripts/pg-backup
 2. Container dan volume Postgres bundled lama (`malas-db-1`, `sso-yado-postgres-1`, `malas_db-data`, `sso-yado_sso_postgres_data`) masih ada sebagai cadangan rollback. Hapus setelah stabil sekitar 7 hari dan **dengan persetujuan user**.
 3. Network `t3code_default` tak terpakai.
 4. Docker API `:2375` tanpa auth.
-5. Backup Postgres hanya lokal (tanpa offsite) dan `malas_storage` belum tercakup. `group-checklist` (personal-hosts) masih memakai Postgres bundled sendiri; belum ikut dipusatkan.
+5. Backup Postgres hanya lokal (tanpa offsite) dan `malas_storage` belum tercakup. `group-checklist` (personal-hosts) sudah dipusatkan ke `shared-postgres` miliknya sendiri di LXC personal-hosts (bukan ke instance yado-hosts), lihat `docs/decisions.md`.
 6. Perubahan lokal belum di-commit di repo `sso.yado` di server.
 7. `docs/services.md` masih menulis domain "belum dibeli" dan route ke `192.168.18.226`; perlu disinkronkan dengan kondisi live.
 8. Rute tunnel dikelola di Cloudflare dashboard, tidak ter-track di repo.
