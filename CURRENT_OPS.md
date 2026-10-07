@@ -10,7 +10,7 @@
 - [Claude-Code] 2026-10-06: done | nhdl: git pull --ff-only + rebuild on personal-hosts | Locks: container nhdl, personal-hosts:/opt/projects/nhdl
 - [Claude-Code] 2026-10-06: done | media-hosts: fix 5s DNS stall (resolv.conf options) for gamdl | Locks: media-hosts:/etc/resolv.conf
 - [Claude-Code] 2026-10-06: done | gamdl-dashboard: fix auto-resume when 24h cap window is empty (app/runner.py, app/api.py) + restart | Locks: media-hosts:/opt/gamdl-dashboard, service gamdl-dashboard | patched + restarted, unit tests not run
-- [Claude-Code] 2026-10-07: running | nhdl: bypass ISP DNS hijack via extra_hosts (real IPs) + recreate | Locks: container nhdl, personal-hosts:/opt/projects/nhdl/docker-compose.yml
+- [Claude-Code] 2026-10-07: done | nhdl: bypass ISP DNS hijack via CoreDNS TCP sidecar + recreate | Locks: container nhdl, personal-hosts:/opt/projects/nhdl/docker-compose.yml
 
 
 
