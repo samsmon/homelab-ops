@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-07 (198)
+- **portofolio force-rebuilt on `personal-hosts` (no code change)**: requested rebuild at `504962c` (already == origin/main), `docker compose build --pull --no-cache && docker compose up -d`. Verified container Up and HTTP 200 on `http://127.0.0.1:3080/`. Duration: 69s (epoch 1791369051 -> 1791369120, server clock).
+
 ## 2026-10-07 (197)
 - **portofolio redeployed to `504962c` on `personal-hosts`**: `git pull --ff-only` 5d716db -> 504962c (replaced "dosen" with "pengajar" across AIF-C01 posts), followed by `docker compose up -d --build`. Verified container running (Up) and HTTP 200 OK on `http://localhost:3080/`. Duration: ~1m 12s (14:05:02 -> 14:06:14 WIB).
 
