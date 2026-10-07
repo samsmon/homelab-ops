@@ -14,6 +14,7 @@
 - [Claude-Code] 2026-10-07: done | sso-yado: start containers + add restart policy via local override | Locks: yado-hosts:/opt/projects/sso.yado/docker-compose.override.yml, containers sso-yado-*
 - [Claude-Code] 2026-10-07: done | yado-hosts DB centralization: malas + sso-yado migrated to shared-postgres (bundled DBs stopped, volumes kept; cleanup + group-checklist pending user): backup script+timer, roles/db on shared-postgres, migrate sso-yado then malas to shared-postgres | Locks: yado-hosts:/opt/projects/{shared-postgres,sso.yado,malas}, containers shared-postgres, sso-yado-*, malas-*, scripts/pg-backup.sh
 - [Claude-Code] 2026-10-07: done | personal-hosts: new shared-postgres + migrate group-checklist DB onto it (bundled DB stopped, volume kept) + pg-backup timer | Locks: personal-hosts:/opt/projects/shared-postgres, personal-hosts:/opt/projects/group-checklist/{docker-compose.yml,.env}, containers group-checklist*, scripts/pg-backup.sh
+- [Claude-Code] 2026-10-07: running | offsite backup yado-hosts+personal-hosts -> docker-host:/mnt/hdd-backup/offsite (restricted user backup-recv, rrsync write-only, rotation 14d) | Locks: docker-host:/mnt/hdd-backup/offsite, docker-host user backup-recv + its authorized_keys, /opt/scripts/offsite-sync.sh on yado-hosts+personal-hosts
 
 
 
