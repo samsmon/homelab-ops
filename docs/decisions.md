@@ -5,10 +5,10 @@
 
 ## 2026-10-07 — New deployments use the centralized `shared-postgres` (yado-hosts), not bundled per-app Postgres
 
-- **Status: DECIDED by the user (chat, 2026-10-07), applies to anything deployed from now on.** Existing `malas` and `sso-yado` still run their own bundled Postgres 16 and are **not** migrated by this decision; moving them needs a separate plan + approval.
+- **Status: DECIDED by the user (chat, 2026-10-07), applies to anything deployed from now on. EXECUTED same day for `malas` and `sso-yado`** (migrated to `shared-postgres`, row counts verified per table, bundled DB containers stopped, volumes kept as rollback, cleanup pending user approval). `group-checklist` (personal-hosts) is NOT migrated yet: needs `shared-postgres` published on the LAN IP, user has not decided.
 - **Context**: live check showed the "shared" Postgres on `yado-hosts` (`shared-postgres`, `127.0.0.1:5432`) is empty and unused, because each app's repo compose ships its own DB container. Result: 2 data-bearing instances + 1 empty one (see `docs/yado-hosts.md` section 3.1).
 - **Rule**: a new app that needs Postgres gets a database + dedicated user/password on `shared-postgres` and points its `.env` at it; no new bundled Postgres container. If an app's compose bundles one, strip it via the server-local `docker-compose.override.yml` (same pattern as sso-yado) or ask before deviating.
-- **Open point to settle at first use**: `shared-postgres` binds `127.0.0.1` only, so containers on other Docker networks can't reach it by name; first adopter must pick the attach method (join a shared Docker network, or publish on the LAN/Tailscale IP) and record it here. Also decide backups at that time.
+- **Connection method (resolved)**: same-host apps join the Docker network `shared_net` and use host `shared-postgres` (not `postgres`, which collides with bundled service names) via a server-local, untracked `docker-compose.override.yml` (`profiles: ["bundled-db"]` on the bundled DB, `depends_on: !reset []`, `networks: !override [..., shared_net]`). One role + one DB per app, `CONNECT` revoked from PUBLIC, passwords generated on the server only. Cross-host apps (personal-hosts) would need a LAN publish + `pg_hba` restriction. **Backups**: daily `pg_dump -Fc` via `pg-backup.timer`, local only for now. Single point of failure accepted: shared-postgres down = SSO + malas down.
 
 ## 2026-10-04 — Project auto-deploy via n8n polling (not systemd timer, not webhook)
 

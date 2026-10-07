@@ -1,7 +1,7 @@
 # yado-hosts (LXC 101) — Infrastruktur & Microservice Yado
 
 > Dokumen referensi lengkap untuk LXC `yado-hosts` dan keluarga proyek **Yado** (`yado.my.id`).
-> **Terakhir diverifikasi live via SSH: 2026-10-07.** Sumber kebenaran "apa yang ada sekarang" tetap `docs/architecture.md`
+> **Terakhir diverifikasi live via SSH: 2026-10-07 (setelah sentralisasi DB).** Sumber kebenaran "apa yang ada sekarang" tetap `docs/architecture.md`
 > dan `docs/services.md`; file ini merangkum dan menjelaskan hubungan antar-komponen.
 
 ---
@@ -91,40 +91,41 @@ Semua container memakai `restart: unless-stopped` (diverifikasi 2026-10-07).
 | `yado` | `yado-yado` (Next.js 16 standalone) | 3000 | Frontend utama | stateless |
 | `sso-yado-app-1` | build lokal (PHP-FPM, Laravel) | — | Aplikasi SSO | `./storage`, volume `sso_public` |
 | `sso-yado-nginx-1` | nginx:alpine | 8081 | Web front SSO | — |
-| `sso-yado-postgres-1` | postgres:16-alpine | — | DB SSO (`db_sso`), auth `trust` | volume `sso-yado_sso_postgres_data` |
+| `sso-yado-postgres-1` | postgres:16-alpine | — | **Dihentikan 2026-10-07** (sudah pindah ke `shared-postgres`); container + volume dipertahankan sebagai cadangan rollback | volume `sso-yado_sso_postgres_data` |
 | `malas-app-1` | `malas:latest` | — | Aplikasi malas (PHP-FPM) | volume `malas_storage` |
 | `malas-queue-1` | `malas:latest` | — | Queue worker (`QUEUE_CONNECTION=database`) | sama |
 | `malas-nginx-1` | nginx:1.27-alpine | 8082 | Web front malas | `malas_public_build` |
-| `malas-db-1` | postgres:16-alpine | — | DB malas | volume `malas_db-data` |
+| `malas-db-1` | postgres:16-alpine | — | **Dihentikan 2026-10-07** (sudah pindah ke `shared-postgres`); container + volume dipertahankan sebagai cadangan rollback | volume `malas_db-data` |
 | `porejs-demo` | `porejs-demo:local` (nginx) | 8083 | Demo pore-js, statis | — |
 | `cloudflared` | cloudflare/cloudflared | — | Tunnel publik | token di `.env` |
-| `shared-postgres` | postgres:16-alpine | 127.0.0.1:5432 | Postgres bersama; DB `malas` & `db_sso` **kosong dan tidak dipakai** | volume `shared-postgres_pgdata` |
+| `shared-postgres` | postgres:16-alpine | 127.0.0.1:5432 | **Postgres terpusat** untuk `sso-yado` (`db_sso`, role `sso_yado`) dan `malas` (`malas`, role `malas_app`); diakses app lewat network `shared_net` sebagai host `shared-postgres` | volume `shared-postgres_pgdata` |
 
 Kode di server: `/opt/projects/{yado,sso.yado,malas,pore-js,porejs-demo,cloudflared,shared-postgres}`.
 Skrip otomasi: `/opt/scripts/{n8n-deploy-check.sh,n8n-ssh-gate.sh}`.
 
-### 3.1 Database: bukan shared, masing-masing app membawa Postgres sendiri
+### 3.1 Database: terpusat di `shared-postgres` (sejak 2026-10-07)
 
-Diverifikasi live 2026-10-07 (`psql`, hitung baris eksak). Ada **tiga** instance Postgres 16, tapi hanya dua yang berisi data.
+Sebelum 2026-10-07 `malas` dan `sso-yado` masing-masing membawa Postgres 16 bundled, sedangkan `shared-postgres` kosong. Keduanya **sudah dimigrasi ke `shared-postgres`** (`pg_dump -Fc` lalu `pg_restore`; jumlah baris **setiap tabel dicocokkan eksak** sebelum cutover: 18 tabel sso dan 35 tabel malas identik).
 
-| Instance | Dipakai app | Database | Ukuran DB | Tabel / baris | Volume (ukuran Docker) |
-|---|---|---|---|---|---|
-| `malas-db-1` | malas | `malas` (role `admin`) | 10 MB | 35 tabel, ±1.4 rb baris | `malas_db-data` 68 MB |
-| `sso-yado-postgres-1` | sso-yado | `db_sso` (role `postgres`, auth `trust`) | 9 MB | 18 tabel, ±250 baris | `sso-yado_sso_postgres_data` 66 MB |
-| `shared-postgres` | **tidak ada** | `malas`, `db_sso`, `admin`, `postgres` | ±7.4 MB tiap DB (hanya katalog sistem) | **0 tabel user, 0 baris di keempat DB** | `shared-postgres_pgdata` 80 MB |
+| Database | Pemilik (role) | App | Ukuran | Isi utama |
+|---|---|---|---|---|
+| `db_sso` | `sso_yado` | sso-yado | ±9 MB | `users` 3, `oauth_clients` 2, `audit_logs` 58, `sessions`, token OAuth |
+| `malas` | `malas_app` | malas | ±10 MB | `series` 245, `volumes` 773, `collections` 39, `collection_volumes` 164, `users` 2 |
+| `admin`, `postgres` | `admin` | - | bawaan | kosong |
 
-Isi data yang nyata:
-- **malas**: `series` 245, `volumes` 773, `collections` 39, `collection_volumes` 164, `activity_logs` 118, `menus` 26, `wishlist_items` 11, `users` 2, `roles` 3, `migrations` 47, sisanya kecil. File cover ada di volume `malas_storage` (60 MB), bukan di DB.
-- **sso-yado**: `audit_logs` 58, `sessions` 47, `oauth_auth_codes` 23, `oauth_access_tokens` 21, `oauth_refresh_tokens` 21, `users` 3, `oauth_clients` 2 (yado dan malas), `roles` 2, `settings` 5, `migrations` 18.
+Cara kerja:
+- `shared-postgres` ada di network Docker `shared_net` (alias `postgres`), bind host hanya `127.0.0.1:5432`. App di yado-hosts join `shared_net` lewat **`docker-compose.override.yml` lokal** (tidak di-commit) dan memakai host **`shared-postgres`** (bukan `postgres`, supaya tidak ambigu dengan service bundled).
+- Service DB bundled dimatikan lewat override: `profiles: ["bundled-db"]` pada service DB, `depends_on: !reset []`, dan `networks: !override [...]` ditambah `shared_net`. Compose yang di-track repo tidak diubah, jadi n8n dirty-check tidak terganggu.
+- Role per-app non-superuser; `CONNECT` dicabut dari `PUBLIC`; akses silang antar-DB terbukti ditolak. Password dibuat acak dan hanya ada di `/opt/projects/shared-postgres/.app-creds` (root, 600) dan `.env` tiap app. Tidak pernah masuk repo.
+- Auth `scram-sha-256` untuk semua koneksi non-lokal.
 
-**Kebijakan (keputusan user 2026-10-07):** deployment baru ke depan **wajib memakai `shared-postgres` ini** (database + user sendiri), bukan Postgres bundled per-app. `malas` dan `sso-yado` yang sudah ada belum dimigrasi. Detail dan hal yang harus diputuskan saat pemakaian pertama: `docs/decisions.md`.
+Cadangan rollback (dipertahankan, **belum dihapus**): container `malas-db-1` dan `sso-yado-postgres-1` (Exited) beserta volume `malas_db-data` dan `sso-yado_sso_postgres_data`, plus dump pra-cutover di `/var/backups/postgres/cutover/`. Tiap app punya `.env.pre-central` dan `docker-compose.override.yml.pre-central`. Rollback satu app: `cp .env.pre-central .env; cp docker-compose.override.yml.pre-central docker-compose.override.yml; docker start <bundled>; docker compose --profile bundled-db up -d --no-build`.
 
-Implikasi:
-- `shared-postgres` terbukti **kosong dan tidak dipakai**; menghapusnya (beserta volume 80 MB) tidak menghilangkan data.
-- Bila nanti dua DB bundled digabung ke satu instance (mis. satu RDS dengan dua database `malas` dan `db_sso`), itu **konsolidasi dua Postgres terpisah, bukan salinan dari `shared-postgres`**. Total data yang dipindahkan sekitar 19 MB logis.
-- Perhatikan: `db_sso` memakai auth `trust` tanpa password. Di instance gabungan harus dibuat user dan password per database, lalu `.env` kedua app disesuaikan.
-- `oauth_clients` (2 baris) dan `APP_KEY` malas harus ikut terbawa agar login SSO dan setting terenkripsi tidak putus.
-- Perlu dicatat: statistik `pg_stat_user_tables.n_live_tup` pada DB bundled ternyata jauh di bawah jumlah baris sebenarnya (malas menunjukkan 17 vs ±1.4 rb), jadi jangan pakai angka itu untuk estimasi; pakai `count(*)`.
+**Kebijakan (keputusan user 2026-10-07):** deployment baru wajib memakai `shared-postgres` (database + role sendiri). Skrip bantu: `scripts/pg-central-phase2.sh` (role/DB) dan `scripts/pg-cutover.sh <sso|malas>` (migrasi dengan rollback otomatis). Detail keputusan: `docs/decisions.md`.
+
+Single point of failure: bila `shared-postgres` mati, `sso-yado`, `malas`, dan login `yado` ikut mati. Mitigasi: restart policy dan backup harian (bagian 7).
+
+Catatan teknis: `pg_stat_user_tables.n_live_tup` tidak akurat setelah bulk restore; pakai `count(*)` untuk verifikasi.
 
 ---
 
@@ -142,14 +143,12 @@ Implikasi:
 - Protokol: **OAuth 2.0 Authorization Code + PKCE (S256)**. Dokumentasi rinci ada di repo (`docs/INTEGRATION.md`, `API.md`, `PRD.md`, `SRS.md`).
 - Fitur (dari `routes/web.php`): login (email atau username), registrasi, registrasi via undangan, lupa/reset password, verifikasi email, **2FA** (challenge, enable, confirm, disable), halaman akun (password, tema, locale, avatar), manajemen sesi/token/perangkat (revoke satu atau semua), dashboard **superadmin**, endpoint `/health`. Rate-limit di tiap endpoint sensitif (login, 2FA 5/menit, dst).
 - Sesi memakai `SESSION_DRIVER=database`, `SESSION_DOMAIN=null`, lifetime 120 menit. `APP_URL=https://sso.yado.my.id`, `APP_PORT=8081`.
-- Postgres sendiri (bundled). `docker-compose.override.yml` **lokal, tidak di-commit** berisi:
-  - `postgres.ports: !reset []` supaya tidak bentrok dengan `shared-postgres` di port 5432
-  - `restart: unless-stopped` untuk app, nginx, postgres (**ditambahkan 2026-10-07**, lihat bagian 8)
-- Catatan: compose menyetel `DB_HOST/DB_READ_HOST/DB_WRITE_HOST=postgres` karena proyek memakai read/write split. `DB_USERNAME/DB_PASSWORD` di `.env` harus cocok dengan role `postgres` (trust-auth) milik DB bundled-nya.
+- Database: `db_sso` di `shared-postgres` (role `sso_yado`), sejak 2026-10-07 (lihat 3.1). `docker-compose.override.yml` **lokal, tidak di-commit** berisi: `profiles: ["bundled-db"]` pada service `postgres`, `depends_on: !reset []`, network `[sso, shared_net]`, `DB_HOST/DB_READ_HOST/DB_WRITE_HOST=shared-postgres`, dan `restart: unless-stopped`.
+- Catatan: proyek memakai read/write split, jadi `DB_HOST`, `DB_READ_HOST`, dan `DB_WRITE_HOST` harus diset semuanya (di `.env` dan di `environment` override, karena `environment` compose mengalahkan `.env`).
 - Working tree di server punya perubahan lokal belum di-commit: `docker/nginx/default.conf`, `resources/js/Layouts/AccountLayout.svelte`.
 
 ### 4.3 malas — manga library
-- Repo: `samsmon/malas`. Laravel `^12`, PHP ≥ 8.2, Postgres 16 bundled, queue worker berbasis database.
+- Repo: `samsmon/malas`. Laravel `^12`, PHP ≥ 8.2, Postgres di `shared-postgres` (DB `malas`, role `malas_app`, sejak 2026-10-07), queue worker berbasis database.
 - Data dimigrasi dari SQLite di `docker-host` pada 2026-09-18 (114 series, 773 volume, 39 koleksi, 149 collection volume, 363 cover ±51 MB). `APP_KEY` disamakan agar setting terenkripsi (Gemini AI, Resend mail) tetap bisa didekripsi.
 - Deploy: `public/build` disinkronkan ke volume bersama pada tiap boot (fix white screen setelah rebuild, commit `8324e5f`); `public/storage` di-symlink untuk serving media langsung oleh nginx.
 - Terdaftar sebagai OAuth client SSO sendiri (`SSO_CLIENT_ID/SECRET`, `SSO_BASE_URL`, `SSO_REDIRECT_URI`).
@@ -218,7 +217,7 @@ ssh yado-hosts 'docker logs --tail 20 cloudflared'
 ssh yado-hosts 'cd /opt/projects/sso.yado && docker compose up -d --no-build'
 ```
 
-Backup: **belum ada backup terjadwal** untuk volume Postgres (`malas_db-data`, `sso-yado_sso_postgres_data`) maupun `malas_storage`. Ini celah.
+Backup: `pg-backup.timer` (harian 03:30 UTC) menjalankan `/opt/scripts/pg-backup.sh`: `pg_dump -Fc` per database ke `/var/backups/postgres/<container>/`, retensi 7 hari, hanya root. Restore terbukti (dump malas dipulihkan ke DB sementara: 773/245/39/2 cocok). **Hanya lokal, belum ada salinan offsite**, dan **`malas_storage` (cover) belum di-backup**.
 
 ---
 
@@ -228,6 +227,7 @@ Backup: **belum ada backup terjadwal** untuk volume Postgres (`malas_db-data`, `
 |---|---|
 | 2026-09-18 | Rebrand White Archive → Yado, rename LXC, fresh redeploy yado & sso-yado, migrasi data malas, deploy pore-js dan cloudflared |
 | 2026-09-20 | SSO login yado diperbaiki penuh (PKCE, callback, scope), pore.yado.my.id live |
+| 2026-10-07 | **Sentralisasi DB**: backup harian dipasang, role/DB dibuat di `shared-postgres`, `sso-yado` (20 detik) lalu `malas` (30 detik) dimigrasi dengan pencocokan baris eksak; DB bundled dihentikan, volume dipertahankan. Percobaan cutover sso pertama sempat auto-rollback karena pengecekan verifikasi yang rapuh (data tidak berubah); skrip diperbaiki lalu sukses |
 | 2026-10-07 | **sso-yado ditemukan mati** (3 container `Exited (255)` ±2 minggu, tanpa restart policy; kemungkinan tidak naik lagi setelah reboot LXC. Sebab pasti belum dibuktikan). Dinyalakan ulang dan ditambah `restart: unless-stopped` lewat `docker-compose.override.yml` (backup: `docker-compose.override.yml.bak`). `/health` 200 via localhost, Tailscale, dan publik |
 
 ---
@@ -235,10 +235,10 @@ Backup: **belum ada backup terjadwal** untuk volume Postgres (`malas_db-data`, `
 ## 9. Masalah terbuka
 
 1. `cloudflared` sesekali: `lookup region1.v2.argotunnel.com: i/o timeout`. Tunnel tetap tersambung, tapi mirip pola ISP DNS hijack yang diperbaiki di nhdl; resolver LXC `1.1.1.1` + `192.168.18.1`.
-2. `shared-postgres` terverifikasi kosong (0 tabel user di semua DB) dan tidak dipakai app mana pun; bisa dihapus bersama volumenya (lihat 3.1).
+2. Container dan volume Postgres bundled lama (`malas-db-1`, `sso-yado-postgres-1`, `malas_db-data`, `sso-yado_sso_postgres_data`) masih ada sebagai cadangan rollback. Hapus setelah stabil sekitar 7 hari dan **dengan persetujuan user**.
 3. Network `t3code_default` tak terpakai.
 4. Docker API `:2375` tanpa auth.
-5. Belum ada backup terjadwal untuk data Postgres.
+5. Backup Postgres hanya lokal (tanpa offsite) dan `malas_storage` belum tercakup. `group-checklist` (personal-hosts) masih memakai Postgres bundled sendiri; belum ikut dipusatkan.
 6. Perubahan lokal belum di-commit di repo `sso.yado` di server.
 7. `docs/services.md` masih menulis domain "belum dibeli" dan route ke `192.168.18.226`; perlu disinkronkan dengan kondisi live.
 8. Rute tunnel dikelola di Cloudflare dashboard, tidak ter-track di repo.
