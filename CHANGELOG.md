@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-07 (200)
+- **yado-hosts: sso-yado revived + restart policy + new doc**: `sso-yado-{app,nginx,postgres}-1` had been `Exited (255)` for ~2 weeks (login on `yado`/`malas` broken, cloudflared logging connection refused to :8081). Started with `docker compose up -d --no-build`; added `restart: unless-stopped` for all 3 services in the server-local, untracked `/opt/projects/sso.yado/docker-compose.override.yml` (backup `.bak`; tracked compose left untouched so n8n dirty-check is unaffected). Verified `/health` 200 on localhost, Tailscale and `https://sso.yado.my.id`; all 11 containers on the LXC now `unless-stopped`. Root cause of the exit is inferred (no restart policy after LXC reboot), not proven. Added `docs/yado-hosts.md` (full infra + microservice reference). Duration: ~22s for the restart.
+
 ## 2026-10-07 (199)
 - **nhdl: fixed all downloads failing (ISP DNS hijack)**: the ISP rewrites plain *UDP* DNS for nhentai/nhentai.com/nhentai.xxx/hentairox (+ CDNs `cdn.nhentai.com`, `m11.hentairox.com`, ...) to its block-page IP `202.169.44.80` (unreachable), so every fetch died (94 `ERROR` + 16 `curl (7)`). TCP DNS is untouched. Fix on `personal-hosts` `/opt/projects/nhdl/docker-compose.yml` (server-local edit, not committed upstream): added `nhdl-dns` CoreDNS sidecar (`172.19.0.53`, `forward . 1.1.1.1 8.8.8.8 { force_tcp }`, `./Corefile`) and `dns: [172.19.0.53]` on `nhdl`; pinned `nhdl_default` subnet to `172.19.0.0/16`. Briefly tried `extra_hosts` pins, replaced because CDN shard hosts like `m11.` are unbounded. Backup `docker-compose.yml.bak`. Verified: all hosts resolve to real Cloudflare/CDN IPs; retried via `POST /api/retry`: `com` (258 pages) and `xxx` (56 pages) completed, user confirmed it is downloading. Remaining requeued items process in the background.
 
