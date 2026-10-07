@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-07 (201)
+- **yado-hosts: daily Postgres backups (phase 1 of DB centralization)**: added `scripts/pg-backup.sh` (installed `/opt/scripts/pg-backup.sh`) + `configs/systemd/pg-backup.{service,timer}` (enabled, daily 03:30, 7-day retention, `pg_dump -Fc` per DB into `/var/backups/postgres/<container>/`, root-only 700/600). Covers `shared-postgres`, `malas-db-1`, `sso-yado-postgres-1`; missing containers are skipped. First manual run OK (5 dumps, exit 0; malas 207 KB, sso 50 KB). Local only, no offsite copy yet. Also verified in a scratch copy that a server-local override (`profiles` on the bundled DB, `depends_on: !reset []`, `networks: !override`) disables a bundled Postgres on Compose v5.5.1. Phase 2+ (roles, DB recreate, app cutovers) NOT started: the action was blocked by the permission classifier and is awaiting the user. Restore test also not yet run.
+
 ## 2026-10-07 (200)
 - **yado-hosts: sso-yado revived + restart policy + new doc**: `sso-yado-{app,nginx,postgres}-1` had been `Exited (255)` for ~2 weeks (login on `yado`/`malas` broken, cloudflared logging connection refused to :8081). Started with `docker compose up -d --no-build`; added `restart: unless-stopped` for all 3 services in the server-local, untracked `/opt/projects/sso.yado/docker-compose.override.yml` (backup `.bak`; tracked compose left untouched so n8n dirty-check is unaffected). Verified `/health` 200 on localhost, Tailscale and `https://sso.yado.my.id`; all 11 containers on the LXC now `unless-stopped`. Root cause of the exit is inferred (no restart policy after LXC reboot), not proven. Added `docs/yado-hosts.md` (full infra + microservice reference). Duration: ~22s for the restart.
 
