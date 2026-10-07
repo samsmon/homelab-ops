@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-07 (196)
+- **portofolio redeployed to `5d716db` on `personal-hosts`**: `git pull --ff-only` a527e15 -> 5d716db (9 upstream commits: AIF-C01 study posts, challenge lab walkthrough, blog animation and pinned post improvements), followed by `docker compose up -d --build`. Verified: container up, HTTP 200 on `/`, `/blog/`, `/projects/`, and public domain `https://suryatmaja.dev/`.
+
 
 ## 2026-10-06 (195)
 - **media-hosts: gamdl failures were a DNS stall, not the Apple token**: `itunes.apple.com` lookups took 5.0s (httpx default timeout 5s -> `Error fetching MusicKit content` / `account info`). Added `options single-request-reopen no-aaaa timeout:1 attempts:3` to `/etc/resolv.conf` (backup `/etc/resolv.conf.bak-20261006`; undo: `cp -p` it back). DNS now ~2ms; httpx still shows ~5% intermittent ConnectTimeout (2/40, raw sockets 0/30 fail) - cause not found, gamdl-safe retries absorb it. Queue reset (failed items back to queued, attempts 0), resumed; item 338 downloading. Note: if the LXC rewrites resolv.conf on reboot, the fix is lost - check `/var/log/gamdl-monitor.log`.
