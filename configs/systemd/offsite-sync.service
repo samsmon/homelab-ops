@@ -1,0 +1,8 @@
+[Unit]
+Description=Push backups offsite to docker-host (rrsync write-only)
+After=network-online.target docker.service pg-backup.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/scripts/offsite-sync.sh

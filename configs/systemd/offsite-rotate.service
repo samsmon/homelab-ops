@@ -1,0 +1,6 @@
+[Unit]
+Description=Prune offsite backups and check freshness (docker-host)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/offsite-rotate.sh

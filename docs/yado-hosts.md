@@ -217,7 +217,9 @@ ssh yado-hosts 'docker logs --tail 20 cloudflared'
 ssh yado-hosts 'cd /opt/projects/sso.yado && docker compose up -d --no-build'
 ```
 
-Backup: `pg-backup.timer` (harian 03:30 UTC) menjalankan `/opt/scripts/pg-backup.sh`: `pg_dump -Fc` per database ke `/var/backups/postgres/<container>/`, retensi 7 hari, hanya root. Restore terbukti (dump malas dipulihkan ke DB sementara: 773/245/39/2 cocok). **Hanya lokal, belum ada salinan offsite**, dan **`malas_storage` (cover) belum di-backup**.
+Backup: `pg-backup.timer` (harian 03:30 UTC) menjalankan `/opt/scripts/pg-backup.sh`: `pg_dump -Fc` per database ke `/var/backups/postgres/<container>/`, retensi 7 hari, hanya root. Restore terbukti (dump malas dipulihkan ke DB sementara: 773/245/39/2 cocok). 
+
+**Offsite (sejak 2026-10-07):** `offsite-sync.timer` (03:45 UTC, setelah backup lokal) menjalankan `/opt/scripts/offsite-sync.sh`, yang mendorong `/var/backups/postgres/` (kecuali `cutover/`) dan tar volume di `/opt/scripts/offsite-volumes.list` (`malas_storage`) ke `docker-host:/mnt/hdd-backup/offsite/yado-hosts/`. Memakai key khusus `/root/.ssh/offsite_ed25519` ke user `backup-recv` di docker-host yang dibatasi `restrict`, `from="192.168.18.226"`, dan `command="rrsync -wo /mnt/hdd-backup/offsite/yado-hosts"`: **hanya bisa menulis di satu folder**; baca, shell, dan `..` terbukti ditolak. Retensi 14 hari dijalankan di docker-host oleh `offsite-rotate.timer` (04:30), yang juga gagal bila `last-success` lebih dari 36 jam. Restore dari salinan offsite terbukti (3 DB pulih, jumlah baris cocok, tar `malas_storage` utuh 517 entri). Batas: tujuan masih satu rumah dan satu HDD (`hdd-backup`, 94% terpakai) sehingga **bukan offsite fisik**.
 
 ---
 
@@ -238,7 +240,7 @@ Backup: `pg-backup.timer` (harian 03:30 UTC) menjalankan `/opt/scripts/pg-backup
 2. Container dan volume Postgres bundled lama (`malas-db-1`, `sso-yado-postgres-1`, `malas_db-data`, `sso-yado_sso_postgres_data`) masih ada sebagai cadangan rollback. Hapus setelah stabil sekitar 7 hari dan **dengan persetujuan user**.
 3. Network `t3code_default` tak terpakai.
 4. Docker API `:2375` tanpa auth.
-5. Backup Postgres hanya lokal (tanpa offsite) dan `malas_storage` belum tercakup. `group-checklist` (personal-hosts) sudah dipusatkan ke `shared-postgres` miliknya sendiri di LXC personal-hosts (bukan ke instance yado-hosts), lihat `docs/decisions.md`.
+5. Backup offsite hanya ke HDD di docker-host (satu rumah; bukan offsite fisik), dan HDD itu 94% penuh. `group-checklist` (personal-hosts) sudah dipusatkan ke `shared-postgres` miliknya sendiri di LXC personal-hosts (bukan ke instance yado-hosts), lihat `docs/decisions.md`.
 6. Perubahan lokal belum di-commit di repo `sso.yado` di server.
 7. `docs/services.md` masih menulis domain "belum dibeli" dan route ke `192.168.18.226`; perlu disinkronkan dengan kondisi live.
 8. Rute tunnel dikelola di Cloudflare dashboard, tidak ter-track di repo.
