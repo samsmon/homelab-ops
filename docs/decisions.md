@@ -17,6 +17,14 @@
 - `gddl`/`nhdl` update only when idle (per-app busy check, unknown = busy); `gamdl-dashboard` excluded (systemd service on a feature branch). Dirty repos are skipped, never touched.
 - n8n gets a dedicated SSH key restricted by a forced command; private GitHub repos use read-only per-repo deploy keys.
 
+## 2026-10-09 — Retired the video backup copy on `hdd-backup` (supersedes Alur A for videos)
+
+- **Status: DECIDED & EXECUTED (by user).** `hdd-backup` was 95% full (103G free) and `hdd-music` also 95%; no spare disk and the Seagate (`hdd-media`) cannot hold a second 411G copy. User chose to delete `/mnt/hdd-backup/videos` (411G) and keep `hdd-media/videos` as the **only** copy.
+- Verified before deletion: 754 files on both sides, 0 differences by name+size (rsync dry-run both directions). `sync-videos` has no `--delete`, so `hdd-media/videos` was never at risk.
+- `homelab-video-sync.timer` disabled on `docker-host` (unit kept; re-enable only if a video backup target exists again). `hdd-backup` now 71% (513G free).
+- **Risk accepted:** videos have a single copy. Seagate `ST1000DM010` (`W9AS0LSD`) passed a SMART long self-test on 2026-10-09 with 0 reallocated/pending sectors, but a disk failure now loses videos. Revisit when a new disk is bought (Plan A: new 2-4TB archive disk, restore a second video copy).
+- `hdd-music` (95%, 46G free) is still unresolved.
+
 ## 2026-09-24 — Adopted Master-Playback Architecture for Video Library (Alur A: Master on `hdd-backup`, Playback on `hdd-media`)
 
 - **Status: DECIDED & EXECUTED.** User requested adopting the same master-playback pattern used for music for the video library: `/mnt/hdd-backup/videos` acts as the primary master storage (cold archive), while `/mnt/hdd-media/videos` acts as the active serving library for Jellyfin (playback clone).

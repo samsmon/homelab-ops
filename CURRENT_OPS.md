@@ -5,6 +5,7 @@
 
 ## Active Task Registry
 - [Claude-Code] 2026-10-09: done | dev-host: deploy rag-postgres (pgvector/pg16) + local pg-backup timer, for cloud-ops RAG | Locks: dev-host:/opt/projects/rag-postgres, dev-host:/opt/scripts/pg-backup.*, configs/docker-compose/rag-postgres.yml
+- [Claude-Code] 2026-10-09: done | hdd-backup/videos removed by user (Plan B), homelab-video-sync.timer disabled, docs updated | Locks: docker-host:homelab-video-sync.timer, docs/architecture.md, docs/decisions.md
 - [Claude-Code] 2026-10-09: done | manga-raw/nsfw tidy: removed 2 verified-duplicate cbz from Japanese/Eda, moved Japanese/Dokurosan -> JP/Dokurosan | Locks: docker-host:/mnt/hdd-backup/manga-raw/nsfw/{Japanese,JP/Dokurosan}
 - [Claude-Code] 2026-10-04: running | homelab-dashboard: add SERVICE_PROBES (gamdl-dashboard) + server-side metric history; then rebuild | Locks: container homelab-dashboard, docker-host:/mnt/homelab_projects/homelab-dashboard, repo homelab-dashboard
 - [Claude-Code] 2026-10-04: done | gamdl-dashboard: patch cap to not count skipped tracks (app/store.py, app/runner.py) + restart service | Locks: media-hosts:/opt/gamdl-dashboard, service gamdl-dashboard

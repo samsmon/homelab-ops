@@ -241,7 +241,7 @@ Router ISP (Main Gateway: 192.168.18.1)
 ```
 /mnt/hdd-backup/
 ├── music/                  # Master Lossless/videos archive (see sync-music.sh/sync-videos.sh, Alur A)
-├── videos/                 # Master video archive, synced with hdd-media/videos (sync-videos.sh)
+├── videos/                 # EMPTY since 2026-10-09 (backup copy removed, Plan B); sole video copy is hdd-media/videos; homelab-video-sync.timer disabled
 ├── manga-raw/               # Raw manga master archive, moved from hdd-media 2026-09-24 (135GB) —
 │                            #   read by manga-optimizer.service, mirrors into hdd-media/manga-reader
 ├── backups/                # scripts/backup.sh target (when this drive is actually mounted)
