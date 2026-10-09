@@ -2,6 +2,10 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-10-09 (208)
+- **`rag-postgres` (pgvector/pg16) deployed on `dev-host`** for the `cloud-ops` RAG. Dedicated stack `/opt/projects/rag-postgres` (not `shared-postgres`), bound to `100.73.165.64:5433` (Tailscale only), 1 GB / 2 CPU limit, DB+user `rag`, extension `vector` 0.8.7, password generated on server in `.env`. Chose `dev-host` over `personal-hosts` because T3 Code is rarely used. Local `pg-backup.timer` (03:30, 7d) installed and first dump verified; **offsite push not set up** (needs a new write-only key on `docker-host` `backup-recv`, pending user OK). Verified: pg_isready, `create extension vector`, pve->port open over Tailscale; user's PC Tailscale was down at test time, so PC->DB not yet verified. Duration 22s (deploy).
+- Rollback: `cd /opt/projects/rag-postgres && docker compose down -v` on dev-host.
+
 ## 2026-10-09 (207)
 - **Timezone -> Asia/Jakarta (WIB) on docker-host, yado-hosts, personal-hosts** (pve was already WIB; media-hosts left on UTC on purpose, gamdl 24h-cap logic not audited). To keep run times unchanged, every custom `OnCalendar=` was pinned with a ` UTC` suffix first (backup of each unit as `*.timer.bak-tz`): docker-host `cloudflared-update` (daily -> `00:00:00 UTC`), `homelab-music-audit`, `homelab-video-sync`, `offsite-rotate`; yado/personal `pg-backup` (03:30 UTC) and `offsite-sync` (03:45 UTC). Verified next-run instants identical before/after (e.g. pg-backup 03:30Z = 10:30 WIB). Cron entries (`* * * * *`, `*/5`) are TZ-agnostic. Side effect: timestamps in logs/filenames from these hosts are now WIB. Undo: `timedatectl set-timezone Etc/UTC` + restore `.bak-tz` files + `daemon-reload`. Also: SMART long self-test started on pve `/dev/sdc` (Seagate ST1000DM010) 20:58 WIB, baseline in `pve:/root/smart/`; and nsfw sidecar/duplicate cleanup (0-byte Sugarbt sidecar, JP/Other Cosplay Gal copy removed in favour of JP/Basoba).
 

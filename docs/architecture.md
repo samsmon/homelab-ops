@@ -68,6 +68,7 @@ Proxmox VE 9.2.2 (bare metal hypervisor, kernel 7.0.2-6-pve) — pve.suryatmaja.
         Purpose: Dedicated isolated environment for T3 Code (agent coding harness) — created
         2026-09-15 to stop T3 Code's I/O/CPU load from ever affecting the media stack /
         core services on docker-host again (see CHANGELOG for the incident that prompted this).
+        2026-10-09: also hosts `rag-postgres` (pgvector, port 5433 on the Tailscale IP) for the cloud-ops RAG — user decision, since T3 Code is mostly idle.
         /workspace mounted via a host-level CIFS mount bound into the container (mp1) — NOT a
         direct in-container network mount, because unprivileged LXC cannot reliably do kernel
         NFS/CIFS mounts itself. The actual project files still live on docker-host
