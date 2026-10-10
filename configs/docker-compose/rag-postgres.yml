@@ -15,6 +15,6 @@ services:
       - ragdata:/var/lib/postgresql/data
     mem_limit: 5g
     cpus: 2
-    shm_size: 256m
+    shm_size: 1g
 volumes:
   ragdata:
