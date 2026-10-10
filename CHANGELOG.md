@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-10 (214)
+- **portofolio redeployed to `01e4c52` on `personal-hosts`**: SEO metadata, Schema.org Person disambiguation (added Credly profile to `sameAs`, `alumniOf` Telkom University, and `knowsAbout` AWS AI Practitioner / Cloud), replaced em dashes (`—`) with hyphens (`-`) across titles and UI copy, followed by `git pull --ff-only` and `docker compose up -d --build`. Verified container running (Up) and HTTP 200 OK on `http://localhost:3080/`. Duration: ~1m 11s (11:09:48 -> 11:10:59 WIB).
+
 ## 2026-10-10 (213)
 - **portofolio redeployed to `1503e23` on `personal-hosts`**: replaced badge with official full-bleed 600x600 PNG from user (`static/certifications/aws-certified-ai-practitioner.png`), followed by `git pull --ff-only` and `docker compose up -d --build`. Verified container running (Up) and HTTP 200 OK on `http://localhost:3080/`. Duration: ~58s (10:54:00 -> 10:54:58 WIB).
 
