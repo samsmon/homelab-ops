@@ -1,0 +1,30 @@
+diff --git a/src/components/hero.tsx b/src/components/hero.tsx
+index 0c87279..98e79d5 100644
+--- a/src/components/hero.tsx
++++ b/src/components/hero.tsx
+@@ -5,6 +5,7 @@ import { Search, ShieldCheck, Activity, DoorOpen } from "lucide-react";
+ import { SsoLoginButton } from "@/components/sso-login-button";
+ import { AnimatedHeadline } from "@/components/interactive/animated-headline";
+ import { openCommandPalette } from "@/hooks/use-command-palette";
++import { useSsoSession } from "@/hooks/use-sso-session";
+ 
+ const container = {
+   hidden: {},
+@@ -17,6 +18,8 @@ const item = {
+ };
+ 
+ export function Hero() {
++  const { session } = useSsoSession();
++
+   return (
+     <motion.section
+       variants={container}
+@@ -70,7 +73,7 @@ export function Hero() {
+ 
+       {/* Actions */}
+       <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-6">
+-        <SsoLoginButton />
++        {!session && <SsoLoginButton />}
+         <a
+           href="#services"
+           className="group inline-flex items-center gap-2 text-base font-medium text-foreground/75 transition-colors hover:text-foreground"
