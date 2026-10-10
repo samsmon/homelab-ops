@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-10 (212)
+- **portofolio redeployed to `d4d83a7` on `personal-hosts`**: balanced canvas and scale of AWS Certified AI Practitioner badge (`static/certifications/aws-certified-ai-practitioner.png` cropped and centered to square 600x600 canvas to match AWS re/Start badge sizing), followed by `git pull --ff-only` and `docker compose up -d --build`. Verified container running (Up) and HTTP 200 OK on `http://localhost:3080/`. Duration: ~1m 15s (10:31:20 -> 10:32:35 WIB).
+
 ## 2026-10-10 (209)
 - **`rag-postgres` memory limit 1 GB -> 5 GB** on `dev-host` (user request). Cap only, not a reservation; `dev-host` has 6 GB total shared with T3 Code. Container recreated (data volume kept), `vector` 0.8.7 and `pg_isready` verified, `HostConfig.Memory`=5368709120. Backup of previous compose: `/opt/projects/rag-postgres/docker-compose.yml.bak`. Undo: set `mem_limit: 1g` and `docker compose up -d`.
 
