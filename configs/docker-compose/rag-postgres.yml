@@ -1,5 +1,6 @@
 # RAG database (pgvector) on dev-host (LXC 102). Deployed at /opt/projects/rag-postgres/docker-compose.yml.
 # Published only on the Tailscale IP; password lives in /opt/projects/rag-postgres/.env (not in git).
+# Tuned for a 5 GB container cap on a 4-core, 6 GB LXC shared with T3 Code (mostly idle).
 services:
   postgres:
     image: pgvector/pgvector:pg16
@@ -9,12 +10,48 @@ services:
       POSTGRES_USER: rag
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: rag
+    command:
+      - postgres
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - effective_cache_size=3GB
+      - -c
+      - maintenance_work_mem=768MB
+      - -c
+      - work_mem=32MB
+      - -c
+      - max_connections=50
+      - -c
+      - max_wal_size=2GB
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - jit=off
+      - -c
+      - max_worker_processes=4
+      - -c
+      - max_parallel_workers=3
+      - -c
+      - max_parallel_workers_per_gather=2
+      - -c
+      - max_parallel_maintenance_workers=2
     ports:
       - "100.73.165.64:5433:5432"
     volumes:
       - ragdata:/var/lib/postgresql/data
     mem_limit: 5g
-    cpus: 2
+    cpus: 3
     shm_size: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rag -d rag"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 volumes:
   ragdata:
