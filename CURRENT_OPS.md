@@ -5,6 +5,7 @@
 
 ## Active Task Registry
 - [Claude-Code] 2026-10-11: done | harness token-efficiency + KB integration (hooks, settings, CLAUDE.md slim, rag-kb source homelab-ops) | Locks: CLAUDE.md, .claude/settings*.json, rag-kb/kb.toml (local), docs/harness-kb.md
+- [Claude-Code] 2026-10-11: done | gamdl-dashboard: unavailable-storefront fallback + finish-with-condition patch (app/runner.py), remove items 356-385 | Locks: media-hosts:/opt/gamdl-dashboard/app/runner.py, service gamdl-dashboard | patched+restarted+items removed; test_api autostart test fails with and without patch (pre-existing)
 - [Claude-Code] 2026-10-09: done | dev-host: deploy rag-postgres (pgvector/pg16) + local pg-backup timer, for cloud-ops RAG | Locks: dev-host:/opt/projects/rag-postgres, dev-host:/opt/scripts/pg-backup.*, configs/docker-compose/rag-postgres.yml
 - [Claude-Code] 2026-10-09: done | hdd-backup/videos removed by user (Plan B), homelab-video-sync.timer disabled, docs updated | Locks: docker-host:homelab-video-sync.timer, docs/architecture.md, docs/decisions.md
 - [Claude-Code] 2026-10-09: done | manga-raw/nsfw tidy: removed 2 verified-duplicate cbz from Japanese/Eda, moved Japanese/Dokurosan -> JP/Dokurosan | Locks: docker-host:/mnt/hdd-backup/manga-raw/nsfw/{Japanese,JP/Dokurosan}
