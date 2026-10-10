@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-11 (215)
+- **Harness token-efficiency + KB integration** (no server/container change). `CLAUDE.md` 20,698 B -> 9,719 B (two overlapping rule sets merged, hard rules kept; start-up is now git sync + `CURRENT_OPS` + `head -n 30 CHANGELOG.md`, everything else on demand via KB/table); music rules moved verbatim to `docs/music-agent-rules.md` (4,422 B, must be read before music work). Added `.claude/hooks/guard.py` (PreToolUse: deny full read of files >24 KB, `cat CHANGELOG`, sleep-loops; ask on force-push/reset --hard/clean -f; 10/10 mock cases pass), `.claude/settings.json` (Superpowers off for this repo, read-only allowlist), `docs/harness-kb.md`. KB: `homelab-ops` source added to local `rag-kb/kb.toml`, `kb sync --only 'homelab-ops/**'`: 14 files / 594 chunks / ~170k tokens (~$0.010, Voyage free tier) into `rag-postgres`; 34 s + 2 s. Token figures are bytes/4 estimates, not tokenizer counts. Fixed stale "1 Ubuntu LXC" in Context (5 LXCs, per `docs/architecture.md`).
+
 ## 2026-10-10 (214)
 - **portofolio redeployed to `01e4c52` on `personal-hosts`**: SEO metadata, Schema.org Person disambiguation (added Credly profile to `sameAs`, `alumniOf` Telkom University, and `knowsAbout` AWS AI Practitioner / Cloud), replaced em dashes (`—`) with hyphens (`-`) across titles and UI copy, followed by `git pull --ff-only` and `docker compose up -d --build`. Verified container running (Up) and HTTP 200 OK on `http://localhost:3080/`. Duration: ~1m 11s (11:09:48 -> 11:10:59 WIB).
 
