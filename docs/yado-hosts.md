@@ -153,6 +153,15 @@ Catatan teknis: `pg_stat_user_tables.n_live_tup` tidak akurat setelah bulk resto
 - Deploy: `public/build` disinkronkan ke volume bersama pada tiap boot (fix white screen setelah rebuild, commit `8324e5f`); `public/storage` di-symlink untuk serving media langsung oleh nginx.
 - Terdaftar sebagai OAuth client SSO sendiri (`SSO_CLIENT_ID/SECRET`, `SSO_BASE_URL`, `SSO_REDIRECT_URI`).
 
+### 4.3a malas-dev — preview perubahan kode (sejak 2026-10-11)
+- Tujuan: owner bisa melihat perubahan kode malas tanpa rebuild image rilis, dengan data dari database utama. Stack compose `malas-dev` di `/opt/projects/malas` (`deploy/docker-compose.dev.yml`, kontrol: `deploy/dev.sh`). Container: `malas-dev-dev-app-1` (image `malas:latest`, source di-mount read-only, opcache revalidate aktif), `malas-dev-dev-nginx-1` (`127.0.0.1:8092`), `malas-dev-dev-vite-1` (`vite build --watch` ke volume `malas-dev_dev_build`, batas 1,2 GB RAM / 1 CPU).
+- Akses: `https://yado-hosts.taila813af.ts.net:8443` (`tailscale serve`, hanya tailnet, sertifikat Let's Encrypt). Bukan lewat Cloudflare.
+- Mode default **HANYA-BACA**: DB role `malas_dev` = `SELECT` di semua tabel + `INSERT,UPDATE` di `sso_fallback_tokens` + `INSERT` di `activity_logs` (hanya untuk login darurat). Tabel data (series, volumes, users, koleksi, dll) tidak bisa ditulis. Session/cache driver `file`, queue `null`, mail `log`. Storage produksi di-mount read-only.
+- Login: `./deploy/dev.sh login [super_admin|email]` menerbitkan link darurat sekali-pakai (15 menit) untuk host dev. Tidak menyentuh SSO. Tiap penerbitan menulis 1 token + 1 entri activity log ke DB utama.
+- Mode **TULIS**: `./deploy/dev.sh rw --yes` (role `malas_app` + storage rw) mengubah data ASLI. Kembali: `./deploy/dev.sh ro`. Cek mode: `./deploy/dev.sh status`.
+- Batasan: `vendor` berasal dari image, jadi perubahan `composer.json` butuh rebuild image. Migrasi tidak pernah dijalankan dari dev. `.env.dev` dan `.env.dev.rw` berisi rahasia (chmod 600, di-exclude dari git).
+- Rollback total: `./deploy/dev.sh down`, `tailscale serve --https=8443 off`, `DROP OWNED BY malas_dev; DROP ROLE malas_dev;` (di DB `malas`, user `admin`), hapus volume `malas-dev_*`.
+
 ### 4.4 pore-js demo
 - Repo: `samsmon/pore-js`, hanya `apps/demo` (statis, tanpa backend/secret).
 - Image `ghcr.io/samsmon/porejs-demo:latest` bersifat private, jadi di-build lokal sebagai `porejs-demo:local` (Vite → nginx:alpine). Rebuild manual saat ada commit baru.
