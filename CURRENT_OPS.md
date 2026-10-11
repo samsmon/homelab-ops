@@ -4,7 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
-- [Claude-Code] 2026-10-11: running | malas user-side fixes (catalog status filter as segmented control + skeleton only for same-page visits, collection table fit) previewed on malas-dev; NOT committed/deployed, waiting for user OK | Locks: C:/Users/Sam/Documents/GitHub/malas (3 files uncommitted), yado-hosts:/opt/projects/malas working tree (same 3 files, dev preview only)
+- [Claude-Code] 2026-10-11: done | malas user-side fixes (catalog status filter as segmented control + skeleton only for same-page visits, collection table fit) previewed on malas-dev; NOT committed/deployed, waiting for user OK | Locks: C:/Users/Sam/Documents/GitHub/malas (3 files uncommitted), yado-hosts:/opt/projects/malas working tree (same 3 files, dev preview only)
 - [Claude-Code] 2026-10-11: done | malas: prune stale hashed assets in volume malas_public_build (files not in manifest.json) | Locks: container malas-app-1 (exec only), volume malas_public_build
 - [Claude-Code] 2026-10-11: done | malas fixes: remove PageTransition fade (all sides), case-insensitive series search, delete keeps page; dev-preview on malas-dev, release deploy only after user OK | Locks: C:/Users/Sam/Documents/GitHub/malas (PC clone), yado-hosts:/opt/projects/malas (dev preview files only), malas-dev stack
 - [Claude-Code] 2026-10-11: done | malas-dev stack (read-only prod DB role malas_dev, port 8092 + tailscale serve) + nginx upstream re-resolve fix on prod nginx; login via emergency link (C2), no SSO change | Locks: yado-hosts:/opt/projects/malas/deploy, container malas-nginx-1 (reload only), shared-postgres role malas_dev
