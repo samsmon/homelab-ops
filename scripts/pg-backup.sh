@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Daily logical backup of every Postgres container on yado-hosts (pg_dump -Fc per database).
-# Installed at /opt/scripts/pg-backup.sh, run by pg-backup.timer. Retention: 7 days.
+# Installed at /opt/scripts/pg-backup.sh, run by pg-backup.timer. Retention: 7 days default, per-target override in KEEP.
 # Container list is "container:superuser"; missing containers are skipped, so removing a
 # bundled DB after migration needs no script change.
 set -uo pipefail
 
 DEST=/var/backups/postgres
 KEEP_DAYS=7
+# Per-container retention override (days); anything not listed uses KEEP_DAYS.
+declare -A KEEP=( [rag-postgres]=2 )
 TARGETS=(
   "shared-postgres:admin"
   "malas-db-1:admin"
@@ -40,5 +42,9 @@ for t in "${TARGETS[@]}"; do
   done
 done
 
-find "$DEST" -name '*.dump' -mtime +"$KEEP_DAYS" -delete
+for d in "$DEST"/*/; do
+  c=$(basename "$d"); n=${KEEP[$c]:-$KEEP_DAYS}
+  # -mtime +N-1 keeps N daily dumps (find -mtime +2 would keep ~3 days)
+  find "$d" -name '*.dump' -mtime +$((n-1)) -delete
+done
 exit $fail
