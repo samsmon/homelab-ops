@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>malas - admin side series redesign (mockup)</title>
+<style>
+:root{--surface-1:#f6f5f1;--surface-2:#fff;--text-primary:#1a1a18;--text-secondary:#5f5e5a;--text-muted:#888780;--border:rgba(0,0,0,.12);--border-strong:rgba(0,0,0,.28);--border-accent:#185fa5;--bg-accent:#e6f1fb;--text-accent:#0c447c;--bg-warning:#faeeda;--text-warning:#633806;--bg-danger:#fceBEB;--text-success:#3b6d11;--text-danger:#a32d2d}
+@media(prefers-color-scheme:dark){:root{--surface-1:#2a2a28;--surface-2:#1f1f1d;--text-primary:#f1efe8;--text-secondary:#b4b2a9;--text-muted:#888780;--border:rgba(255,255,255,.15);--border-strong:rgba(255,255,255,.3);--border-accent:#85b7eb;--bg-accent:#042c53;--text-accent:#b5d4f4;--bg-warning:#412402;--text-warning:#faeeda;--bg-danger:#501313;--text-success:#97c459;--text-danger:#f09595}}
+body{font-family:system-ui,sans-serif;background:var(--surface-2);color:var(--text-primary);margin:0;padding:16px;max-width:960px}
+button,input,select{font:inherit;color:inherit;background:transparent;border:.5px solid var(--border-strong);border-radius:8px;padding:6px 10px}
+button{cursor:pointer}
+.tb{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+.tb th{text-align:left;font-weight:500;color:var(--text-secondary);font-size:12px;padding:6px 8px;border-bottom:.5px solid var(--border-strong)}
+.tb td{padding:6px 8px;border-bottom:.5px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb tr.r:hover{background:var(--surface-1)}
+.tb tr.sl{background:var(--bg-accent)}
+.th{width:44px;height:64px;border-radius:6px;border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;cursor:zoom-in}
+.pg{height:6px;border-radius:3px;background:var(--surface-1);border:.5px solid var(--border);overflow:hidden;margin-top:4px}
+.pg i{display:block;height:100%;background:var(--text-success)}
+.ac{display:flex;gap:2px;visibility:hidden}
+tr.r:hover .ac,tr.sl .ac{visibility:visible}
+.ac button{width:28px;height:28px;padding:0;border:none;font-size:12px}
+.ac button:hover{background:var(--surface-2);border:.5px solid var(--border)}
+.tg{font-size:11px;padding:2px 6px;border-radius:6px;margin-right:4px;display:inline-block}
+.w{background:var(--bg-warning);color:var(--text-warning)}.d{background:var(--bg-danger);color:var(--text-danger)}
+.ed{border:.5px solid transparent;padding:2px 4px;width:100%;font-size:13px;font-weight:500;box-sizing:border-box}
+.ed:hover{border-color:var(--border-strong)}
+.ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:12px;padding:4px 10px;border-radius:999px;border:.5px solid var(--border-strong);cursor:pointer}
+.chip.on{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.bulk{display:none;align-items:center;gap:8px;padding:8px 12px;margin-top:10px;border:.5px solid var(--border-strong);border-radius:12px;font-size:13px;flex-wrap:wrap}
+.pv{display:none;margin-top:10px;padding:12px;border:.5px solid var(--border);border-radius:12px;background:var(--surface-1);align-items:center;gap:12px}
+</style></head><body>
+<div class="ctl">
+<input type="text" id="q" placeholder="Cari judul, penulis ( / )" style="flex:1;min-width:150px">
+<span class="chip on" data-f="all">Semua <b id="n0"></b></span>
+<span class="chip" data-f="cov">Tanpa cover <b id="n1"></b></span>
+<span class="chip" data-f="inc">Volume kurang <b id="n2"></b></span>
+<span class="chip" data-f="meta">Metadata kosong <b id="n3"></b></span>
+</div>
+<table class="tb"><thead><tr><th style="width:28px"><input type="checkbox" id="all" aria-label="Pilih semua"></th><th style="width:60px">Cover</th><th>Judul</th><th style="width:96px">Status</th><th style="width:110px">Volume</th><th style="width:150px">Masalah</th><th style="width:124px"></th></tr></thead><tbody id="b"></tbody></table>
+<div class="pv" id="pv"><div class="th" id="pvc" style="width:90px;height:135px"></div><div style="font-size:13px"><b id="pvt"></b><br><span style="color:var(--text-secondary)">Pratinjau cover. Ganti dengan seret file ke sini atau tempel URL.</span><br><button style="margin-top:8px">Ganti cover</button> <button id="pvx">Tutup</button></div></div>
+<div class="bulk" id="bk"><b id="bn"></b><button>Ubah status</button><button>Ke koleksi</button><button>Cari cover otomatis</button><button style="color:var(--text-danger)">Hapus</button><button id="bx" style="margin-left:auto" aria-label="Batal pilih">x</button></div>
+<p style="font-size:12px;color:var(--text-muted);margin:8px 0 0">Data contoh. Klik judul untuk edit inline, thumbnail untuk pratinjau, hover baris untuk aksi.</p>
+<script>
+var C=[["#E6F1FB","#0C447C"],["#FAECE7","#712B13"],["#E1F5EE","#085041"],["#EEEDFE","#3C3489"],["#FBEAF0","#72243E"],["#FAEEDA","#633806"]];
+var D=[["Frieren",14,14,1,1],["Dungeon Meshi",14,14,1,1],["Blue Period",15,9,1,1],["Vinland Saga",27,27,1,0],["Spy x Family",14,11,1,1],["Oshi no Ko",16,16,0,1],["Mushishi",10,10,1,1],["Monster",18,12,1,1],["Chainsaw Man",20,20,0,0],["Kaiju No. 8",12,10,1,1],["Dandadan",20,15,1,1],["Witch Hat Atelier",14,14,1,1]].map(function(r,i){return{id:i,n:r[0],t:r[1],h:r[2],cov:r[3],meta:r[4],c:C[i%6],st:i%3?"Berjalan":"Tamat"}});
+var sel={},flt="all",b=document.getElementById('b');
+function iss(s){var a=[];if(!s.cov)a.push(["d","Tanpa cover"]);if(s.h<s.t)a.push(["w",(s.t-s.h)+" vol kurang"]);if(!s.meta)a.push(["w","Metadata"]);return a}
+function draw(){
+var q=document.getElementById('q').value.toLowerCase();b.innerHTML='';
+document.getElementById('n0').textContent=D.length;
+document.getElementById('n1').textContent=D.filter(function(s){return!s.cov}).length;
+document.getElementById('n2').textContent=D.filter(function(s){return s.h<s.t}).length;
+document.getElementById('n3').textContent=D.filter(function(s){return!s.meta}).length;
+D.filter(function(s){if(s.n.toLowerCase().indexOf(q)<0)return false;return flt==='all'||(flt==='cov'&&!s.cov)||(flt==='inc'&&s.h<s.t)||(flt==='meta'&&!s.meta)}).forEach(function(s){
+var tr=document.createElement('tr');tr.className='r'+(sel[s.id]?' sl':'');
+var th=s.cov?'<div class="th" style="background:'+s.c[0]+';color:'+s.c[1]+'">'+s.n.charAt(0)+'</div>':'<div class="th" style="background:var(--surface-1);color:var(--text-muted);border-style:dashed">-</div>';
+tr.innerHTML='<td><input type="checkbox" '+(sel[s.id]?'checked':'')+' aria-label="Pilih '+s.n+'"></td><td>'+th+'</td><td><input class="ed" value="'+s.n+'" aria-label="Judul"></td><td><select style="padding:2px 4px;font-size:12px"><option>'+s.st+'</option><option>'+(s.st==='Tamat'?'Berjalan':'Tamat')+'</option></select></td><td>'+s.h+' / '+s.t+'<div class="pg"><i style="width:'+Math.round(s.h/s.t*100)+'%"></i></div></td><td>'+iss(s).map(function(x){return'<span class="tg '+x[0]+'">'+x[1]+'</span>'}).join('')+'</td><td><div class="ac"><button aria-label="Edit lengkap">Edit</button><button aria-label="Tambah volume">+Vol</button><button aria-label="Koleksi">+Kol</button><button aria-label="Hapus" style="color:var(--text-danger)">Del</button></div></td>';
+tr.querySelector('input[type=checkbox]').onchange=function(e){if(e.target.checked)sel[s.id]=1;else delete sel[s.id];draw();bulk()};
+tr.querySelector('.th').onclick=function(){var p=document.getElementById('pv');p.style.display='flex';var c=document.getElementById('pvc');c.style.background=s.cov?s.c[0]:'var(--surface-1)';c.style.color=s.c[1];c.textContent=s.cov?s.n:'Belum ada cover';document.getElementById('pvt').textContent=s.n};
+b.appendChild(tr)})}
+function bulk(){var n=Object.keys(sel).length,k=document.getElementById('bk');k.style.display=n?'flex':'none';document.getElementById('bn').textContent=n+' dipilih'}
+document.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){flt=c.dataset.f;document.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x===c)});draw()}});
+document.getElementById('q').oninput=draw;
+document.getElementById('all').onchange=function(e){D.forEach(function(s){if(e.target.checked)sel[s.id]=1;else delete sel[s.id]});draw();bulk()};
+document.getElementById('bx').onclick=function(){sel={};document.getElementById('all').checked=false;draw();bulk()};
+document.getElementById('pvx').onclick=function(){document.getElementById('pv').style.display='none'};
+document.addEventListener('keydown',function(e){if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById('q').focus()}});
+draw();
+</script></body></html>

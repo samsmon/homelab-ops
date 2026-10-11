@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>malas - user side series redesign (mockup)</title>
+<style>
+:root{--surface-1:#f6f5f1;--surface-2:#fff;--text-primary:#1a1a18;--text-secondary:#5f5e5a;--text-muted:#888780;--border:rgba(0,0,0,.12);--border-strong:rgba(0,0,0,.28);--border-accent:#185fa5;--bg-warning:#faeeda;--text-warning:#633806;--bg-success:#eaf3de;--text-success:#27500a;--text-danger:#a32d2d}
+@media(prefers-color-scheme:dark){:root{--surface-1:#2a2a28;--surface-2:#1f1f1d;--text-primary:#f1efe8;--text-secondary:#b4b2a9;--text-muted:#888780;--border:rgba(255,255,255,.15);--border-strong:rgba(255,255,255,.3);--border-accent:#85b7eb;--bg-warning:#412402;--text-warning:#faeeda;--bg-success:#173404;--text-success:#c0dd97;--text-danger:#f09595}}
+body{font-family:system-ui,sans-serif;background:var(--surface-2);color:var(--text-primary);margin:0;padding:16px;max-width:900px}
+button,input,select{font:inherit;color:inherit;background:transparent;border:.5px solid var(--border-strong);border-radius:8px;padding:6px 10px}
+button{cursor:pointer}
+.mx{display:flex;gap:12px;align-items:flex-start}
+.main{flex:1;min-width:0}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.bar input[type=text]{flex:1;min-width:140px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(var(--w,130px),1fr))}
+.card{position:relative;cursor:pointer}
+.cv{position:relative;aspect-ratio:2/3;border-radius:8px;border:.5px solid var(--border);display:flex;align-items:flex-end;padding:8px;overflow:hidden;font-size:12px;font-weight:500}
+.card.sel .cv{outline:2px solid var(--border-accent)}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;gap:6px}
+.card:hover .ov{display:flex}
+.ov button{width:32px;height:32px;padding:0;background:var(--surface-2)}
+.ck{position:absolute;top:6px;left:6px;z-index:2;display:none}
+.card:hover .ck,.card.sel .ck{display:block}
+.bd{position:absolute;top:6px;right:6px;font-size:11px;padding:2px 6px;border-radius:6px;background:var(--bg-warning);color:var(--text-warning)}
+.ttl{font-size:13px;font-weight:500;margin:6px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:12px;color:var(--text-secondary);margin:0}
+.dr{width:230px;flex:none;background:var(--surface-2);border:.5px solid var(--border);border-radius:12px;padding:12px;position:sticky;top:0}
+.dr .big{aspect-ratio:2/3;border-radius:8px;margin-bottom:10px;display:flex;align-items:flex-end;padding:10px;font-weight:500}
+.vols{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.v{width:24px;height:24px;font-size:11px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--bg-success);color:var(--text-success)}
+.v.x{background:var(--surface-1);color:var(--text-muted);border:.5px dashed var(--border-strong)}
+.bulk{display:none;align-items:center;gap:8px;padding:8px 12px;margin-top:12px;background:var(--surface-2);border:.5px solid var(--border-strong);border-radius:12px;font-size:13px}
+.hint{font-size:12px;color:var(--text-muted);margin:8px 0 0}
+</style></head><body>
+<div class="mx">
+<div class="main">
+<div class="bar">
+<input type="text" id="q" placeholder="Cari judul ( / )">
+<select id="f"><option value="all">Semua status</option><option value="inc">Belum lengkap</option><option value="ok">Lengkap</option></select>
+<label style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:6px">Ukuran cover <input type="range" id="sz" min="100" max="220" value="140" step="10" style="width:90px"></label>
+</div>
+<div class="grid" id="g"></div>
+<div class="bulk" id="bk"><span id="bn"></span><button id="b1">Ke koleksi</button><button id="b2">Ubah status</button><button id="b3" style="color:var(--text-danger)">Hapus</button><button id="b4" style="margin-left:auto" aria-label="Batal pilih">x</button></div>
+<p class="hint">Arahkan kursor ke cover, centang beberapa, klik cover untuk buka panel. Data contoh.</p>
+</div>
+<div class="dr" id="dr"></div>
+</div>
+<script>
+var C=[["#E6F1FB","#0C447C"],["#FAECE7","#712B13"],["#E1F5EE","#085041"],["#EEEDFE","#3C3489"],["#FBEAF0","#72243E"],["#FAEEDA","#633806"],["#EAF3DE","#27500A"],["#F1EFE8","#444441"]];
+var N=["Frieren","Dungeon Meshi","Blue Period","Vinland Saga","Spy x Family","Oshi no Ko","Mushishi","Monster","Chainsaw Man","Kaiju No. 8","Dandadan","Witch Hat Atelier"];
+var S=N.map(function(n,i){var t=6+(i*5)%14;var h=t-(i%3===0?0:(i%4));return{id:i,n:n,t:t,h:h,c:C[i%8],st:i%2?"Tamat":"Berjalan"}});
+var sel={},cur=null;
+var g=document.getElementById('g'),dr=document.getElementById('dr');
+function draw(){
+var q=document.getElementById('q').value.toLowerCase(),f=document.getElementById('f').value;
+g.innerHTML='';
+S.filter(function(s){var inc=s.h<s.t;return s.n.toLowerCase().indexOf(q)>-1&&(f==='all'||(f==='inc'&&inc)||(f==='ok'&&!inc))}).forEach(function(s){
+var d=document.createElement('div');d.className='card'+(sel[s.id]?' sel':'');
+d.innerHTML='<div class="cv" style="background:'+s.c[0]+';color:'+s.c[1]+'"><input type="checkbox" class="ck" '+(sel[s.id]?'checked':'')+' aria-label="Pilih '+s.n+'">'+(s.h<s.t?'<span class="bd">'+s.h+'/'+s.t+'</span>':'')+s.n+'<div class="ov"><button data-a="e" aria-label="Edit">E</button><button data-a="v" aria-label="Tambah volume">+</button><button data-a="m" aria-label="Lainnya">...</button></div></div><p class="ttl">'+s.n+'</p><p class="sub">'+s.h+' dari '+s.t+' volume</p>';
+d.querySelector('.ck').onclick=function(e){e.stopPropagation();sel[s.id]=e.target.checked;if(!e.target.checked)delete sel[s.id];draw();bulk()};
+d.querySelectorAll('.ov button').forEach(function(b){b.onclick=function(e){e.stopPropagation();cur=s.id;panel();}});
+d.onclick=function(){cur=s.id;panel()};
+g.appendChild(d)});
+}
+function panel(){
+if(cur===null){dr.innerHTML='<p style="font-size:13px;color:var(--text-secondary);margin:0">Pilih series untuk melihat detail dan mengedit di sini.</p>';return}
+var s=S[cur],v='';for(var i=1;i<=s.t;i++)v+='<span class="v'+(i>s.h?' x':'')+'">'+i+'</span>';
+dr.innerHTML='<div class="big" style="background:'+s.c[0]+';color:'+s.c[1]+'">'+s.n+'</div><input type="text" value="'+s.n+'" aria-label="Judul" style="width:100%;font-weight:500;box-sizing:border-box"><div style="display:flex;gap:6px;margin-top:8px"><select style="flex:1"><option>'+s.st+'</option><option>'+(s.st==='Tamat'?'Berjalan':'Tamat')+'</option></select><button aria-label="Tutup" id="cl">x</button></div><p class="sub" style="margin-top:10px">Volume ('+s.h+'/'+s.t+')</p><div class="vols">'+v+'</div><div style="display:flex;gap:6px"><button style="flex:1">+ Volume</button><button style="flex:1">+ Koleksi</button></div>';
+document.getElementById('cl').onclick=function(){cur=null;panel()};
+}
+function bulk(){var n=Object.keys(sel).length,b=document.getElementById('bk');b.style.display=n?'flex':'none';document.getElementById('bn').textContent=n+' dipilih'}
+document.getElementById('b4').onclick=function(){sel={};draw();bulk()};
+document.getElementById('q').oninput=draw;document.getElementById('f').onchange=draw;
+document.getElementById('sz').oninput=function(e){g.style.setProperty('--w',e.target.value+'px')};
+document.addEventListener('keydown',function(e){if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById('q').focus()}});
+draw();panel();
+</script></body></html>
