@@ -4,7 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
-- [Claude-Code] 2026-10-11: running | malas admin: fix series save errors (cover limit, visible errors), alphabetical default sort, activity log for ALL admin mutations (middleware), rebuild image | Locks: yado-hosts:/opt/projects/malas, containers malas-app-1, malas-queue-1
+- [Claude-Code] 2026-10-11: done | malas admin: fix series save errors (cover limit, visible errors), alphabetical default sort, activity log for ALL admin mutations (middleware), rebuild image | Locks: yado-hosts:/opt/projects/malas, containers malas-app-1, malas-queue-1
 - [Claude-Code] 2026-10-11: done | malas admin series: card layout + windowed pager (new AdminPagination), edit on yado-hosts, rebuild image malas:latest | Locks: yado-hosts:/opt/projects/malas, containers malas-app-1, malas-queue-1
 - [Claude-Code] 2026-10-11: done | harness token-efficiency + KB integration (hooks, settings, CLAUDE.md slim, rag-kb source homelab-ops) | Locks: CLAUDE.md, .claude/settings*.json, rag-kb/kb.toml (local), docs/harness-kb.md
 - [Claude-Code] 2026-10-11: done | gamdl-dashboard: unavailable-storefront fallback + finish-with-condition patch (app/runner.py), remove items 356-385 | Locks: media-hosts:/opt/gamdl-dashboard/app/runner.py, service gamdl-dashboard | patched+restarted+items removed; test_api autostart test fails with and without patch (pre-existing)
