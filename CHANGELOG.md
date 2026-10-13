@@ -1,6 +1,15 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-13 (229)
+- **Repurpose Toshiba 1TB HDD (`/mnt/hdd-music` -> `/mnt/hdd-placeholder`), format ext4, dan migrasi anime (148 GB) dari `hdd-media`.**
+  - **Pemberhentian music services:** Navidrome & Feishin di `media-hosts` dimatikan (`docker compose down`); audit timer `homelab-music-audit.timer` di `docker-host` di-disable.
+  - **Format & Remount:** Partisi `/dev/sdb2` di-unmount di PVE host dan di-format ulang ke `ext4` dengan label `hdd-placeholder` (`UUID=058a435f-59ce-4dae-9f4a-920bf4048093`). Di-mount di `/mnt/hdd-placeholder` di Proxmox (`/etc/fstab` diperbarui). Permissions di-set ke `100000:100000` (chmod 775).
+  - **LXC Mount points:** Konfigurasi LXC 100, 103, 104 di `/etc/pve/lxc/*.conf` diperbarui dari `/mnt/hdd-music` ke `/mnt/hdd-placeholder`.
+  - **Migrasi Anime:** Seluruh koleksi anime (148 GB, 759 files) di-rsync dari `/mnt/hdd-media/videos/anime/` ke `/mnt/hdd-placeholder/videos/anime/`. Dilakukan verifikasi integritas file per file (Python exact byte count & match = True, 159.070.373.176 bytes cocok 100%).
+  - **Pembersihan `hdd-media`:** Sumber `/mnt/hdd-media/videos/anime` dihapus di PVE. Kapasitas free di `/mnt/hdd-media` naik dari 42G menjadi 205G (penggunaan turun dari 96% ke 77%).
+  - **Update Services:** Jellyfin compose di `media-hosts` diperbarui (volume anime diarahkan ke `/mnt/hdd-placeholder/videos/anime:/media/anime`, bind music dihapus) lalu di-recreate. Sonarr & Radarr di `arr-stack` ditambahkan bind mount `/mnt/hdd-placeholder:/data-placeholder`. qBittorrent dinyalakan kembali. Jellyfin health check HTTP 200 OK dan library anime terbaca normal.
+
 ## 2026-10-13 (228)
 - **hdd-media: copy 59 file JAV (176,16 GB) dari PC ke `/mnt/hdd-media/videos/movies/nsfw/jav thumb/downloads`.** `robocopy /E /COPY:DAT /MT:4` dari `C:\Users\Sam\Downloads\Video\jav` lewat SMB; sumber di PC dihapus atas perintah user setelah ukuran 59 file diverifikasi ulang. Verifikasi: 59 file, ukuran tiap file cocok dengan sumber; di tujuan ada 2 file lama (`status.log`, `report.json`) yang tidak disentuh. Durasi 28m 53s (19:41:52 -> 20:10:45), ~130 MB/s. Sisa `hdd-media` turun dari 218G ke 42G (96% terpakai).
 

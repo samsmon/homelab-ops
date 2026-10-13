@@ -195,8 +195,8 @@ Router ISP (Main Gateway: 192.168.18.1)
 | OS, Proxmox, Docker engine | OS SSD (`/`) | ext4, `MidasForce SSD 256GB` (sda) | 50G / 147G (36%) on docker-host |
 | Project code + repositories | OS SSD (`/mnt/homelab_projects/`) | ext4, OS SSD (sda) | Included in `/` |
 | Database metadata (Postgres/Redis) | OS SSD (named volumes) | ext4, OS SSD (sda) | Included in `/` |
-| Music library (Navidrome & Jellyfin) | **HDD-Music (`/mnt/hdd-music/music/`)** — this is the *renamed* drive (was `hdd-cloud`/Toshiba, mount point renamed 2026-09-21). Not the old WD Green (that's `hdd-backup` now). | ext4, `Toshiba 1TB 2.5"` (sdb2) | 717G / 916G (78%) — otherwise empty except `lost+found` |
-| Movies, TV, Anime, Manga, Torrents, JDownloader, Nextcloud, Syncthing, misc personal folders | HDD-Media (`/mnt/hdd-media/`) — **absorbed Nextcloud/Syncthing/misc folders from the old `hdd-cloud` on 2026-09-21** (~112GB combined) as part of that drive becoming pure music | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdd2) | ~791G / 916G (86%) |
+| Anime collection (Jellyfin & Sonarr) | **HDD-Placeholder (`/mnt/hdd-placeholder/videos/anime/`)** — repurposed 2026-10-13 from `hdd-music` (Toshiba 1TB). Formatted ext4 to host anime and free up space on `hdd-media`. | ext4, `Toshiba 1TB 2.5"` (sdb2) | 149G / 916G (18%) |
+| Movies, TV, Manga, Torrents, JDownloader, Nextcloud, Syncthing, misc personal folders | HDD-Media (`/mnt/hdd-media/`) — anime migrated to `hdd-placeholder` on 2026-10-13 freeing 148GB | ext4, `Seagate Barracuda 1TB 7200 RPM` (sdc2) | ~666G / 916G (77%) |
 
 ## Storage Drives — Physical Inventory
 
@@ -204,8 +204,8 @@ Router ISP (Main Gateway: 192.168.18.1)
 |---|---|---|---|---|---|
 | **OS SSD** | MidasForce SSD 256GB (via SATA-to-M.2 adapter) | M.2 SATA in 2.5" Bay (256GB) | `RE202410151200000921` | `/` (sda) | **Active.** Boot, PVE LVM-thin pool, LXC root disks. |
 | **HDD-Backup** (was `HDD-Music`, WD Green — **role in doubt**) | Western Digital Green (`WD20EZRX-00DC0B0`) | 3.5" SATA III (2TB) | `WD-WCC1T0899623` | `/mnt/hdd-backup` (device letter floats; renamed from `/mnt/hdd-music` 2026-09-21) | **⚠️ Up as of the 2026-09-21 rename, but reliability is unresolved.** Root cause remains the drive's own controller/firmware (confirmed not cable, not platters — see (56)/(59)). **2026-09-21: failed under a plain large-file sequential write** (copying video files) within ~2.5 minutes — the first time it failed on a workload type every prior test showed it tolerating (the read-based 717GB rescue ran 15hrs fine; this was a write of new data). EXT4 auto-remounted read-only, then the drive fully dropped from the kernel (`ata9.00: disable device`/`detaching`) — recovered via another physical power-cycle later the same session. **Revised conclusion: not reliably safe for bulk writes of any kind.** Renamed to `hdd-backup` anyway per user's explicit instruction (proceeding with the rename doesn't imply the reliability question is resolved — it isn't). **717GB of music from the original rescue is still physically present** (`music/` folder) — redundant with the canonical copy now on `hdd-music` (see below), kept as an incidental extra copy. **Do not write new data here without accepting real risk of another drop.** RMA sent to seller, no response — user has stopped waiting on it. |
-| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdd2) | **Active.** High-throughput Media: `videos/`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders** (absorbed from the old `hdd-cloud` 2026-09-21, ~112GB). `manga-raw` moved to `hdd-backup` 2026-09-24 to free ~135GB. |
-| **HDD-Music** (was `HDD-Cloud`, Toshiba — now pure music) | Toshiba 2.5" HDD (`MQ04ABF100`) | 2.5" SATA III 5400 RPM (1TB) | `Y9CSTR0WT` | `/mnt/hdd-music` (sdb2; renamed from `/mnt/hdd-cloud` 2026-09-21) | **Active, healthy, repurposed 2026-09-21.** Was Nextcloud/Syncthing/LAN shared + music; now contains **only** `music/` (717GB, what Navidrome/Jellyfin actually serve) + `lost+found`. Nextcloud/Syncthing/personal folders moved to `hdd-media`. Full rename executed: `/etc/fstab` (by UUID), LXC `mp` configs on `docker-host`/`media-hosts`, every compose file referencing the old path, and Samba (`smb.conf`, share renamed `[hdd-cloud]`→`[hdd-music]`) all updated and verified working. |
+| **HDD-Media** | Seagate Barracuda (`ST1000DM010-2EP102`) | 3.5" SATA III 7200 RPM (1TB) | `W9AS0LSD` | `/mnt/hdd-media` (sdc2) | **Active.** High-throughput Media: `videos/movies`, `videos/tv`, `manga-reader`, `qbittorrent`, **+ Nextcloud/Syncthing/misc personal folders**. Anime (148GB) migrated to `hdd-placeholder` on 2026-10-13. |
+| **HDD-Placeholder** (was `HDD-Music`/Toshiba — repurposed 2026-10-13) | Toshiba 2.5" HDD (`MQ04ABF100`) | 2.5" SATA III 5400 RPM (1TB) | `Y9CSTR0WT` | `/mnt/hdd-placeholder` (sdb2; repurposed 2026-10-13) | **Active, healthy, repurposed 2026-10-13.** Formatted ext4 (`UUID=058a435f-59ce-4dae-9f4a-920bf4048093`). Hosts anime library (`videos/anime/`, 148GB, 759 files) migrated from `hdd-media`. Navidrome/Feishin music services decommissioned. |
 
 ### Directory Hierarchy
 
@@ -213,7 +213,6 @@ Router ISP (Main Gateway: 192.168.18.1)
 ```
 /mnt/hdd-media/
 ├── videos/                 # Service-agnostic media root (Jellyfin)
-│   ├── anime/              # Anime series & movies
 │   ├── movies/             # General movies
 │   └── tv/                 # TV Shows
 ├── manga-reader/           # Optimized WebP manga library (scanned by Komga; source manga-raw moved to hdd-backup 2026-09-24)
@@ -230,10 +229,11 @@ Router ISP (Main Gateway: 192.168.18.1)
 └── lost+found/
 ```
 
-#### HDD-Music (`/mnt/hdd-music/`) — renamed 2026-09-21, was `hdd-cloud` (Toshiba)
+#### HDD-Placeholder (`/mnt/hdd-placeholder/`) — repurposed 2026-10-13, was `hdd-music` (Toshiba)
 ```
-/mnt/hdd-music/
-├── music/                    # 717GB music collection scanned by Navidrome & Jellyfin
+/mnt/hdd-placeholder/
+├── videos/
+│   └── anime/              # 148GB anime library migrated from hdd-media (759 files)
 └── lost+found/
 ```
 
