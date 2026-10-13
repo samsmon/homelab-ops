@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-13: running | copy C:\Users\Sam\Downloads\Video\jav (58 file, 176 GB) ke hdd-media/videos/movies/nsfw/jav thumb/downloads via robocopy dari PC, sumber TIDAK dihapus | Locks: docker-host:/mnt/hdd-media/videos/movies/nsfw/jav thumb/downloads
 - [Claude-Code] 2026-10-11: done | dev-host: pg-backup per-target retention (rag-postgres 2d), dirs /opt/data/aws-corpus + /opt/projects/rag-kb, pull python:3.12-slim | Locks: dev-host:/opt/scripts/pg-backup.sh, scripts/pg-backup.sh, dev-host:/opt/data, dev-host:/opt/projects/rag-kb
 - [Claude-Code] 2026-10-11: done | malas: prune stale hashed assets in volume malas_public_build (files not in manifest.json), 2nd time | Locks: container malas-app-1 (exec only), volume malas_public_build
 - [Claude-Code] 2026-10-11: done | malas navigation speed: sidebar prefetch on hover, idle preload of main page chunks, progress delay 100ms; then release (rebuild image, recreate app+queue) | Locks: C:/Users/Sam/Documents/GitHub/malas, yado-hosts:/opt/projects/malas, containers malas-app-1, malas-queue-1
