@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-13 (228)
+- **hdd-media: copy 59 file JAV (176,16 GB) dari PC ke `/mnt/hdd-media/videos/movies/nsfw/jav thumb/downloads`.** `robocopy /E /COPY:DAT /MT:4` dari `C:\Users\Sam\Downloads\Video\jav` lewat SMB; sumber TIDAK dihapus (menunggu keputusan user). Verifikasi: 59 file, ukuran tiap file cocok dengan sumber; di tujuan ada 2 file lama (`status.log`, `report.json`) yang tidak disentuh. Durasi 28m 53s (19:41:52 -> 20:10:45), ~130 MB/s. Sisa `hdd-media` turun dari 218G ke 42G (96% terpakai).
+
 ## 2026-10-11 (227)
 - **dev-host: persiapan korpus AWS untuk `rag-postgres` (RAG, tanpa menyentuh `shared-postgres`).** (1) `/opt/scripts/pg-backup.sh` kini punya retensi per-target: array `KEEP` (`rag-postgres`=2 hari), default 7; hapus per folder dengan `-mtime +N-1` supaya N dump harian tersimpan (backup lama `pg-backup.sh.bak`; repo `scripts/pg-backup.sh` disamakan; dry-run `find` tanpa delete: 0 file terhapus, `bash -n` OK, backup tidak dijalankan ulang). (2) Dibuat `/opt/data/aws-corpus/` dan `/opt/projects/rag-kb/` (kosong, tanpa `.env`, pemilik `root:root` karena SSH dari PC memakai root dan tidak ada user non-root di LXC 102). (3) Tarik `python:3.12-slim` dari Docker Hub (official image, 179 MB, digest `sha256:a6e34c59...c11b1`), tes `docker run --rm ... python --version` = Python 3.12.15, tidak ada container tersisa. Tanpa `apt`, timer, cron, daemon, atau autostart. Disk `/` (LXC 102, 40 GB, juga menampung `/var/backups`): 13 GB terpakai, 25 GB bebas (33%) setelah pull. Perkiraan setelah muat (belum diukur): worst case ~28 GB (70%), ringan ~20 GB (50%); ukur ulang setelah pemuatan. Durasi: 9 detik di server.
 
