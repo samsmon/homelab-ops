@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-14: running | claude-desktop-web: webtop + Claude Desktop di docker-host (akses browser via Tailscale) | Locks: configs/docker-compose/claude-desktop-web*, docker-host:/opt/claude-desktop, docs/services.md
 - [Gemini] 2026-10-13: done | repurpose Toshiba 1TB HDD /mnt/hdd-music -> /mnt/hdd-placeholder (ext4), migrate anime from hdd-media (148GB), update Jellyfin & arr-stack | Locks: released
 - [Claude-Code] 2026-10-13: done | copy C:\Users\Sam\Downloads\Video\jav (58 file, 176 GB) ke hdd-media/videos/movies/nsfw/jav thumb/downloads via robocopy dari PC, sumber TIDAK dihapus | Locks: docker-host:/mnt/hdd-media/videos/movies/nsfw/jav thumb/downloads
 - [Claude-Code] 2026-10-11: done | dev-host: pg-backup per-target retention (rag-postgres 2d), dirs /opt/data/aws-corpus + /opt/projects/rag-kb, pull python:3.12-slim | Locks: dev-host:/opt/scripts/pg-backup.sh, scripts/pg-backup.sh, dev-host:/opt/data, dev-host:/opt/projects/rag-kb
