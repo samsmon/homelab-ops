@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-16 (230)
+- **personal-hosts: persiapan cloud-course-aws (Plan 1 Task 1).** (1) Klon repo private `samsmon/cloud-course-aws` ke `/opt/projects/cloud-course-aws/repo` lewat deploy key read-only (`~/.ssh/id_ed25519_cloudcourse`, alias `github-cloudcourse`). (2) `docker builder prune -af` (hanya build cache, atas izin user): disk `/` 15 GB, bebas 1,5 GB -> 5,6 GB. (3) Image `kursus-builder` (Hugo extended 0.168.0, Go 1.27.2, Dart Sass 1.105.2, Node 22, Python 3.11, pytest) 1,13 GB; bebas sekarang 5,0 GB (65%). (4) Docsy v0.18.0 ter-bootstrap (modul `github.com/docsy/docsy/theme`; path lama `google/docsy` salah, perlu mount `node_modules/bootstrap` dan `fontawesome-free`), `hugo --minify` sukses di container. Belum ada container nginx, port, atau URL publik (Task 2). Durasi build image: 305 dtk.
+
 ## 2026-10-13 (229)
 - **Repurpose Toshiba 1TB HDD (`/mnt/hdd-music` -> `/mnt/hdd-placeholder`), format ext4, dan migrasi anime (148 GB) dari `hdd-media`.**
   - **Pemberhentian music services:** Navidrome & Feishin di `media-hosts` dimatikan (`docker compose down`); audit timer `homelab-music-audit.timer` di `docker-host` di-disable.
