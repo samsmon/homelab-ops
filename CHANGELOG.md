@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-16 (231)
+- **personal-hosts: cloud-course-aws Task 2 (staging).** `/opt/projects/cloud-course-aws/{.env,docker-compose.yml,staging,prod}` dibuat; port 8120 (staging) dan 8121 (prod) dicek bebas lewat `ss`. `nginx -t` OK; `update.sh staging` sukses (commit a4580f8); `kursus-staging` Up, tes lokal: `/` 200, `/docs/sesi-1-*` 401, header `X-Robots-Tag: noindex, nofollow` ada. `kursus-prod` belum dinyalakan; htpasswd belum dibuat (user); Cloudflare/NPM belum. Disk `/` bebas 4,9 GB (66%).
+
 ## 2026-10-16 (230)
 - **personal-hosts: persiapan cloud-course-aws (Plan 1 Task 1).** (1) Klon repo private `samsmon/cloud-course-aws` ke `/opt/projects/cloud-course-aws/repo` lewat deploy key read-only (`~/.ssh/id_ed25519_cloudcourse`, alias `github-cloudcourse`). (2) `docker builder prune -af` (hanya build cache, atas izin user): disk `/` 15 GB, bebas 1,5 GB -> 5,6 GB. (3) Image `kursus-builder` (Hugo extended 0.168.0, Go 1.27.2, Dart Sass 1.105.2, Node 22, Python 3.11, pytest) 1,13 GB; bebas sekarang 5,0 GB (65%). (4) Docsy v0.18.0 ter-bootstrap (modul `github.com/docsy/docsy/theme`; path lama `google/docsy` salah, perlu mount `node_modules/bootstrap` dan `fontawesome-free`), `hugo --minify` sukses di container. Belum ada container nginx, port, atau URL publik (Task 2). Durasi build image: 305 dtk.
 
