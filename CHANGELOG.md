@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-17 (233)
+- **personal-hosts: panel pengajar cloud-course-aws (`/guru/`).** `deploy/nginx.conf` mendapat `location = /guru/kode.json` dan `location ^~ /guru/` dengan `auth_basic` memakai `htpasswd/guru` (user `guru`, terpisah dari password sesi), `Cache-Control: no-store`, dan `X-Robots-Tag: noindex`. `docker-compose.yml` menambah mount `./<env>/teacher:/etc/nginx/teacher:ro` untuk kursus-staging dan kursus-prod (kursus-staging di-recreate, prod belum dinyalakan). Dibuat `staging/teacher`, `prod/teacher`, dan `htpasswd/guru` placeholder untuk staging dan prod berisi hash dari password acak yang tidak disimpan (supaya `/guru/` menjawab 401, bukan 500, sampai user mengisinya dengan `make-htpasswd.sh <env> guru`). Skrip baru `deploy/rotate-codes.sh <env>` membuat kode acak sesi 1-5, menulis hash ke `htpasswd/sesi-N` dan kode ke `<env>/teacher/kode.json`, tanpa mencetak kode; belum dijalankan, jadi password sesi staging yang dibuat user sebelumnya masih berlaku. Uji lokal di server: `/` 200, `/guru/`, `/guru/kode.json`, `//guru/`, `/%67uru/`, dan sesi terkunci semuanya 401, `/guru` 301. Rilis staging 37d33c1. Catatan risiko: `kode.json` menyimpan kode dalam teks biasa di LXC 103 (diminta user supaya pengajar bisa melihat kode); file tidak ada di repo. Durasi: ~5 menit.
+
 ## 2026-10-16 (232)
 - **personal-hosts: image `kursus-builder` dibangun ulang untuk rasterisasi diagram (cloud-course-aws).** Ditambah paket apt `libcairo2` dan `fonts-liberation` serta pip `cairosvg==2.7.1` (untuk mengubah diagram SVG menjadi PNG di slide PPT). Image 1,13 GB -> 1,15 GB; disk `/` bebas 4,1 GB (71%). Build 183 dtk. `kursus-staging` dideploy ulang (`update.sh staging`, commit eb8ef24) membawa beranda baru, 27 diagram SVG, dan bagian jaringan sesi 2. Tidak ada container, port, atau URL baru.
 
