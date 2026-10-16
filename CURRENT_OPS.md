@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Gemini] 2026-10-17: running | manga-raw/nsfw server-side consolidation (Phase 1-4: legacy folders, nhdl staging, hdd-media/download ingest) | Locks: docker-host:/mnt/hdd-backup/manga-raw/nsfw, docker-host:/mnt/hdd-media/download
 - [Claude-Code] 2026-10-17: running | cloud-course-aws: gerbang kode+cookie di nginx (akses.conf generated, hapus htpasswd), skrip rotate-codes/set-code, reload kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (docker-compose.yml, staging/teacher, staging/akses-state), container kursus-staging, kursus-prod
 - [Claude-Code] 2026-10-17: done | cloud-course-aws spike UI/UX: build dua prototipe (Astro, Starlight) di container kursus-builder dan uji nginx sementara di personal-hosts | Locks: released (container spike-nginx-* dihapus, direktori uji nginx dihapus; klon spikes/astro dan spikes/starlight dibiarkan, bisa dihapus)
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: nginx location /guru + mount teacher/ + htpasswd guru + skrip rotate-codes, recreate kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (docker-compose.yml, staging/teacher), containers kursus-staging, kursus-prod
