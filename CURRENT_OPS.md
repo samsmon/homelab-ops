@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-16: done | cloud-course-aws: rebuild image kursus-builder (cairosvg, libcairo2, fonts-liberation) + deploy staging (dicatat setelah pengerjaan; lock tidak diklaim sebelumnya) | Locks: released
 - [Claude-Code] 2026-10-16: done (staging; prod menunggu htpasswd user) | cloud-course-aws Task 2: compose kursus-staging/kursus-prod (nginx) di personal-hosts, port 8120/8121 | Locks: personal-hosts:/opt/projects/cloud-course-aws, containers kursus-staging, kursus-prod
 - [Claude-Code] 2026-10-16: done | cloud-course-aws Task 1: klon repo + image builder kursus-builder di personal-hosts (cek ukuran dulu, disk sempit 3 GB bebas) | Locks: personal-hosts:/opt/projects/cloud-course-aws, image kursus-builder
 - [Claude-Code] 2026-10-14: running | claude-desktop-web: webtop + Claude Desktop di docker-host (akses browser via Tailscale) | Locks: configs/docker-compose/claude-desktop-web*, docker-host:/opt/claude-desktop, docs/services.md
