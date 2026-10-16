@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-17: running | cloud-course-aws: gerbang kode+cookie di nginx (akses.conf generated, hapus htpasswd), skrip rotate-codes/set-code, reload kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (docker-compose.yml, staging/teacher, staging/akses-state), container kursus-staging, kursus-prod
 - [Claude-Code] 2026-10-17: done | cloud-course-aws spike UI/UX: build dua prototipe (Astro, Starlight) di container kursus-builder dan uji nginx sementara di personal-hosts | Locks: released (container spike-nginx-* dihapus, direktori uji nginx dihapus; klon spikes/astro dan spikes/starlight dibiarkan, bisa dihapus)
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: nginx location /guru + mount teacher/ + htpasswd guru + skrip rotate-codes, recreate kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (docker-compose.yml, staging/teacher), containers kursus-staging, kursus-prod
 - [Claude-Code] 2026-10-16: done | cloud-course-aws: rebuild image kursus-builder (cairosvg, libcairo2, fonts-liberation) + deploy staging (dicatat setelah pengerjaan; lock tidak diklaim sebelumnya) | Locks: released
