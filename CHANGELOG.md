@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-17 (234)
+- **personal-hosts: spike UI/UX cloud-course-aws (sementara).** Dua klon prototipe (`/opt/projects/cloud-course-aws/spikes/astro` 195 MB, `spikes/starlight` 267 MB, berisi `node_modules` dan `dist`) dibangun di container `kursus-builder` dan diuji lewat dua container nginx sementara dengan `auth_basic` per path; semua container uji dan direktori `nginx-test` sudah dihapus. Staging/prod tidak tersentuh. Disk `/` terpakai 75% (3,6 GB bebas); kedua klon boleh dihapus untuk melonggarkan disk.
+
 ## 2026-10-17 (233)
 - **personal-hosts: panel pengajar cloud-course-aws (`/guru/`).** `deploy/nginx.conf` mendapat `location = /guru/kode.json` dan `location ^~ /guru/` dengan `auth_basic` memakai `htpasswd/guru` (user `guru`, terpisah dari password sesi), `Cache-Control: no-store`, dan `X-Robots-Tag: noindex`. `docker-compose.yml` menambah mount `./<env>/teacher:/etc/nginx/teacher:ro` untuk kursus-staging dan kursus-prod (kursus-staging di-recreate, prod belum dinyalakan). Dibuat `staging/teacher`, `prod/teacher`, dan `htpasswd/guru` placeholder untuk staging dan prod berisi hash dari password acak yang tidak disimpan (supaya `/guru/` menjawab 401, bukan 500, sampai user mengisinya dengan `make-htpasswd.sh <env> guru`). Skrip baru `deploy/rotate-codes.sh <env>` membuat kode acak sesi 1-5, menulis hash ke `htpasswd/sesi-N` dan kode ke `<env>/teacher/kode.json`, tanpa mencetak kode; belum dijalankan, jadi password sesi staging yang dibuat user sebelumnya masih berlaku. Uji lokal di server: `/` 200, `/guru/`, `/guru/kode.json`, `//guru/`, `/%67uru/`, dan sesi terkunci semuanya 401, `/guru` 301. Rilis staging 37d33c1. Catatan risiko: `kode.json` menyimpan kode dalam teks biasa di LXC 103 (diminta user supaya pengajar bisa melihat kode); file tidak ada di repo. Durasi: ~5 menit.
 
