@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-17: running | cloud-course-aws: UX fase develop (tombol salin, zoom gambar, nav sesi, landing sesi + form kode), deploy staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo), container kursus-staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: nginx cookie akses tanpa Secure bila bukan HTTPS (akses LAN fase develop), recreate kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo/deploy/nginx.conf), container kursus-staging
 - [Gemini] 2026-10-17: running | music library ingest (Phases 1-5): quick wins, JAV evacuation, qbittorrent & slskd ingest, vα-liv split, Denonbu & gamdl ALAC | Locks: docker-host:/mnt/hdd-backup/music, docker-host:/mnt/hdd-media/qbittorrent, docker-host:/mnt/hdd-media/slskd
 - [Gemini] 2026-10-17: done | manga-raw/nsfw: ingest 6 titles from local PC staging (meng, meoff, meraw) selesai 100% (2 JP, 2 Unofficial, 2 Official Translate, verifikasi integritas ZIP & SHA256 OK, 3 folder staging lokal dibersihkan) | Locks: released
