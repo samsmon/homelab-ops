@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Gemini] 2026-10-18: running | music library: ReplayGain 2.0 / EBU R128 normalization on 363 FLAC albums (1,426 tracks) in Lossless | Locks: docker-host:/mnt/hdd-backup/music/Lossless
 - [Gemini] 2026-10-17: done | music library ingest: 13 new releases from qBittorrent (Gakumas, Love Live, Itou Miku, Touyama Nao, D4DJ, BanG Dream, Sakura Miko, Inami Anju, Ado, Girls Band Cry) selesai 100% (91 track FLAC, catalog.sqlite 26.642 track) | Locks: released
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: tombol ganti kode di panel guru (container kursus-admin-staging/prod, nginx /guru/api/), recreate kursus-staging | Locks: Documents/GitHub/cloud-course-aws (deploy/, site/, tests/), personal-hosts:/opt/projects/cloud-course-aws (staging), container kursus-staging, kursus-admin-staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: merge migrasi/astro ke main (fast-forward), repo server pindah ke main, redeploy staging | Locks: Documents/GitHub/cloud-course-aws (main), personal-hosts:/opt/projects/cloud-course-aws/repo, staging
