@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-17: running | cloud-course-aws migrasi Astro: rebuild image kursus-builder + deploy cabang migrasi/astro (33bd44c) ke staging (kursus-staging, port 8120) di personal-hosts | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo, staging, image kursus-builder)
 - [Claude-Code] 2026-10-17: cancelled | cloud-course-aws migrasi Astro: rebuild image + deploy staging dibatalkan sebelum menyentuh server (main kursus sudah maju 16 commit; cabang harus di-rebase dulu) | Locks: released
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: header keamanan, CSP report-only, pembatas kode, hardening container, recreate kursus-staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo/deploy), container kursus-staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws: UX fase develop (tombol salin, zoom gambar, nav sesi, landing sesi + form kode), deploy staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo), container kursus-staging
