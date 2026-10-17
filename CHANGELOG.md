@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-17 (237)
+- **personal-hosts: staging cloud-course-aws diperbarui (perbaikan UI temuan uji manual).** Cabang `migrasi/astro` di commit ca0813f, `deploy/update.sh staging` lulus 214 tes, rilis `20261017-154707` (sebelumnya `20261017-152023`). Container tidak di-recreate (nginx.conf dan headers.conf tidak berubah). Rollback: balik symlink `staging/web/current` ke rilis sebelumnya.
+
 ## 2026-10-17 (236)
 - **personal-hosts: cloud-course-aws staging memakai build Astro + Svelte (cabang `migrasi/astro`).** Repo server `/opt/projects/cloud-course-aws/repo` di-checkout ke `migrasi/astro` (202c9db, memuat `origin/main` 4664aec); `deploy/update.sh staging` (BUILDER=astro) lulus 207 tes dan menyalin `site/dist` ke rilis `20261017-152023`; `kursus-staging` di-recreate agar `nginx.conf` dan `security/headers.conf` (CSP dengan `wasm-unsafe-eval` untuk Pagefind) terbaca. Image `kursus-builder` tidak dibangun ulang (sudah Node 22.23.3). Cek lokal: halaman publik 200, sesi dan `_pagefind` 302 ke /masuk/, `/pagefind/` global 404, teks kuis tidak ada di `/_astro/`. Rollback: balik symlink `staging/web/current` ke `releases/20261017-122307`, atau `git checkout main` lalu `BUILDER=hugo deploy/update.sh staging`. Prod tidak disentuh. Catatan: update.sh sekarang membangun cabang yang sedang di-checkout.
 
