@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-17: running | cloud-course-aws: merge migrasi/astro ke main (fast-forward), repo server pindah ke main, redeploy staging | Locks: Documents/GitHub/cloud-course-aws (main), personal-hosts:/opt/projects/cloud-course-aws/repo, staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws (cabang migrasi/astro): audit bahasa tahap 2 (praktikum, prasesi, peta karier, output/input), deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/content, tools/, diagrams/), personal-hosts staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws (cabang migrasi/astro): audit bahasa dan diagram (panah svgkit, istilah pengaman, hapus Ringkasan), deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/content, tools/, diagrams/), personal-hosts staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws (cabang migrasi/astro): sidebar halaman /guru/ memakai daftar pengajar, deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/layouts/Kursus.astro), personal-hosts:/opt/projects/cloud-course-aws (staging)
