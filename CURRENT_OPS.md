@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-17: running | cloud-course-aws (cabang migrasi/astro): audit bahasa tahap 2 (praktikum, prasesi, peta karier, output/input), deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/content, tools/, diagrams/), personal-hosts staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws (cabang migrasi/astro): audit bahasa dan diagram (panah svgkit, istilah pengaman, hapus Ringkasan), deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/content, tools/, diagrams/), personal-hosts staging
 - [Claude-Code] 2026-10-17: done | cloud-course-aws (cabang migrasi/astro): sidebar halaman /guru/ memakai daftar pengajar, deploy staging | Locks: Documents/GitHub/cloud-course-aws-astro (site/src/layouts/Kursus.astro), personal-hosts:/opt/projects/cloud-course-aws (staging)
 - [Claude-Code] 2026-10-17: done | cloud-course-aws migrasi Astro: deploy cabang migrasi/astro (202c9db) ke staging, kursus-staging di-recreate (image tidak dibangun ulang, Node 22.23.3 sudah cukup) | Locks: released. Repo server /opt/projects/cloud-course-aws/repo kini di cabang migrasi/astro; rollback: balik symlink staging/web/current ke releases/20261017-122307
