@@ -82,3 +82,4 @@
 2. **Locking**: If your task modifies a service/compose file or critical doc, list it above under Active Task Registry.
 3. **No Collision**: Do NOT touch files or containers locked by another active agent.
 4. **Push Immediately**: Once your task is finished and verified, update `CHANGELOG.md`, clear your lock from this file, then run `git add <files> && git commit -m "..." && git push`.
+- [Claude-Code] 2026-10-18: running | malas-dev: salin fix search palette (GlobalSearch.tsx, CommandPalette.tsx) + dev.sh build, preview only, belum deploy rilis | Locks: yado-hosts:/opt/projects/malas/resources/js/Components/app (2 file), stack malas-dev
