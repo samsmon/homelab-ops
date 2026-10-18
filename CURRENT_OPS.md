@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-18: running | cloud-course-aws: deploy produksi (update.sh prod) dan pembaruan slides sesi 0-5 | Locks: personal-hosts:/opt/projects/cloud-course-aws/prod, container kursus-prod; Documents/GitHub/cloud-course-aws (slides/, tools/build_slides.py)
 - [Claude-Code] 2026-10-18: done | cloud-course-aws: restruktur Prasesi 0, Sesi 1, Sesi 2 (konten situs, sumber, diagram, tes), deploy staging | Locks: Documents/GitHub/cloud-course-aws (site/src/content, diagrams, tools, tests), personal-hosts staging
 - [Gemini] 2026-10-18: done | music library: ReplayGain 2.0 / EBU R128 normalization on 381 FLAC albums (1,541 tracks) in Lossless via metaflac selesai (library 100% normalized, bit-perfect) | Locks: released
 - [Gemini] 2026-10-17: done | music library ingest: 13 new releases from qBittorrent (Gakumas, Love Live, Itou Miku, Touyama Nao, D4DJ, BanG Dream, Sakura Miko, Inami Anju, Ado, Girls Band Cry) selesai 100% (91 track FLAC, catalog.sqlite 26.642 track) | Locks: released
