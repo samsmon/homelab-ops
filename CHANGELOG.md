@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-18 (238)
+- **malas-dev: preview fix search palette (user + admin), belum deploy rilis.** Bug: `cmdk` memfilter item hasil manga karena `value` berisi id (`series-<id>`), jadi hanya menu sidebar yang tampil. Fix di PC clone: `shouldFilter={false}` + filter manual item navigasi di `GlobalSearch.tsx` dan `CommandPalette.tsx` (belum di-commit di repo malas). Disalin via scp ke `/opt/projects/malas` (working tree server kotor 2 file, backup `/tmp/*.tsx.bak`), `dev.sh build` 19s. Verifikasi: dev `/` 200, `shouldFilter:!1` ada di bundle UserLayout/AdminLayout. Belum diuji di browser. Rilis utama tidak disentuh.
+
 ## 2026-10-17 (237)
 - **personal-hosts: staging cloud-course-aws diperbarui (perbaikan UI temuan uji manual).** Cabang `migrasi/astro` di commit ca0813f, `deploy/update.sh staging` lulus 214 tes, rilis `20261017-154707` (sebelumnya `20261017-152023`). Container tidak di-recreate (nginx.conf dan headers.conf tidak berubah). Rollback: balik symlink `staging/web/current` ke rilis sebelumnya.
 
