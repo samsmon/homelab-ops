@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-19 (239)
+- **media-hosts: ingest 4 rilisan JAV ke `jav thumb/Studio` dan penggantian 2 video lama.** SDAM-183, SNOS-384 [Kanna Seto], MIUM-1435, PAKO-109 dipindah (rename sisi server, tanpa transfer lewat PC) dari `jav thumb/downloads` dan `qbittorrent/downloads/SNOS-384`, lengkap 9 aset, shortcut By-Tier dan By-Actress, katalog 212 menjadi 216. Video MIVE-001 (608x1080 menjadi 1080x1920) dan ROYD-347 censored (720p menjadi 1080p) diganti versi lebih tinggi setelah ffprobe dan uji decode; salinan lama dihapus (sekitar 3,1 GB). Klip spam 2 MB dan folder kosong SNOS-384 di qbittorrent dihapus. Audit read-only: 216 folder = 216 baris katalog, 507 shortcut 0 rusak. Sisa di `downloads`: 420POW-074.mp4 (kandidat upgrade, belum diputuskan), MIZD-480.mp4.part (partial 17 Okt), report.json, status.log. Entri torrent MIVE-001, ROYD-347, SDAM-183, SNOS-384 di qBittorrent masih terdaftar dengan berkas hilang; user menghapusnya lewat WebUI. Skrip di cloud-ops: `scripts/ingest_batch.py`, `fetch_meta_codes.py`, `audit_jav_quick.py`. hdd-media 97% (30 GB bebas).
+
 ## 2026-10-18 (238)
 - **malas-dev: preview fix search palette (user + admin), belum deploy rilis.** Bug: `cmdk` memfilter item hasil manga karena `value` berisi id (`series-<id>`), jadi hanya menu sidebar yang tampil. Fix di PC clone: `shouldFilter={false}` + filter manual item navigasi di `GlobalSearch.tsx` dan `CommandPalette.tsx` (belum di-commit di repo malas). Disalin via scp ke `/opt/projects/malas` (working tree server kotor 2 file, backup `/tmp/*.tsx.bak`), `dev.sh build` 19s. Verifikasi: dev `/` 200, `shouldFilter:!1` ada di bundle UserLayout/AdminLayout. Belum diuji di browser. Rilis utama tidak disentuh.
 
