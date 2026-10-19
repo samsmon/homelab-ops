@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-19 (240)
+- **media-hosts: video POW-074-UBW [Kosakana] diganti versi bitrate lebih tinggi.** `420POW-074.mp4` (2,81 GB, 1280x720, durasi sama dengan lama) menggantikan `POW-074-UBW [Kosakana].mp4` (0,97 GB). Versi lama dipindah ke `_old`, ffprobe dan decode (menit ke-1 dan ke-83) bersih, lalu dihapus. Sidecar tidak berubah. `jav thumb/downloads` kini hanya `MIZD-480.mp4.part`, `report.json`, `status.log`.
+
 ## 2026-10-19 (239)
 - **media-hosts: ingest 4 rilisan JAV ke `jav thumb/Studio` dan penggantian 2 video lama.** SDAM-183, SNOS-384 [Kanna Seto], MIUM-1435, PAKO-109 dipindah (rename sisi server, tanpa transfer lewat PC) dari `jav thumb/downloads` dan `qbittorrent/downloads/SNOS-384`, lengkap 9 aset, shortcut By-Tier dan By-Actress, katalog 212 menjadi 216. Video MIVE-001 (608x1080 menjadi 1080x1920) dan ROYD-347 censored (720p menjadi 1080p) diganti versi lebih tinggi setelah ffprobe dan uji decode; salinan lama dihapus (sekitar 3,1 GB). Klip spam 2 MB dan folder kosong SNOS-384 di qbittorrent dihapus. Audit read-only: 216 folder = 216 baris katalog, 507 shortcut 0 rusak. Sisa di `downloads`: 420POW-074.mp4 (kandidat upgrade, belum diputuskan), MIZD-480.mp4.part (partial 17 Okt), report.json, status.log. Entri torrent MIVE-001, ROYD-347, SDAM-183, SNOS-384 di qBittorrent masih terdaftar dengan berkas hilang; user menghapusnya lewat WebUI. Skrip di cloud-ops: `scripts/ingest_batch.py`, `fetch_meta_codes.py`, `audit_jav_quick.py`. hdd-media 97% (30 GB bebas).
 
