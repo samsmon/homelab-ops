@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-20: running | personal-hosts group-checklist: deploy main (redesign UI, perbaikan audit, migration 002) lewat git pull + docker compose build + migrate | Locks: personal-hosts:/opt/projects/group-checklist/{docker-compose.yml,.env}, container group-checklist
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: hapus _old (video 720p lama) di Studio/ACHJ-005 [Nao Jinguji] [Uncensored] dan Studio/KAWD-863 [Koharu Suzuki] [Uncensored] (CHANGELOG 242) | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ingest ACHJ-005-C, kawd-863, MIZD-480 dari downloads ke Studio (sidecar, shortcut, katalog), selesai CHANGELOG 241 | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ganti video POW-074-UBW [Kosakana] dengan 420POW-074.mp4 (versi lama ke _old, selesai, CHANGELOG 240) | Locks: released
