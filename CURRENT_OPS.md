@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-19: running | media-hosts jav thumb: ganti video POW-074-UBW [Kosakana] dengan 420POW-074.mp4 (versi lama ke _old, hapus setelah verifikasi) | Locks: media-hosts:/mnt/hdd-media/videos/movies/nsfw/jav thumb/Studio/POW-074-UBW [Kosakana], jav thumb/downloads/420POW-074.mp4
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ingest SDAM-183, SNOS-384, MIUM-1435, PAKO-109 ke Studio; ganti video MIVE-001 dan ROYD-347 (censored) dengan versi 1080p; rapikan qbittorrent/downloads/SNOS-384, selesai dan diaudit (CHANGELOG 239) | Locks: released; media-hosts:/mnt/hdd-media/videos/movies/nsfw/jav thumb/{Studio,downloads,By-Actress,By-Tier}, qbittorrent/downloads/SNOS-384
 - [Claude-Code] 2026-10-18: done | cloud-course-aws: deploy produksi (update.sh prod) dan pembaruan slides sesi 0-5 | Locks: personal-hosts:/opt/projects/cloud-course-aws/prod, container kursus-prod; Documents/GitHub/cloud-course-aws (slides/, tools/build_slides.py)
 - [Claude-Code] 2026-10-18: done | cloud-course-aws: restruktur Prasesi 0, Sesi 1, Sesi 2 (konten situs, sumber, diagram, tes), deploy staging | Locks: Documents/GitHub/cloud-course-aws (site/src/content, diagrams, tools, tests), personal-hosts staging
