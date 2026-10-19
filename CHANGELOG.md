@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-19 (242)
+- **media-hosts: hapus video 720p lama (`_old`) di `Studio/ACHJ-005 [Nao Jinguji] [Uncensored]` dan `Studio/KAWD-863 [Koharu Suzuki] [Uncensored]`.** Atas persetujuan user setelah versi 1080p terverifikasi (entri 241). Hanya `_old` yang dihapus (sekitar 2,9 GB); video 1080p dan sidecar utuh. hdd-media 98% (21 GB bebas).
+
 ## 2026-10-19 (241)
 - **media-hosts: ingest MIZD-480 dan upgrade ACHJ-005, KAWD-863 (hasil unduhan PikPak harian).** MIZD-480 (BEST 11 aktris, 720p) di-ingest sebagai `MIZD-480 [Karin Kitaoka & Co-Star]` (Tier 1, 9 aset, 12 shortcut; 7 profil aktris baru lewat Gfriends, katalog 216 menjadi 217). Video `ACHJ-005 [Nao Jinguji] [Uncensored]` (720p, 1,52 GB) dan `KAWD-863 [Koharu Suzuki] [Uncensored]` (720p, 1,35 GB) diganti versi 1080p (6,06 dan 5,27 GB; durasi sama, ffprobe dan decode awal serta menit ke-100 bersih). Salinan lama DISIMPAN di `_old` di tiap folder (total sekitar 2,9 GB) menunggu persetujuan hapus dari user. Audit read-only: 217 folder = 217 baris katalog, 519 shortcut 0 rusak, `downloads` hanya `report.json` dan `status.log`. hdd-media 98% (18 GB bebas).
 

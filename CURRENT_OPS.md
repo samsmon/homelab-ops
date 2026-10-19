@@ -4,7 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
-- [Claude-Code] 2026-10-19: running | media-hosts jav thumb: hapus _old (video 720p lama) di Studio/ACHJ-005 [Nao Jinguji] [Uncensored] dan Studio/KAWD-863 [Koharu Suzuki] [Uncensored] | Locks: dua folder tersebut
+- [Claude-Code] 2026-10-19: done | media-hosts jav thumb: hapus _old (video 720p lama) di Studio/ACHJ-005 [Nao Jinguji] [Uncensored] dan Studio/KAWD-863 [Koharu Suzuki] [Uncensored] (CHANGELOG 242) | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ingest ACHJ-005-C, kawd-863, MIZD-480 dari downloads ke Studio (sidecar, shortcut, katalog), selesai CHANGELOG 241 | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ganti video POW-074-UBW [Kosakana] dengan 420POW-074.mp4 (versi lama ke _old, selesai, CHANGELOG 240) | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ingest SDAM-183, SNOS-384, MIUM-1435, PAKO-109 ke Studio; ganti video MIVE-001 dan ROYD-347 (censored) dengan versi 1080p; rapikan qbittorrent/downloads/SNOS-384, selesai dan diaudit (CHANGELOG 239) | Locks: released; media-hosts:/mnt/hdd-media/videos/movies/nsfw/jav thumb/{Studio,downloads,By-Actress,By-Tier}, qbittorrent/downloads/SNOS-384
