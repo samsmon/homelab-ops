@@ -4,7 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
-- [Claude-Code] 2026-10-20: running | cloud-course-aws: bangun ulang image kursus-builder tanpa Hugo, kunci versi paket, CSP tanpa unsafe-inline script, deploy staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo, image kursus-builder, staging); Documents/GitHub/cloud-course-aws (site/, deploy/, tests/)
+- [Claude-Code] 2026-10-20: done | cloud-course-aws: bangun ulang image kursus-builder tanpa Hugo, kunci versi paket, CSP tanpa unsafe-inline script, deploy staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo, image kursus-builder, staging); Documents/GitHub/cloud-course-aws (site/, deploy/, tests/)
 - [Claude-Code] 2026-10-20: done | personal-hosts group-checklist: deploy main (5b89c15; redesign UI, perbaikan audit, migration 002), healthy, selesai CHANGELOG 243; tersisa uji manual user + cek ip di logs | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: hapus _old (video 720p lama) di Studio/ACHJ-005 [Nao Jinguji] [Uncensored] dan Studio/KAWD-863 [Koharu Suzuki] [Uncensored] (CHANGELOG 242) | Locks: released
 - [Claude-Code] 2026-10-19: done | media-hosts jav thumb: ingest ACHJ-005-C, kawd-863, MIZD-480 dari downloads ke Studio (sidecar, shortcut, katalog), selesai CHANGELOG 241 | Locks: released
