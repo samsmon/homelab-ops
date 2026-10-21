@@ -1,6 +1,9 @@
 # Changelog
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
+## 2026-10-21 (245)
+- **personal-hosts: portfolio di-deploy ulang dari `main` (c276921, sebelumnya ea5e6fa).** Isinya merge PR #1 `redesign/ui` (38 commit): tema mono terang, hero dan rail baru, About dipangkas, target sentuh lebih besar, SEO identitas (Instagram srytmaja, Person @id + ProfilePage, BlogPosting), favicon set dan manifest. `git pull --ff-only` lalu `docker compose up -d --build` di `/opt/projects/portfolio`, container `portofolio` healthy, https://suryatmaja.dev dan rute `/blog`, `/projects`, `/cv/en`, `/sitemap.xml` 200. Durasi: 1m 25s (10:01:20 -> 10:02:45). Jalan mundur: image lama diberi tag `portfolio-portfolio:prev-ea5e6fa` (checkout lama `git checkout ea5e6fa` lalu rebuild bila perlu). **Catatan:** disk LXC 103 `/` sekarang 97% (496M bebas, sebelumnya 2,9G); image lama dan cache build belum dibersihkan, menunggu persetujuan.
+
 ## 2026-10-20 (244)
 - **personal-hosts: group-checklist di-deploy ulang dari `main` (9c0d7bb, sebelumnya 5b89c15).** Isinya perbaikan crash WebSocket (heartbeat ping membuat server restart; RestartCount sebelumnya 5), favicon baru, perbaikan dialog hapus project, abaikan klik ganda pada centang, dan API groups. Migration `003_project_groups.sql` diterapkan (aditif; dibutuhkan karena `writeLog` memakai `projects.last_activity_at`). UI dashboard project belum ikut (PR #16). Backup di `/var/backups/group-checklist/` (`db.`, `env.`, `docker-compose.yml.` stempel 20261020-142147). Verifikasi: `/health` ok, container healthy, restarts=0. Heartbeat WebSocket belum diuji live (tidak ada checklist publik). Rollback: `git checkout 5b89c15 && docker compose up -d --build` (migration 003 aditif, aman dibiarkan).
 

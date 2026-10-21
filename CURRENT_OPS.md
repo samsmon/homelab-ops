@@ -4,7 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
-- [Claude-Code] 2026-10-21: running | personal-hosts portfolio: deploy main (merge PR #1 redesign/ui, c276921), pull + docker compose rebuild container portofolio | Locks: personal-hosts:/opt/projects/portfolio, container portofolio
+- [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (c276921, PR #1 redesign/ui), healthy, selesai CHANGELOG 245; disk / sisa 496M (97%) perlu dibersihkan | Locks: released
 - [Claude-Code] 2026-10-20: done | personal-hosts group-checklist: deploy main (9c0d7bb; fix crash WebSocket, favicon, dialog hapus, API groups + migration 003); healthy, migration 003 applied (CHANGELOG 244) | Locks: released
 - [Claude-Code] 2026-10-20: done | cloud-course-aws: bangun ulang image kursus-builder tanpa Hugo, kunci versi paket, CSP tanpa unsafe-inline script, deploy staging | Locks: personal-hosts:/opt/projects/cloud-course-aws (repo, image kursus-builder, staging); Documents/GitHub/cloud-course-aws (site/, deploy/, tests/)
 - [Claude-Code] 2026-10-20: done | personal-hosts group-checklist: deploy main (5b89c15; redesign UI, perbaikan audit, migration 002), healthy, selesai CHANGELOG 243; tersisa uji manual user + cek ip di logs | Locks: released
