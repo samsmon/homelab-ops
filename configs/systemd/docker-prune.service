@@ -1,0 +1,8 @@
+[Unit]
+Description=Docker build cache and dangling image cleanup (personal-hosts)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/scripts/docker-prune.sh
