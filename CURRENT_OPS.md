@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (0e903d9, PR #4 kartu OG editorial), container up, rute 200, OG live, selesai CHANGELOG 248 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (2e2eeab, PR #2 fix rail hover di layar sentuh), container up, rute 200, selesai CHANGELOG 247 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts: builder prune + rmi golang:1.23 dan portofolio:latest, disk 83% -> 57%, 12 container sehat, selesai CHANGELOG 246 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (c276921, PR #1 redesign/ui), healthy, selesai CHANGELOG 245; disk / sisa 496M (97%) perlu dibersihkan | Locks: released
