@@ -1,0 +1,10 @@
+[Unit]
+Description=Check LVM thin pool usage every 15 minutes (pve)
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

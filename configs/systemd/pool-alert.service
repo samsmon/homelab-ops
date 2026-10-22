@@ -1,0 +1,8 @@
+[Unit]
+Description=Telegram alert for LVM thin pool pve/data (pve)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/scripts/pool-alert.sh
