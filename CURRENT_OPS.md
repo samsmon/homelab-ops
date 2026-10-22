@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-22: running | patch PHP2Shell (CVE-2026-109618/109619): prune disk docker-host, update nextcloud+librespeed (docker-host), rebuild malas*+sso-yado (yado-hosts), rebuild situlah (personal-hosts) | Locks: docker-host:/opt/infra/nextcloud,/opt/infra/librespeed; yado-hosts:/opt/projects/malas,/opt/projects/sso.yado; personal-hosts:/opt/projects/situlah
 - [Claude-Code] 2026-10-21: done | personal-hosts: pasang docker-prune.timer (mingguan) + rmi portfolio-portfolio:prev-ea5e6fa dan prev-c276921 | disk 84% -> 57%, selesai CHANGELOG 249 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (0e903d9, PR #4 kartu OG editorial), container up, rute 200, OG live, selesai CHANGELOG 248 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (2e2eeab, PR #2 fix rail hover di layar sentuh), container up, rute 200, selesai CHANGELOG 247 | Locks: released
