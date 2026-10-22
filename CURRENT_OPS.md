@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-22: running | pve: pasang pct-fstrim.timer mingguan (skrip /opt/scripts/pct-fstrim.sh + unit systemd) agar thin pool tidak penuh lagi | Locks: pve:/opt/scripts/pct-fstrim.sh, /etc/systemd/system/pct-fstrim.{service,timer}; homelab-ops scripts/pct-fstrim.sh, configs/systemd/pct-fstrim.*
 - [Claude-Code] 2026-10-22: done | patch PHP2Shell (CVE-2026-109618/109619): prune disk docker-host, update nextcloud+librespeed (docker-host), rebuild malas*+sso-yado (yado-hosts), rebuild situlah (personal-hosts) | selesai, CHANGELOG 250 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts: pasang docker-prune.timer (mingguan) + rmi portfolio-portfolio:prev-ea5e6fa dan prev-c276921 | disk 84% -> 57%, selesai CHANGELOG 249 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts portfolio: deploy main (0e903d9, PR #4 kartu OG editorial), container up, rute 200, OG live, selesai CHANGELOG 248 | Locks: released
