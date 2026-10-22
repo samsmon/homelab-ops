@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-22: running | pindah jdownloader2 ke media-hosts: down container di docker-host (/opt/infra/jdownloader), up di media-hosts (/opt/projects/jdownloader2) | Locks: docker-host:container jdownloader2, /opt/infra/jdownloader; media-hosts:container jdownloader2, /opt/projects/jdownloader2
 - [Claude-Code] 2026-10-22: blocked | media-hosts: stop container jdownloader2 (restart loop 24k, iowait tinggi), backup config, telusuri penyebab exit | container sudah di-stop + config dibackup (CHANGELOG 253); menunggu keputusan user: instance jdownloader2 mana yang dipakai (docker-host vs media-hosts) | Locks: media-hosts:container jdownloader2 (stopped), /root/backup-jdownloader
 - [Claude-Code] 2026-10-22: done | pve: pasang pool-alert.timer (alert Telegram thin pool pve/data di 85%/92%, tiap 15 mnt) | terpasang dan teruji, menunggu user isi /etc/pool-alert.env + uji --test, CHANGELOG 252 | Locks: released
 - [Claude-Code] 2026-10-22: done | pve: pasang pct-fstrim.timer mingguan (skrip /opt/scripts/pct-fstrim.sh + unit systemd) agar thin pool tidak penuh lagi | selesai, run pertama sukses 14 dtk, CHANGELOG 251 | Locks: released
