@@ -1,0 +1,6 @@
+[Unit]
+Description=TRIM all running LXC rootfs to release thin pool blocks (pve)
+
+[Service]
+Type=oneshot
+ExecStart=/opt/scripts/pct-fstrim.sh
