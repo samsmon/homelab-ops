@@ -4,6 +4,7 @@
 > **Rule**: Check this file before starting any task. Record your active task/lock, and remove it immediately upon completion.
 
 ## Active Task Registry
+- [Claude-Code] 2026-10-22: running | pve: pasang pool-alert.timer (alert Telegram thin pool pve/data di 85%/92%, tiap 15 mnt) | Locks: pve:/opt/scripts/pool-alert.sh, /etc/pool-alert.env (templat kosong), /var/lib/pool-alert, /etc/systemd/system/pool-alert.{service,timer}; homelab-ops scripts/pool-alert.sh, configs/systemd/pool-alert.*
 - [Claude-Code] 2026-10-22: done | pve: pasang pct-fstrim.timer mingguan (skrip /opt/scripts/pct-fstrim.sh + unit systemd) agar thin pool tidak penuh lagi | selesai, run pertama sukses 14 dtk, CHANGELOG 251 | Locks: released
 - [Claude-Code] 2026-10-22: done | patch PHP2Shell (CVE-2026-109618/109619): prune disk docker-host, update nextcloud+librespeed (docker-host), rebuild malas*+sso-yado (yado-hosts), rebuild situlah (personal-hosts) | selesai, CHANGELOG 250 | Locks: released
 - [Claude-Code] 2026-10-21: done | personal-hosts: pasang docker-prune.timer (mingguan) + rmi portfolio-portfolio:prev-ea5e6fa dan prev-c276921 | disk 84% -> 57%, selesai CHANGELOG 249 | Locks: released
